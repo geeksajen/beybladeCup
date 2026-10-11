@@ -66,7 +66,7 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-bold">已產生賽程</div>
-                <div className="text-xs text-slate-400">
+                <div className="text-xs text-slate-600">
                   {FORMAT_LABELS[bracket.format]}・{bracket.playerIds.length} 人・{bracket.matches.filter((m) => !m.isBye).length} 場
                 </div>
               </div>
@@ -82,11 +82,11 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
 
       <Card className="space-y-4">
         <h2 className="font-bold">{bracket ? '重新產生賽程' : '產生賽程'}</h2>
-        <p className="text-sm text-slate-300">
-          已報到 <b className="text-cyan-300">{n}</b> 人。建議賽制：<b>{FORMAT_LABELS[suggested.format]}</b>
+        <p className="text-sm text-slate-700">
+          已報到 <b className="text-cyan-700">{n}</b> 人。建議賽制：<b>{FORMAT_LABELS[suggested.format]}</b>
           {suggested.groupCount && `（${suggested.groupCount} 組，每組前 2 名晉級）`}
         </p>
-        {n < 2 && <p className="text-sm text-amber-300">至少需要 2 位已報到的選手。請先到「報到」分頁點選。</p>}
+        {n < 2 && <p className="text-sm text-amber-700">至少需要 2 位已報到的選手。請先到「報到」分頁點選。</p>}
         <Field label="賽制" group>
           <div className="grid gap-1.5">
             {formatOptions.map((f) => (
@@ -95,11 +95,11 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
                 type="button"
                 onClick={() => setChoice(f === 'groupsThenKnockout' ? { format: f, groupCount: Math.max(2, Math.ceil(n / 4)), advancePerGroup: 2 } : { format: f })}
                 className={`rounded-lg border px-3 py-2 text-left text-sm font-semibold ${
-                  choice.format === f ? 'border-cyan-400 bg-cyan-500/15 text-cyan-100' : 'border-slate-700 text-slate-300'
+                  choice.format === f ? 'border-cyan-600 bg-cyan-500/15 text-cyan-900' : 'border-slate-300 text-slate-700'
                 }`}
               >
                 {FORMAT_LABELS[f]}
-                {f === suggested.format && <span className="ml-2 text-xs text-cyan-400">建議</span>}
+                {f === suggested.format && <span className="ml-2 text-xs text-cyan-600">建議</span>}
               </button>
             ))}
           </div>
@@ -125,7 +125,7 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
           </div>
         )}
         {choice.format !== 'roundRobin' && <Toggle label="打季軍戰" checked={thirdPlace} onChange={setThirdPlace} />}
-        <p className="text-xs text-slate-400">戰鬥盤：{ev.rules.arenaCount} 個（在「活動設定」修改）</p>
+        <p className="text-xs text-slate-600">戰鬥盤：{ev.rules.arenaCount} 個（在「活動設定」修改）</p>
         <ErrorText>{error}</ErrorText>
         <Button variant="neon" className="w-full py-3 text-lg" disabled={busy || n < 2} onClick={onGenerate}>
           {busy ? '產生中…' : bracket ? '🎲 重新抽籤' : '🎲 抽籤產生賽程'}
@@ -136,7 +136,7 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
       {bracket && (
         <Button
           variant="ghost"
-          className="w-full text-sm text-rose-400"
+          className="w-full text-sm text-rose-600"
           onClick={() => confirm('刪除整份賽程與比分？') && void run(() => store.mutateBracket(() => null))}
         >
           刪除賽程
@@ -178,18 +178,18 @@ function GroupSwapper({
   return (
     <Card>
       <h3 className="mb-1 font-bold">交換分組</h3>
-      <p className="mb-3 text-xs text-slate-400">先點一位選手，再點另一組的選手即可交換。</p>
+      <p className="mb-3 text-xs text-slate-600">先點一位選手，再點另一組的選手即可交換。</p>
       <div className="grid grid-cols-2 gap-2">
         {bracket.groups.map((g) => (
-          <div key={g.id} className="rounded-xl bg-slate-800/60 p-2">
-            <div className="mb-1 text-sm font-bold text-fuchsia-300">{g.name}</div>
+          <div key={g.id} className="rounded-xl bg-slate-200/60 p-2">
+            <div className="mb-1 text-sm font-bold text-fuchsia-700">{g.name}</div>
             {g.playerIds.map((id) => (
               <button
                 key={id}
                 type="button"
                 disabled={busy}
                 onClick={() => pick(id)}
-                className={`mb-1 block w-full truncate rounded-lg px-2 py-1.5 text-left text-sm ${picked === id ? 'bg-amber-500 text-slate-950' : 'bg-slate-900'}`}
+                className={`mb-1 block w-full truncate rounded-lg px-2 py-1.5 text-left text-sm ${picked === id ? 'bg-amber-500 text-slate-50' : 'bg-slate-100'}`}
               >
                 {displayName(entryById.get(id))}
               </button>
@@ -209,8 +209,8 @@ function TieResolver({ bracket }: { bracket: BracketDoc }) {
   if (groupIds.length === 0) return null;
   return (
     <Card className="border-amber-500/60">
-      <h3 className="font-bold text-amber-300">⚠️ 有同分需要決定名次</h3>
-      <p className="mb-3 text-xs text-slate-400">請現場加賽一局，再用箭頭排出名次後儲存。淘汰賽會等名次確定後才排入。</p>
+      <h3 className="font-bold text-amber-700">⚠️ 有同分需要決定名次</h3>
+      <p className="mb-3 text-xs text-slate-600">請現場加賽一局，再用箭頭排出名次後儲存。淘汰賽會等名次確定後才排入。</p>
       {groupIds.map((gid) => (
         <TieGroup
           key={gid}
@@ -254,7 +254,7 @@ function TieGroup({
     <div className="mb-3">
       <div className="mb-1 text-sm font-bold">{name}</div>
       {order.map((id, i) => (
-        <div key={id} className={`mb-1 flex items-center gap-2 rounded-lg px-2 py-1 ${tied.has(id) ? 'bg-amber-500/15' : 'bg-slate-800/60'}`}>
+        <div key={id} className={`mb-1 flex items-center gap-2 rounded-lg px-2 py-1 ${tied.has(id) ? 'bg-amber-500/15' : 'bg-slate-200/60'}`}>
           <span className="w-5 font-mono text-sm">{i + 1}</span>
           <span className="flex-1 truncate">{labelOf(id)}</span>
           <button type="button" className="px-2 text-lg" onClick={() => move(i, -1)}>

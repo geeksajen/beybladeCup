@@ -4,12 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#f8fafc" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet" />
     <title>戰鬥陀螺大賽</title>
+    <script>
+      // 防空白頁：瀏覽器快取了舊的 index.html，但它引用的舊 JS/CSS 部署後已被刪除時，
+      // 用帶時間戳記的網址重新載入一次以取得最新版（同一分頁一分鐘內最多一次，避免無限重整）。
+      window.addEventListener(
+        'error',
+        function (e) {
+          var el = e.target;
+          var src = el && (el.src || el.href);
+          if (!src || src.indexOf('/assets/') < 0) return;
+          try {
+            var last = Number(sessionStorage.getItem('beybladeCup:assetReloadAt') || 0);
+            if (Date.now() - last < 60000) return;
+            sessionStorage.setItem('beybladeCup:assetReloadAt', String(Date.now()));
+          } catch (err) {
+            return;
+          }
+          var url = new URL(location.href);
+          url.searchParams.set('v', String(Date.now()));
+          location.replace(url.toString());
+        },
+        true,
+      );
+    </script>
   </head>
   <body>
     <div id="root"></div>

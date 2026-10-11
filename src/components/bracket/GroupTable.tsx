@@ -21,10 +21,10 @@ export function GroupTable({ bracket, group, entryById, big }: { bracket: Bracke
   const total = bracket.matches.filter((m) => m.groupId === group.id).length;
   const text = big ? 'text-2xl' : 'text-sm';
   return (
-    <div className="rounded-2xl border border-slate-700 bg-slate-900/90 p-3">
+    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
       <div className="mb-2 flex items-baseline justify-between">
-        <h3 className={`font-black text-fuchsia-300 ${big ? 'text-3xl' : 'text-lg'}`}>{group.name}</h3>
-        <span className={`text-slate-400 ${big ? 'text-lg' : 'text-xs'}`}>{complete ? '已完成' : `${played}/${total} 場`}</span>
+        <h3 className={`font-black text-fuchsia-700 ${big ? 'text-3xl' : 'text-lg'}`}>{group.name}</h3>
+        <span className={`text-slate-600 ${big ? 'text-lg' : 'text-xs'}`}>{complete ? '已完成' : `${played}/${total} 場`}</span>
       </div>
       <table className={`w-full ${text}`}>
         <thead>
@@ -40,11 +40,11 @@ export function GroupTable({ bracket, group, entryById, big }: { bracket: Bracke
           {rows.map((r, i) => {
             const advancing = complete && i < adv && !r.tied;
             return (
-              <tr key={r.id} className={`border-t border-slate-800 ${advancing ? 'text-cyan-200' : ''}`}>
-                <td className="py-1 font-mono text-slate-400">{complete && r.tied ? '=' : r.rank}</td>
+              <tr key={r.id} className={`border-t border-slate-200 ${advancing ? 'text-cyan-800' : ''}`}>
+                <td className="py-1 font-mono text-slate-600">{complete && r.tied ? '=' : r.rank}</td>
                 <td className="truncate py-1 font-semibold">
                   {displayName(entryById.get(r.id))}
-                  {advancing && <span className="ml-1 text-xs text-cyan-400">晉級</span>}
+                  {advancing && <span className="ml-1 text-xs text-cyan-600">晉級</span>}
                 </td>
                 <td className="py-1 text-center font-mono">{r.wins}</td>
                 <td className="py-1 text-center font-mono">{r.losses}</td>
@@ -54,7 +54,7 @@ export function GroupTable({ bracket, group, entryById, big }: { bracket: Bracke
           })}
         </tbody>
       </table>
-      {complete && rows.some((r) => r.tied) && <p className="mt-2 text-xs text-amber-300">同分，由主辦現場加賽決定名次</p>}
+      {complete && rows.some((r) => r.tied) && <p className="mt-2 text-xs text-amber-700">同分，由主辦現場加賽決定名次</p>}
     </div>
   );
 }

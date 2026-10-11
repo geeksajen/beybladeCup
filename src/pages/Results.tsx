@@ -20,7 +20,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
     <div className="space-y-6">
       <div className="text-center">
         <h1 className={`neon-text font-black ${big ? 'text-6xl' : 'text-3xl'}`}>{title}</h1>
-        <p className={`mt-1 text-slate-300 ${big ? 'text-2xl' : ''}`}>最終成績</p>
+        <p className={`mt-1 text-slate-700 ${big ? 'text-2xl' : ''}`}>最終成績</p>
       </div>
       <div className="flex items-end justify-center gap-2">
         {podium.map((p) => (
@@ -44,15 +44,15 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
         </div>
       )}
       <Card>
-        <h2 className={`mb-2 font-bold text-amber-300 ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>
+        <h2 className={`mb-2 font-bold text-amber-700 ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>
         <div className={`flex flex-wrap gap-2 ${big ? 'text-2xl' : 'text-sm'}`}>
           {participants.map((id) => (
-            <span key={id} className="rounded-full bg-slate-800 px-3 py-1 font-semibold">
+            <span key={id} className="rounded-full bg-slate-200 px-3 py-1 font-semibold">
               {displayName(entryById.get(id))}
             </span>
           ))}
         </div>
-        <p className={`mt-3 text-slate-400 ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！</p>
+        <p className={`mt-3 text-slate-600 ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！</p>
       </Card>
     </div>
   );
@@ -61,7 +61,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
 function AwardCard({ award, entryById, big }: { award: Award; entryById: Map<string, EntryDoc>; big?: boolean }) {
   return (
     <Card className="text-center">
-      <div className={`font-bold text-fuchsia-300 ${big ? 'text-3xl' : 'text-lg'}`}>{award.label}</div>
+      <div className={`font-bold text-fuchsia-700 ${big ? 'text-3xl' : 'text-lg'}`}>{award.label}</div>
       {award.entryIds.map((id) => (
         <div key={id} className={`mt-1 font-black ${big ? 'text-3xl' : 'text-xl'}`}>
           {displayName(entryById.get(id))}
@@ -77,8 +77,8 @@ export default function Results() {
     return (
       <div className="pt-10 text-center">
         <div className="text-5xl">🏆</div>
-        <p className="mt-3 text-slate-300">比賽結束後會在這裡公布結果。</p>
-        <Link to="/bracket" className="mt-3 inline-block text-cyan-300 underline">
+        <p className="mt-3 text-slate-700">比賽結束後會在這裡公布結果。</p>
+        <Link to="/bracket" className="mt-3 inline-block text-cyan-700 underline">
           看對戰表
         </Link>
       </div>

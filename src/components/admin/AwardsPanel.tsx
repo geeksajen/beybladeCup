@@ -15,7 +15,7 @@ export function AwardsPanel() {
   const [newLabel, setNewLabel] = useState('');
   const { busy, error, run } = useAction();
 
-  if (!bracket) return <Card className="text-center text-slate-300">還沒有賽程。</Card>;
+  if (!bracket) return <Card className="text-center text-slate-700">還沒有賽程。</Card>;
 
   const auto = autoAwards(bracket);
   const ranking = computeFinalRanking(bracket);
@@ -45,14 +45,14 @@ export function AwardsPanel() {
 
   return (
     <div className="space-y-4">
-      {remaining > 0 && <Card className="border-amber-500/50 text-sm text-amber-200">還有 {remaining} 場未完成，名次確定後才能公布結果。</Card>}
+      {remaining > 0 && <Card className="border-amber-500/50 text-sm text-amber-800">還有 {remaining} 場未完成，名次確定後才能公布結果。</Card>}
 
       <Card>
         <h2 className="mb-2 font-bold">系統計算的獎項</h2>
         {auto.length === 0 && <p className="text-sm text-slate-500">比賽完成後會自動計算。</p>}
         <div className="space-y-1.5">
           {auto.map((a) => (
-            <div key={a.key} className="flex items-center justify-between rounded-lg bg-slate-800/60 px-3 py-2">
+            <div key={a.key} className="flex items-center justify-between rounded-lg bg-slate-200/60 px-3 py-2">
               <span className="font-bold">{a.label}</span>
               <span className="text-right">{a.entryIds.map((id) => displayName(entryById.get(id))).join('、')}</span>
             </div>
@@ -64,14 +64,14 @@ export function AwardsPanel() {
       <Card className="space-y-4">
         <h2 className="font-bold">手動指定的獎項</h2>
         {manual.map((a) => (
-          <div key={a.key} className="rounded-xl bg-slate-800/40 p-2">
+          <div key={a.key} className="rounded-xl bg-slate-200/40 p-2">
             <div className="mb-2 flex items-center gap-2">
               <input
                 className={`${inputClass} py-1.5`}
                 value={a.label}
                 onChange={(e) => setManual((list) => list.map((x) => (x.key === a.key ? { ...x, label: e.target.value } : x)))}
               />
-              <button type="button" className="px-2 text-rose-400" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
+              <button type="button" className="px-2 text-rose-600" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
                 ✕
               </button>
             </div>
@@ -81,7 +81,7 @@ export function AwardsPanel() {
                   key={id}
                   type="button"
                   onClick={() => toggle(a.key, id)}
-                  className={`rounded-full px-2.5 py-1 text-sm ${a.entryIds.includes(id) ? 'bg-fuchsia-500 text-white' : 'bg-slate-800 text-slate-300'}`}
+                  className={`rounded-full px-2.5 py-1 text-sm ${a.entryIds.includes(id) ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
                 >
                   {displayName(entryById.get(id))}
                 </button>

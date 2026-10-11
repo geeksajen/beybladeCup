@@ -64,7 +64,7 @@ export function EntryForm({
   return (
     <form onSubmit={submit} className="space-y-4" noValidate>
       <div className="space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300">選手資料（公開顯示）</h3>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-700">選手資料（公開顯示）</h3>
         <Field label="比賽暱稱" required hint="請用綽號，不要用真實全名。例：閃電小明" error={errors.nickname}>
           <input
             className={inputClass}
@@ -81,7 +81,7 @@ export function EntryForm({
                 key={em}
                 type="button"
                 onClick={() => setEntry({ ...entry, emoji: em })}
-                className={`h-10 w-10 rounded-lg text-2xl ${entry.emoji === em ? 'bg-cyan-500/30 ring-2 ring-cyan-400' : 'bg-slate-800'}`}
+                className={`h-10 w-10 rounded-lg text-2xl ${entry.emoji === em ? 'bg-cyan-500/30 ring-2 ring-cyan-600' : 'bg-slate-200'}`}
               >
                 {em}
               </button>
@@ -98,8 +98,8 @@ export function EntryForm({
         </div>
       </div>
 
-      <div className="space-y-4 border-t border-slate-800 pt-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-fuchsia-300">聯絡資料（只有主辦看得到）</h3>
+      <div className="space-y-4 border-t border-slate-200 pt-4">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-fuchsia-700">聯絡資料（只有主辦看得到）</h3>
         <Field label="家長稱呼" required error={errors.parentName}>
           <input className={inputClass} value={contact.parentName} maxLength={20} placeholder="小明媽媽" onChange={(e) => setContact({ ...contact, parentName: e.target.value })} />
         </Field>

@@ -17,7 +17,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
   const [selected, setSelected] = useState<string>();
   const { mutate, busy, error } = useBracketMutation();
 
-  if (!bracket) return <Card className="text-center text-slate-300">還沒有賽程，請先到「賽程」分頁抽籤。</Card>;
+  if (!bracket) return <Card className="text-center text-slate-700">還沒有賽程，請先到「賽程」分頁抽籤。</Card>;
 
   const live = bracket.currentMatchIds.map((id) => bracket.matches.find((m) => m.id === id)).filter((m): m is Match => !!m);
   const current = live.find((m) => m.id === selected) ?? live[0];
@@ -34,7 +34,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
               key={m.id}
               type="button"
               onClick={() => setSelected(m.id)}
-              className={`rounded-xl px-2 py-2 text-sm font-bold ${m.id === current?.id ? 'bg-fuchsia-500 text-white' : 'bg-slate-800 text-slate-300'}`}
+              className={`rounded-xl px-2 py-2 text-sm font-bold ${m.id === current?.id ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
             >
               {m.arena} 號盤・{matchLabel(m.id)}
             </button>
@@ -53,19 +53,19 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
           </Button>
         </Card>
       ) : (
-        <Card className="text-center text-slate-300">
+        <Card className="text-center text-slate-700">
           目前沒有可以開打的場次。
-          {pending.some((m) => !m.p1 || !m.p2) && <div className="mt-1 text-sm text-amber-300">淘汰賽要等前面的結果（或同分的名次）確定。</div>}
+          {pending.some((m) => !m.p1 || !m.p2) && <div className="mt-1 text-sm text-amber-700">淘汰賽要等前面的結果（或同分的名次）確定。</div>}
         </Card>
       )}
       <ErrorText>{error}</ErrorText>
 
       {pending.length > 0 && (
         <Card>
-          <h3 className="mb-2 text-sm font-bold text-slate-400">接下來（{pending.length}）</h3>
+          <h3 className="mb-2 text-sm font-bold text-slate-600">接下來（{pending.length}）</h3>
           <div className="space-y-1.5">
             {pending.slice(0, 8).map((m) => (
-              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-800/60 px-2 py-1.5 text-sm">
+              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-200/60 px-2 py-1.5 text-sm">
                 <span className="w-16 shrink-0 text-xs text-slate-500">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
                   {m.p1 ? displayName(entryById.get(m.p1 ?? '')) : describeSource(m.p1Source)} vs {m.p2 ? displayName(entryById.get(m.p2 ?? '')) : describeSource(m.p2Source)}
@@ -74,7 +74,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
                   <button
                     type="button"
                     disabled={busy}
-                    className="shrink-0 rounded-md bg-slate-700 px-2 py-1 text-xs"
+                    className="shrink-0 rounded-md bg-slate-300 px-2 py-1 text-xs"
                     onClick={() => {
                       const blocked = live.some((x) => x.battles.length > 0 || x.manualScore);
                       if (blocked && live.length >= ev.rules.arenaCount)
@@ -93,19 +93,19 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
 
       {done.length > 0 && (
         <Card>
-          <h3 className="mb-2 text-sm font-bold text-slate-400">已完成（{done.length}）</h3>
+          <h3 className="mb-2 text-sm font-bold text-slate-600">已完成（{done.length}）</h3>
           <div className="space-y-1.5">
             {done.map((m) => (
-              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-800/60 px-2 py-1.5 text-sm">
+              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-200/60 px-2 py-1.5 text-sm">
                 <span className="w-16 shrink-0 text-xs text-slate-500">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
-                  <b className={m.winner === m.p1 ? 'text-cyan-300' : ''}>{displayName(entryById.get(m.p1 ?? ''))}</b> {m.p1Score}:{m.p2Score}{' '}
-                  <b className={m.winner === m.p2 ? 'text-cyan-300' : ''}>{displayName(entryById.get(m.p2 ?? ''))}</b>
+                  <b className={m.winner === m.p1 ? 'text-cyan-700' : ''}>{displayName(entryById.get(m.p1 ?? ''))}</b> {m.p1Score}:{m.p2Score}{' '}
+                  <b className={m.winner === m.p2 ? 'text-cyan-700' : ''}>{displayName(entryById.get(m.p2 ?? ''))}</b>
                 </span>
                 <button
                   type="button"
                   disabled={busy}
-                  className="shrink-0 rounded-md bg-slate-700 px-2 py-1 text-xs"
+                  className="shrink-0 rounded-md bg-slate-300 px-2 py-1 text-xs"
                   onClick={() => {
                     const warn = downstreamStarted(bracket, m.id)
                       ? '⚠️ 後續已開打的場次可能會受影響：如果勝負改變，相關淘汰賽的比分會被清空。\n\n'
@@ -147,7 +147,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
 
   return (
     <Card className="space-y-4 border-fuchsia-500/50">
-      <div className="flex items-center justify-between text-xs text-slate-400">
+      <div className="flex items-center justify-between text-xs text-slate-600">
         <span>
           {matchLabel(match.id)}
           {match.arena ? `・${match.arena} 號盤` : ''}
@@ -159,15 +159,15 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         <div className="min-w-0">
           <div className="text-3xl">{p1?.emoji ?? '🌀'}</div>
           <div className="truncate text-lg font-black">{p1?.nickname}</div>
-          <div className="font-display text-5xl text-cyan-300">{match.p1Score}</div>
-          {errs.p1 > 0 && <div className="text-xs text-amber-400">發射失誤 ×{errs.p1}</div>}
+          <div className="font-display text-5xl text-cyan-600">{match.p1Score}</div>
+          {errs.p1 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p1}</div>}
         </div>
-        <div className="font-display text-xl text-amber-300">VS</div>
+        <div className="font-display text-xl text-amber-500">VS</div>
         <div className="min-w-0">
           <div className="text-3xl">{p2?.emoji ?? '🌀'}</div>
           <div className="truncate text-lg font-black">{p2?.nickname}</div>
-          <div className="font-display text-5xl text-fuchsia-300">{match.p2Score}</div>
-          {errs.p2 > 0 && <div className="text-xs text-amber-400">發射失誤 ×{errs.p2}</div>}
+          <div className="font-display text-5xl text-fuchsia-600">{match.p2Score}</div>
+          {errs.p2 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p2}</div>}
         </div>
       </div>
 
@@ -183,7 +183,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       {winnerSide ? (
         <div className="space-y-2 rounded-2xl bg-cyan-500/10 p-3 text-center">
           <div className="text-lg font-black">勝者確認？</div>
-          <div className="text-2xl font-black text-cyan-300">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
+          <div className="text-2xl font-black text-cyan-700">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
           <Button variant="neon" className="w-full py-3 text-lg" disabled={busy} onClick={() => void update((m) => finalizeMatch(m, rules))}>
             ✓ 確認，下一場
           </Button>
@@ -209,7 +209,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       ) : pendingSide ? (
         <div className="space-y-2">
           <div className="text-center text-sm">
-            <b className={pendingSide === 'p1' ? 'text-cyan-300' : 'text-fuchsia-300'}>{displayName(pendingSide === 'p1' ? p1 : p2)}</b> 贏了，終結方式是？
+            <b className={pendingSide === 'p1' ? 'text-cyan-600' : 'text-fuchsia-600'}>{displayName(pendingSide === 'p1' ? p1 : p2)}</b> 贏了，終結方式是？
           </div>
           <div className="grid grid-cols-2 gap-2">
             {FINISH_TYPES.map((f) => (
@@ -238,15 +238,15 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
             <Button variant="secondary" className="py-5" disabled={busy} onClick={() => battle('draw')}>
               平手
             </Button>
-            <Button className="bg-fuchsia-500 py-5 text-lg hover:bg-fuchsia-400" disabled={busy} onClick={() => setPendingSide('p2')}>
+            <Button className="bg-fuchsia-500 py-5 text-lg hover:bg-fuchsia-600" disabled={busy} onClick={() => setPendingSide('p2')}>
               右邊贏
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="ghost" className="border border-slate-700 text-xs" disabled={busy} onClick={() => battle('p2', 'launchError')}>
+            <Button variant="ghost" className="border border-slate-300 text-xs" disabled={busy} onClick={() => battle('p2', 'launchError')}>
               左邊發射失誤
             </Button>
-            <Button variant="ghost" className="border border-slate-700 text-xs" disabled={busy} onClick={() => battle('p1', 'launchError')}>
+            <Button variant="ghost" className="border border-slate-300 text-xs" disabled={busy} onClick={() => battle('p1', 'launchError')}>
               右邊發射失誤
             </Button>
           </div>
@@ -274,7 +274,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           {match.battles.map((b, i) => (
             <span
               key={i}
-              className={`rounded px-1.5 py-0.5 ${b.winner === 'p1' ? 'bg-cyan-900 text-cyan-200' : b.winner === 'p2' ? 'bg-fuchsia-900 text-fuchsia-200' : 'bg-slate-800 text-slate-400'}`}
+              className={`rounded px-1.5 py-0.5 ${b.winner === 'p1' ? 'bg-cyan-100 text-cyan-800' : b.winner === 'p2' ? 'bg-fuchsia-100 text-fuchsia-800' : 'bg-slate-200 text-slate-600'}`}
             >
               {i + 1}. {b.winner === 'draw' ? '平手' : b.finish === 'launchError' ? `${b.winner === 'p1' ? '右' : '左'}失誤` : `${b.winner === 'p1' ? '左' : '右'} ${b.finish ? FINISH_LABELS[b.finish].name : ''}`}
             </span>

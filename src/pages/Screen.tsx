@@ -73,11 +73,11 @@ export default function Screen() {
       <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
         <div className="animate-spin-slow text-9xl">🌀</div>
         <h1 className="neon-text mt-6 text-7xl font-black">{ev.title}</h1>
-        <p className="mt-4 text-3xl text-slate-300">{formatDateTime(ev.startAt)}</p>
-        {ev.startAt > now && <p className="font-display mt-6 text-5xl text-cyan-300">{formatCountdown(ev.startAt - now)}</p>}
+        <p className="mt-4 text-3xl text-slate-700">{formatDateTime(ev.startAt)}</p>
+        {ev.startAt > now && <p className="font-display mt-6 text-5xl text-cyan-700">{formatCountdown(ev.startAt - now)}</p>}
         <div className="mt-10 flex max-w-6xl flex-wrap justify-center gap-3">
           {c.confirmed.map((e) => (
-            <span key={e.id} className={`rounded-full px-4 py-2 text-2xl font-bold ${e.checkedIn ? 'bg-cyan-500/30 text-cyan-100' : 'bg-slate-800 text-slate-400'}`}>
+            <span key={e.id} className={`rounded-full px-4 py-2 text-2xl font-bold ${e.checkedIn ? 'bg-cyan-500/30 text-cyan-900' : 'bg-slate-200 text-slate-600'}`}>
               {displayName(e)}
             </span>
           ))}
@@ -113,7 +113,7 @@ export default function Screen() {
         <button
           type="button"
           onClick={() => void document.documentElement.requestFullscreen?.().catch(() => undefined)}
-          className="fixed bottom-4 right-4 rounded-full bg-slate-800/80 px-4 py-2 text-sm text-slate-300"
+          className="fixed bottom-4 right-4 rounded-full bg-slate-200/80 px-4 py-2 text-sm text-slate-700"
         >
           ⛶ 全螢幕
         </button>
@@ -121,7 +121,7 @@ export default function Screen() {
       {bracket && view && ev.status !== 'finished' && (
         <div className="fixed bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
           {views.map((v, i) => (
-            <span key={v} className={`h-2 w-8 rounded-full ${i === viewIdx % views.length ? 'bg-cyan-400' : 'bg-slate-700'}`} />
+            <span key={v} className={`h-2 w-8 rounded-full ${i === viewIdx % views.length ? 'bg-cyan-600' : 'bg-slate-300'}`} />
           ))}
         </div>
       )}
@@ -162,10 +162,10 @@ function LiveView({ bracket }: { bracket: BracketDoc }) {
       )}
       {upcoming.length > 0 && (
         <div>
-          <h3 className="mb-3 text-3xl font-bold text-slate-400">接下來</h3>
+          <h3 className="mb-3 text-3xl font-bold text-slate-600">接下來</h3>
           <div className="grid grid-cols-2 gap-4">
             {upcoming.map((m) => (
-              <div key={m.id} className="flex items-center justify-between rounded-2xl bg-slate-900/90 px-6 py-4 text-3xl">
+              <div key={m.id} className="flex items-center justify-between rounded-2xl bg-white px-6 shadow-sm py-4 text-3xl">
                 <span className="truncate font-bold">{m.p1 ? displayName(entryById.get(m.p1)) : describeSource(m.p1Source)}</span>
                 <span className="mx-4 shrink-0 text-xl text-slate-500">{matchLabel(m.id)}</span>
                 <span className="truncate text-right font-bold">{m.p2 ? displayName(entryById.get(m.p2)) : describeSource(m.p2Source)}</span>

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PublicLayout } from './components/PublicLayout';
 import { SetupGate } from './components/SetupGate';
+import { UpdateBanner } from './components/UpdateBanner';
 import Admin from './pages/Admin';
 import BracketPage from './pages/Bracket';
 import Home from './pages/Home';
@@ -13,6 +14,15 @@ import Screen from './pages/Screen';
 import Setup from './pages/Setup';
 
 export default function App() {
+  return (
+    <>
+      <UpdateBanner />
+      <AppRoutes />
+    </>
+  );
+}
+
+function AppRoutes() {
   return (
     <Routes>
       <Route

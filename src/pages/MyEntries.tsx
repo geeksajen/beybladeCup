@@ -20,10 +20,10 @@ export default function MyEntries() {
   return (
     <div className="space-y-4 pt-2">
       <h1 className="text-2xl font-black">我的報名</h1>
-      <p className="text-sm text-slate-400">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
+      <p className="text-sm text-slate-600">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
       {active.length === 0 && (
         <Card className="text-center">
-          <p className="text-slate-300">這個瀏覽器還沒有報名紀錄。</p>
+          <p className="text-slate-700">這個瀏覽器還沒有報名紀錄。</p>
           {editable && (
             <Link to="/register">
               <Button variant="neon" className="mt-3">
@@ -36,7 +36,7 @@ export default function MyEntries() {
       {active.map((e) => (
         <MyEntryCard key={e.id} entry={e} editable={editable} />
       ))}
-      {!editable && active.length > 0 && <p className="text-center text-sm text-slate-400">報名已截止，如需修改請聯絡主辦。</p>}
+      {!editable && active.length > 0 && <p className="text-center text-sm text-slate-600">報名已截止，如需修改請聯絡主辦。</p>}
       {cancelled.length > 0 && (
         <div className="space-y-1 pt-2 text-sm text-slate-500">
           <div>已取消：</div>
@@ -99,11 +99,11 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
           <div className="text-xl font-black">
             {entry.emoji} {entry.nickname}
           </div>
-          <div className="text-sm text-slate-400">{[entry.grade, entry.beyName].filter(Boolean).join('・')}</div>
+          <div className="text-sm text-slate-600">{[entry.grade, entry.beyName].filter(Boolean).join('・')}</div>
         </div>
-        {pos.kind === 'confirmed' && <Badge className="bg-cyan-500/20 text-cyan-200">正取 #{pos.index}</Badge>}
-        {pos.kind === 'waitlist' && <Badge className="bg-amber-500/20 text-amber-200">候補 #{pos.index}</Badge>}
-        {pos.kind === 'overflow' && <Badge className="bg-rose-500/20 text-rose-200">超過名額</Badge>}
+        {pos.kind === 'confirmed' && <Badge className="bg-cyan-500/20 text-cyan-800">正取 #{pos.index}</Badge>}
+        {pos.kind === 'waitlist' && <Badge className="bg-amber-500/20 text-amber-800">候補 #{pos.index}</Badge>}
+        {pos.kind === 'overflow' && <Badge className="bg-rose-500/20 text-rose-800">超過名額</Badge>}
       </div>
       <ErrorText>{error}</ErrorText>
       {editable && (

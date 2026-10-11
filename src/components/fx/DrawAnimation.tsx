@@ -40,23 +40,23 @@ export function DrawAnimation({
   const current = order[revealed];
 
   return (
-    <div className="fixed inset-0 z-50 overflow-auto bg-slate-950/95 p-4 backdrop-blur">
+    <div className="fixed inset-0 z-50 overflow-auto bg-slate-50/95 p-4 backdrop-blur">
       <div className="mx-auto max-w-6xl">
         <h2 className={`neon-text text-center font-black ${big ? 'text-5xl' : 'text-3xl'}`}>🎲 抽籤分組</h2>
-        <div className={`my-6 text-center font-black text-amber-300 ${big ? 'h-20 text-6xl' : 'h-12 text-3xl'}`}>
+        <div className={`my-6 text-center font-black text-amber-700 ${big ? 'h-20 text-6xl' : 'h-12 text-3xl'}`}>
           {current ? spinName : '分組完成！'}
         </div>
         {groups.length > 0 && (
           <div className={`grid gap-3 ${groups.length === 1 ? 'grid-cols-1' : groups.length === 2 ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3'}`}>
             {groups.map((g) => (
-              <div key={g.id} className="rounded-2xl border border-fuchsia-500/50 bg-slate-900 p-3">
-                <div className={`mb-2 text-center font-black text-fuchsia-300 ${big ? 'text-3xl' : 'text-xl'}`}>{g.name}</div>
+              <div key={g.id} className="rounded-2xl border border-fuchsia-500/50 bg-white p-3 shadow-sm">
+                <div className={`mb-2 text-center font-black text-fuchsia-700 ${big ? 'text-3xl' : 'text-xl'}`}>{g.name}</div>
                 <ul className="space-y-1">
                   {g.playerIds.map((id) => (
                     <li
                       key={id}
                       className={`rounded-lg px-2 py-1 text-center font-bold ${big ? 'text-2xl' : 'text-base'} ${
-                        shown.has(id) ? 'animate-pop bg-cyan-500/20 text-cyan-100' : 'bg-slate-800 text-slate-600'
+                        shown.has(id) ? 'animate-pop bg-cyan-500/20 text-cyan-900' : 'bg-slate-200 text-slate-400'
                       }`}
                     >
                       {shown.has(id) ? displayName(entryById.get(id)) : '？？？'}

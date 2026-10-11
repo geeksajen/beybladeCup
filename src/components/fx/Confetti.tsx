@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-const COLORS = ['#22d3ee', '#d946ef', '#facc15', '#4ade80', '#f43f5e', '#ffffff'];
+const COLORS = ['#22d3ee', '#d946ef', '#facc15', '#4ade80', '#f43f5e', '#6366f1'];
 
 export function Confetti({ count = 90 }: { count?: number }) {
   const pieces = useMemo(
