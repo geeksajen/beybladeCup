@@ -1,0 +1,89 @@
+rules_version = '2';
+
+// 家庭盃戰鬥陀螺大賽 — Firestore 安全規則（spec §6.4）
+// 本 repo 是唯一來源；部署：npx firebase-tools deploy --only firestore
+//
+// ⚠️ 部署前把下面的 REPLACE_WITH_FAMILY_UID 換成家庭帳號的 UID
+//    （Firebase Console → Authentication → Users → 家庭帳號那一列的「使用者 UID」）
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isFamily() {
+      return isSignedIn() && request.auth.uid == 'cvkWOjBIZYTDevs1btfIzZTeiSE3';
+    }
+
+    function eventData(eventId) {
+      return get(/databases/$(database)/documents/events/$(eventId)).data;
+    }
+
+    // 報名開放中：狀態為 open 且尚未超過截止時間
+    function registrationOpen(eventId) {
+      return eventData(eventId).status == 'open'
+        && request.time < eventData(eventId).registerDeadline;
+    }
+
+    function validEntry(d) {
+      return d.nickname is string && d.nickname.size() >= 1 && d.nickname.size() <= 12
+        && (!('beyName' in d) || (d.beyName is string && d.beyName.size() <= 20))
+        && (!('grade' in d) || (d.grade is string && d.grade.size() <= 10))
+        && d.status in ['active', 'cancelled'];
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isFamily();
+
+      match /entries/{entryId} {
+        allow read: if true;
+        allow create: if isFamily()
+          || (isSignedIn()
+              && request.resource.data.ownerUid == request.auth.uid
+              && validEntry(request.resource.data)
+              && request.resource.data.checkedIn == false
+              && request.resource.data.status == 'active'
+              && request.resource.data.createdAt == request.time
+              && registrationOpen(eventId));
+        allow update: if isFamily()
+          || (isSignedIn()
+              && resource.data.ownerUid == request.auth.uid
+              && request.resource.data.ownerUid == resource.data.ownerUid
+              && request.resource.data.checkedIn == resource.data.checkedIn
+              && request.resource.data.createdAt == resource.data.createdAt
+              && validEntry(request.resource.data)
+              && registrationOpen(eventId));
+        // 訪客「取消」= 把 status 改成 cancelled；只有主辦能真的刪除
+        allow delete: if isFamily();
+      }
+
+      match /contacts/{entryId} {
+        allow read: if isFamily()
+          || (isSignedIn() && resource.data.ownerUid == request.auth.uid);
+        // 新增時對應的報名必須屬於自己（與報名同一個 batch 寫入，所以用 getAfter）
+        allow create: if isFamily()
+          || (isSignedIn()
+              && request.resource.data.ownerUid == request.auth.uid
+              && getAfter(/databases/$(database)/documents/events/$(eventId)/entries/$(entryId)).data.ownerUid == request.auth.uid);
+        allow update: if isFamily()
+          || (isSignedIn()
+              && resource.data.ownerUid == request.auth.uid
+              && request.resource.data.ownerUid == request.auth.uid);
+        allow delete: if isFamily();
+      }
+
+      match /state/{doc} {
+        allow read: if true;
+        allow write: if isFamily();
+      }
+    }
+
+    // 其他路徑一律拒絕
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background: #020617;
+  color: #e2e8f0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  min-height: 100dvh;
+}
+
+.neon-text {
+  text-shadow:
+    0 0 8px rgba(34, 211, 238, 0.8),
+    0 0 24px rgba(217, 70, 239, 0.6);
+}
+
+.arena-bg {
+  background:
+    radial-gradient(ellipse at top, rgba(217, 70, 239, 0.18), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(34, 211, 238, 0.14), transparent 60%),
+    #020617;
+}
