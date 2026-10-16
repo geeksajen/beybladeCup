@@ -1,6 +1,6 @@
 import { groupStandings, isGroupComplete } from '../../engine/advance';
-import { displayName } from '../../lib/format';
 import type { BracketDoc, EntryDoc, Group } from '../../types';
+import { PlayerName } from '../avatars';
 
 export function advanceCount(b: BracketDoc, groupId: string): number {
   let max = 0;
@@ -56,7 +56,7 @@ export function GroupTable({
               <tr key={r.id} className={`border-t border-line ${advancing ? 'text-primary' : ''} ${highlight.includes(r.id) ? 'bg-gold/10' : ''}`}>
                 <td className="py-1 font-mono text-ink-muted">{complete && r.tied ? '=' : r.rank}</td>
                 <td className="truncate py-1 font-semibold">
-                  {displayName(entryById.get(r.id))}
+                  <PlayerName entry={entryById.get(r.id)} />
                   {advancing && <span className="ml-1 text-xs text-primary">晉級</span>}
                 </td>
                 <td className="py-1 text-center font-mono">{r.wins}</td>

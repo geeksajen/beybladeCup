@@ -8,6 +8,7 @@ import type { Award } from '../../types';
 import { AwardTitle } from '../AwardTitle';
 import { Icon } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
+import { PlayerName } from '../avatars';
 
 export function AwardsPanel() {
   const { bracket, event: ev, store, entryById } = useReadyEvent();
@@ -87,7 +88,7 @@ export function AwardsPanel() {
                   onClick={() => toggle(a.key, id)}
                   className={`rounded-full px-2.5 py-1 text-sm ${a.entryIds.includes(id) ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
                 >
-                  {displayName(entryById.get(id))}
+                  <PlayerName entry={entryById.get(id)} />
                 </button>
               ))}
             </div>

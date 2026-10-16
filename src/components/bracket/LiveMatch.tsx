@@ -3,7 +3,8 @@ import { FINISH_LABELS } from '../../lib/defaults';
 import { matchLabel } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import type { BracketDoc, Combo, EntryDoc, Match } from '../../types';
-import { Avatar, Icon } from '../icons';
+import { Avatar } from '../avatars';
+import { Icon } from '../icons';
 
 /** sm = 手機；lg = 電視上兩場並列；xl = 電視上單場（75 吋、在戰鬥盤旁邊抬頭看）。 */
 export type CardSize = 'sm' | 'lg' | 'xl';
@@ -18,7 +19,7 @@ function Side({ entry, score, align, size, bey }: { entry?: EntryDoc; score: num
   const s = S[size];
   return (
     <div className={`flex flex-1 flex-col ${align === 'left' ? 'items-start text-left' : 'items-end text-right'} min-w-0`}>
-      <Avatar emoji={entry?.emoji} className={s.emoji} />
+      <Avatar value={entry?.emoji} className={s.emoji} />
       <div className={`mt-1 w-full truncate font-black ${s.name}`}>{entry?.nickname ?? '？'}</div>
       {bey ? (
         <div className={`mt-1 max-w-full truncate rounded-lg bg-gold/10 px-2 font-bold text-gold ${s.bey}`}>

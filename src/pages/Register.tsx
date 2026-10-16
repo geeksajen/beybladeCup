@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PlayerName } from '../components/avatars';
 import { EntryForm } from '../components/EntryForm';
 import { Confetti } from '../components/fx/Confetti';
 import { Icon } from '../components/icons';
@@ -28,7 +29,7 @@ export default function Register() {
         <h1 className="neon-text text-2xl font-black">報名成功！</h1>
         {entry && (
           <p className="text-lg">
-            {entry.emoji} {entry.nickname}
+            <PlayerName entry={entry} />
           </p>
         )}
         <Card>

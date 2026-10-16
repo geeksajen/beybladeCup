@@ -1,4 +1,4 @@
-import { EMOJIS } from '../lib/defaults';
+import { AVATAR_KEYS } from '../lib/defaults';
 import { STOCK_BEYS } from '../lib/parts';
 import type { AuthUser, BracketDoc, Combo, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 import type { EventStore } from './types';
@@ -197,7 +197,7 @@ export function createLocalStore(): EventStore {
 const SEED_NAMES = ['閃電小明', '火焰阿傑', '旋風小美', '鋼鐵阿翔', '疾風小宇', '雷霆阿凱', '冰龍小晴', '烈日阿豪', '神鷹小安', '黑豹阿哲', '星光小芸', '颶風阿睿'];
 const SEED_BEYS = ['Dran Sword', 'Hells Scythe', 'Wizard Arrow', 'Knight Shield', 'Leon Claw', 'Shark Edge', 'Phoenix Wing', 'Viper Tail'];
 const SEED_GRADES = ['一年級', '二年級', '三年級', '四年級', '五年級', '六年級'];
-const pick = <T>(list: T[], i: number): T => list[i % list.length];
+const pick = <T>(list: readonly T[], i: number): T => list[i % list.length];
 /** 測試用 Deck：從原廠組合挑（Meta 統計才有東西看），集中在前 15 款常見陀螺。 */
 function seedDeck(i: number, size: number): Combo[] {
   const pool = STOCK_BEYS.slice(0, 15);
@@ -224,7 +224,7 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
       nickname: round === 0 ? pick(SEED_NAMES, i) : `${pick(SEED_NAMES, i)}${round + 1}`,
       grade: pick(SEED_GRADES, i),
       beyName: pick(SEED_BEYS, i),
-      emoji: pick(EMOJIS, i),
+      emoji: pick(AVATAR_KEYS, i),
       status: 'active',
       checkedIn,
       // 每 5 人有 1 人沒登錄 Deck（測試報到補登錄、計分時的提醒）

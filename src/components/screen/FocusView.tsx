@@ -3,6 +3,7 @@ import { describeSource, displayName, matchLabel } from '../../lib/format';
 import type { BracketDoc, EntryDoc, Match } from '../../types';
 import { GroupTable } from '../bracket/GroupTable';
 import { LiveMatchCard, upcomingMatches } from '../bracket/LiveMatch';
+import { PlayerName } from '../avatars';
 import { Icon } from '../icons';
 
 /**
@@ -72,7 +73,7 @@ function OnDeck({ bracket, entryById, arenaCount }: { bracket: BracketDoc; entry
   const ready = upcoming.filter((m) => m.p1 && m.p2).slice(0, arenaCount);
   const later = upcoming.filter((m) => !ready.includes(m)).slice(0, 2);
   if (upcoming.length === 0) return null;
-  const name = (id: string | undefined, src: string | undefined) => (id ? displayName(entryById.get(id)) : describeSource(src));
+  const name = (id: string | undefined, src: string | undefined) => (id ? <PlayerName entry={entryById.get(id)} /> : describeSource(src));
   return (
     <div className="space-y-3">
       {ready.map((m) => (

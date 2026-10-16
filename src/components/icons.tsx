@@ -310,12 +310,6 @@ export function Icon({ name, className = '', title }: { name: IconName; classNam
   );
 }
 
-/** 選手頭像：選手自己選的 emoji；沒選的用陀螺圖示。 */
-export function Avatar({ emoji, className = '' }: { emoji?: string; className?: string }) {
-  if (emoji) return <span className={className}>{emoji}</span>;
-  return <Icon name="bey" className={`text-primary ${className}`} />;
-}
-
 /** 文字前面接一個圖示（標題、按鈕、列表常用）。 */
 export function IconText({ icon, children, className = '', iconClass = '' }: { icon: IconName; children: ReactNode; className?: string; iconClass?: string }) {
   return (

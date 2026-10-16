@@ -40,9 +40,9 @@ export function formatCountdown(ms: number): string {
   return `${m} 分 ${sec} 秒`;
 }
 
+/** 純文字用的選手名稱（對話框、標題字串）；畫面上要帶頭像用 components/avatars 的 PlayerName。 */
 export function displayName(e: EntryDoc | undefined): string {
-  if (!e) return '？';
-  return e.emoji ? `${e.emoji} ${e.nickname}` : e.nickname;
+  return e?.nickname ?? '？';
 }
 
 /** 尚未決定的淘汰賽位置：顯示來源說明。 */

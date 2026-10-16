@@ -7,9 +7,9 @@ import { Icon, type IconName } from '../components/icons';
 import { MetaHighlights } from '../components/MetaHighlights';
 import { computeMeta } from '../engine/meta';
 import { Card } from '../components/ui';
-import { displayName } from '../lib/format';
 import { useReadyEvent } from '../providers/EventProvider';
 import type { Award, BracketDoc, EntryDoc } from '../types';
+import { PlayerName } from '../components/avatars';
 
 export function ResultsView({ bracket, entryById, title, big }: { bracket: BracketDoc; entryById: Map<string, EntryDoc>; title: string; big?: boolean }) {
   const awards = bracket.awards ?? [];
@@ -36,7 +36,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
             <div className={`animate-pop mb-2 text-center ${big ? 'text-3xl' : 'text-base'}`}>
               {p.ids.map((id) => (
                 <div key={id} className="font-black">
-                  {displayName(entryById.get(id))}
+                  <PlayerName entry={entryById.get(id)} />
                 </div>
               ))}
             </div>
@@ -74,11 +74,11 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
           {participants.map((id) =>
             big ? (
               <span key={id} className="rounded-full bg-raised px-3 py-1 font-semibold">
-                {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
+                <PlayerName entry={entryById.get(id)} /> <BadgeIcons keys={achievements[id]} />
               </span>
             ) : (
               <Link key={id} to={`/player/${id}`} className="rounded-full bg-raised px-3 py-1 font-semibold active:bg-line">
-                {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
+                <PlayerName entry={entryById.get(id)} /> <BadgeIcons keys={achievements[id]} />
               </Link>
             ),
           )}
@@ -95,7 +95,7 @@ function AwardCard({ award, entryById, big }: { award: Award; entryById: Map<str
       <AwardTitle award={award} className={`font-bold text-ink ${big ? 'text-3xl' : 'text-lg'}`} />
       {award.entryIds.map((id) => (
         <div key={id} className={`mt-1 font-black ${big ? 'text-3xl' : 'text-xl'}`}>
-          {displayName(entryById.get(id))}
+          <PlayerName entry={entryById.get(id)} />
         </div>
       ))}
     </Card>

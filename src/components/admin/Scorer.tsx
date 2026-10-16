@@ -4,11 +4,12 @@ import { deckSignature, deckSizeOf, nextBeys, reorder, setMatchDecks } from '../
 import { DeckEditor } from '../Deck';
 import { addBattle, computeScore, decidedWinner, finalizeMatch, reopenMatch, setManualScore, undoBattle } from '../../engine/scoring';
 import { FINISH_LABELS, FINISH_TYPES } from '../../lib/defaults';
-import { describeSource, displayName, matchLabel } from '../../lib/format';
+import { describeSource, matchLabel } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { BracketDoc, Combo, EntryDoc, FinishType, Match } from '../../types';
-import { Avatar, Icon } from '../icons';
+import { Avatar, PlayerName } from '../avatars';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 import { PredictionsControl } from './PredictionsControl';
 import { useBracketMutation } from './useBracket';
@@ -75,7 +76,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
               <div key={m.id} className="flex items-center gap-2 rounded-lg bg-raised/60 px-2 py-1.5 text-sm">
                 <span className="w-16 shrink-0 text-xs text-ink-muted">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
-                  {m.p1 ? displayName(entryById.get(m.p1 ?? '')) : describeSource(m.p1Source)} vs {m.p2 ? displayName(entryById.get(m.p2 ?? '')) : describeSource(m.p2Source)}
+                  {m.p1 ? <PlayerName entry={entryById.get(m.p1)} /> : describeSource(m.p1Source)} vs {m.p2 ? <PlayerName entry={entryById.get(m.p2)} /> : describeSource(m.p2Source)}
                 </span>
                 {m.p1 && m.p2 && (
                   <button
@@ -106,8 +107,8 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
               <div key={m.id} className="flex items-center gap-2 rounded-lg bg-raised/60 px-2 py-1.5 text-sm">
                 <span className="w-16 shrink-0 text-xs text-ink-muted">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
-                  <b className={m.winner === m.p1 ? 'text-primary' : ''}>{displayName(entryById.get(m.p1 ?? ''))}</b> {m.p1Score}:{m.p2Score}{' '}
-                  <b className={m.winner === m.p2 ? 'text-primary' : ''}>{displayName(entryById.get(m.p2 ?? ''))}</b>
+                  <b className={m.winner === m.p1 ? 'text-primary' : ''}><PlayerName entry={entryById.get(m.p1 ?? '')} /></b> {m.p1Score}:{m.p2Score}{' '}
+                  <b className={m.winner === m.p2 ? 'text-primary' : ''}><PlayerName entry={entryById.get(m.p2 ?? '')} /></b>
                 </span>
                 <button
                   type="button"
@@ -168,7 +169,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-center">
         <div className="min-w-0">
-          <Avatar emoji={p1?.emoji} className="text-3xl" />
+          <Avatar value={p1?.emoji} className="text-3xl" />
           <div className="truncate text-lg font-black">{p1?.nickname}</div>
           <div className="font-display text-5xl text-primary">{match.p1Score}</div>
           {errs.p1 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p1}</div>}
@@ -176,7 +177,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         </div>
         <div className="font-display text-xl text-gold">VS</div>
         <div className="min-w-0">
-          <Avatar emoji={p2?.emoji} className="text-3xl" />
+          <Avatar value={p2?.emoji} className="text-3xl" />
           <div className="truncate text-lg font-black">{p2?.nickname}</div>
           <div className="font-display text-5xl text-accent">{match.p2Score}</div>
           {errs.p2 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p2}</div>}
@@ -215,7 +216,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       {winnerSide ? (
         <div className="space-y-2 rounded-2xl bg-primary/10 p-3 text-center">
           <div className="text-lg font-black">勝者確認？</div>
-          <div className="text-2xl font-black text-primary">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
+          <div className="text-2xl font-black text-primary"><PlayerName entry={winnerSide === 'p1' ? p1 : p2} /> 獲勝</div>
           <Button variant="neon" className="w-full py-3 text-lg" disabled={busy} onClick={() => void update((m) => finalizeMatch(m, rules))}>
             <Icon name="check" className="mr-1.5" />
             確認，下一場
@@ -242,7 +243,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       ) : pendingSide ? (
         <div className="space-y-2">
           <div className="text-center text-sm">
-            <b className={pendingSide === 'p1' ? 'text-primary' : 'text-accent'}>{displayName(pendingSide === 'p1' ? p1 : p2)}</b> 贏了，終結方式是？
+            <b className={pendingSide === 'p1' ? 'text-primary' : 'text-accent'}><PlayerName entry={pendingSide === 'p1' ? p1 : p2} /></b> 贏了，終結方式是？
           </div>
           <div className="grid grid-cols-2 gap-2">
             {FINISH_TYPES.map((f) => (
@@ -374,7 +375,7 @@ function OrderSetup({
 function OrderList({ entry, deck, onChange, color }: { entry?: EntryDoc; deck: Combo[]; onChange: (d: Combo[]) => void; color: string }) {
   return (
     <div className="min-w-0">
-      <div className={`truncate text-xs font-bold ${color}`}>{displayName(entry)}</div>
+      <div className={`truncate text-xs font-bold ${color}`}><PlayerName entry={entry} /></div>
       {deck.length === 0 && <div className="text-xs text-ink-muted">沒有登錄 Deck</div>}
       <ol className="mt-1 space-y-1">
         {deck.map((c, i) => (
@@ -414,7 +415,7 @@ function MissingDeck({ entry }: { entry?: EntryDoc }) {
   }
   return (
     <div className="rounded-xl border border-gold/40 bg-surface p-2">
-      <div className="mb-2 text-sm font-bold">{displayName(entry)} 的 Deck</div>
+      <div className="mb-2 text-sm font-bold"><PlayerName entry={entry} /> 的 Deck</div>
       <DeckEditor
         size={deckSizeOf(ev)}
         busy={busy}

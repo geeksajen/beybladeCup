@@ -11,6 +11,7 @@ import { DrawAnimation } from '../fx/DrawAnimation';
 import { Icon } from '../icons';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
 import { useBracketMutation } from './useBracket';
+import { PlayerName } from '../avatars';
 
 export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
   const { event: ev, entries, bracket, store, entryById } = useReadyEvent();
@@ -193,7 +194,7 @@ function GroupSwapper({
                 onClick={() => pick(id)}
                 className={`mb-1 block w-full truncate rounded-lg px-2 py-1.5 text-left text-sm ${picked === id ? 'bg-gold text-on' : 'bg-raised'}`}
               >
-                {displayName(entryById.get(id))}
+                <PlayerName entry={entryById.get(id)} />
               </button>
             ))}
           </div>

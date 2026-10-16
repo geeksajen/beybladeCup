@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DeckEditor, DeckView } from '../components/Deck';
+import { PlayerName } from '../components/avatars';
 import { EntryForm } from '../components/EntryForm';
 import { Icon } from '../components/icons';
 import { NextUpBanner } from '../components/NextUp';
@@ -53,7 +54,7 @@ export default function MyEntries() {
           <div>已取消：</div>
           {cancelled.map((e) => (
             <div key={e.id}>
-              {e.emoji} {e.nickname}
+              <PlayerName entry={e} />
             </div>
           ))}
         </div>
@@ -108,7 +109,7 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="text-xl font-black">
-            {entry.emoji} {entry.nickname}
+            <PlayerName entry={entry} />
           </div>
           <div className="text-sm text-ink-muted">{[entry.grade, entry.beyName].filter(Boolean).join('・')}</div>
         </div>

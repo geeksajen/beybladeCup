@@ -19,6 +19,7 @@ import { useNow, usePersistentState } from '../lib/hooks';
 import { isAudioReady, unlockAudio } from '../lib/sound';
 import { usePredictions, useReadyEvent } from '../providers/EventProvider';
 import { ResultsView } from './Results';
+import { PlayerName } from '../components/avatars';
 
 /** 同步動畫只在觸發後這段時間內打開大螢幕才會播放（避免重新整理時重播舊動畫）。 */
 const FRESH_MS = 15000;
@@ -109,7 +110,7 @@ export default function Screen() {
         <div className="mt-10 flex max-w-6xl flex-wrap justify-center gap-3">
           {c.confirmed.map((e) => (
             <span key={e.id} className={`rounded-full px-4 py-2 text-2xl font-bold ${e.checkedIn ? 'bg-primary/30 text-primary' : 'bg-raised text-ink-muted'}`}>
-              {displayName(e)}
+              <PlayerName entry={e} />
             </span>
           ))}
         </div>

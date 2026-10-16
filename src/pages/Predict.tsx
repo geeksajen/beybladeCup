@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Icon } from '../components/icons';
+import { Avatar, PlayerName } from '../components/avatars';
+import { Icon } from '../components/icons';
 import { PopularityBars } from '../components/Popularity';
 import { Card, ErrorText, useAction } from '../components/ui';
 import { computePodium } from '../engine/advance';
 import { validPredictions } from '../engine/predictions';
 import { classifyEntries } from '../engine/registration';
-import { displayName } from '../lib/format';
 import { usePredictions, useReadyEvent } from '../providers/EventProvider';
 
 /** 猜冠軍：每位參賽小孩投一票，可以改票，主辦截止後鎖定。 */
@@ -52,13 +52,13 @@ export default function Predict() {
             <Icon name="trophy" className="mr-1" />
             冠軍
           </div>
-          <div className="text-2xl font-black">{displayName(entryById.get(champion))}</div>
+          <div className="text-2xl font-black"><PlayerName entry={entryById.get(champion)} /></div>
           <div className="mt-3 text-sm font-bold text-accent"><Icon name="crystal" className="mr-1" />猜中的小預言家（{prophets.length} 位）</div>
           <div className="mt-1 flex flex-wrap justify-center gap-1.5">
             {prophets.length === 0 && <span className="text-sm text-ink-muted">沒有人猜中，冠軍是大黑馬！</span>}
             {prophets.map((id) => (
               <span key={id} className="rounded-full bg-accent/10 px-3 py-1 text-sm font-bold text-accent">
-                {displayName(entryById.get(id))}
+                <PlayerName entry={entryById.get(id)} />
               </span>
             ))}
           </div>
@@ -86,7 +86,7 @@ export default function Predict() {
                           onClick={() => setVoterSel(id)}
                           className={`rounded-full px-3 py-1.5 text-sm font-bold ${id === voterId ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
                         >
-                          {displayName(entryById.get(id))}
+                          <PlayerName entry={entryById.get(id)} />
                           {voted && <Icon name="check" className="ml-1" />}
                         </button>
                       );
@@ -111,7 +111,7 @@ export default function Predict() {
                           onClick={() => void run(() => store.savePrediction(voterId, id, user?.uid ?? ''))}
                           className={`flex items-center gap-2 rounded-xl border-2 px-2 py-2 text-left transition disabled:opacity-60 ${picked ? 'border-accent bg-accent/10' : 'border-line bg-surface'}`}
                         >
-                          <Avatar emoji={e?.emoji} className="text-2xl" />
+                          <Avatar value={e?.emoji} className="text-2xl" />
                           <span className="min-w-0 flex-1">
                             <span className="block truncate font-bold">{e?.nickname ?? '？'}</span>
                             {picked && <span className="block text-xs font-bold text-accent"><Icon name="check" className="mr-0.5" />你猜的</span>}

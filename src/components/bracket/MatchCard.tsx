@@ -1,5 +1,6 @@
-import { describeSource, displayName, matchLabel } from '../../lib/format';
+import { describeSource, matchLabel } from '../../lib/format';
 import type { EntryDoc, Match } from '../../types';
+import { PlayerName } from '../avatars';
 
 export function PlayerSlot({
   id,
@@ -19,7 +20,7 @@ export function PlayerSlot({
   return (
     <div className={`flex items-center justify-between gap-2 rounded-md px-2 py-1 ${winner ? 'bg-primary/20 text-primary' : ''}`}>
       <span className={`truncate ${id ? 'font-semibold' : 'italic text-ink-muted'}`}>
-        {id ? displayName(entryById.get(id)) : describeSource(source)}
+        {id ? <PlayerName entry={entryById.get(id)} /> : describeSource(source)}
       </span>
       {showScore && <span className={`font-mono font-black ${winner ? 'text-primary' : 'text-ink-muted'}`}>{score}</span>}
     </div>

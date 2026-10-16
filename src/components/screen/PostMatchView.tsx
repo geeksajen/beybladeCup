@@ -5,6 +5,7 @@ import type { BracketDoc, EntryDoc } from '../../types';
 import { advanceCount } from '../bracket/GroupTable';
 import { KnockoutTree } from '../bracket/KnockoutTree';
 import { Icon } from '../icons';
+import { PlayerName } from '../avatars';
 
 /** 一場剛結束：顯示這場造成的變化（分組名次升降／淘汰賽晉級到哪裡）。 */
 export function PostMatchView({ bracket, matchId, entryById }: { bracket: BracketDoc; matchId: string; entryById: Map<string, EntryDoc> }) {
@@ -72,7 +73,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
               <tr key={r.id} className={`border-t-2 border-line ${inZone ? 'bg-primary/10' : ''} ${isPlayer ? 'font-black' : ''}`}>
                 <td className="py-3 font-mono text-ink-muted">{complete && r.tied ? '=' : r.rank}</td>
                 <td className="truncate py-3">
-                  {displayName(entryById.get(r.id))}
+                  <PlayerName entry={entryById.get(r.id)} />
                   {r.id === m.winner && <span className="ml-3 rounded-full bg-gold px-3 text-2xl text-on">勝</span>}
                   {inZone && decided && <span className="ml-3 rounded-full bg-primary px-3 text-2xl text-on"><Icon name="check" className="mr-1" />晉級</span>}
                 </td>

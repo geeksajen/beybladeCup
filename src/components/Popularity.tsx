@@ -1,6 +1,6 @@
 import { tallyPredictions } from '../engine/predictions';
-import { displayName } from '../lib/format';
 import type { EntryDoc, PredictionDoc } from '../types';
+import { PlayerName } from './avatars';
 
 /** 猜冠軍的人氣排行長條。 */
 export function PopularityBars({
@@ -22,7 +22,7 @@ export function PopularityBars({
     <div className={big ? 'space-y-4' : 'space-y-1.5'}>
       {rows.map((r) => (
         <div key={r.id} className={`flex items-center gap-3 ${big ? 'text-3xl' : 'text-sm'}`}>
-          <span className={`shrink-0 truncate font-bold ${big ? 'w-80' : 'w-28'}`}>{displayName(entryById.get(r.id))}</span>
+          <span className={`shrink-0 truncate font-bold ${big ? 'w-80' : 'w-28'}`}><PlayerName entry={entryById.get(r.id)} /></span>
           <div className={`flex-1 overflow-hidden rounded-full bg-raised ${big ? 'h-10' : 'h-4'}`}>
             <div className="h-full rounded-full bg-gradient-to-r from-accent to-primary transition-all duration-700" style={{ width: `${(r.votes / max) * 100}%` }} />
           </div>

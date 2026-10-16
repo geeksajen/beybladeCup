@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { displayName } from '../../lib/format';
 import type { EntryDoc, Group } from '../../types';
+import { PlayerName } from '../avatars';
 import { Icon } from '../icons';
 
 /**
@@ -63,7 +64,7 @@ export function DrawAnimation({
                         shown.has(id) ? 'animate-pop bg-primary/20 text-primary' : 'bg-raised text-ink-subtle'
                       }`}
                     >
-                      {shown.has(id) ? displayName(entryById.get(id)) : '？？？'}
+                      {shown.has(id) ? <PlayerName entry={entryById.get(id)} /> : '？？？'}
                     </li>
                   ))}
                 </ul>

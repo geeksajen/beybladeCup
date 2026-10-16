@@ -5,7 +5,8 @@ import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { EntryDoc } from '../../types';
 import { DeckEditor, DeckView } from '../Deck';
-import { Avatar, Icon, type IconName } from '../icons';
+import { Avatar } from '../avatars';
+import { Icon, type IconName } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 
 /** 還沒到的排前面（報到時要找的人在上面），同狀態維持報名順序。 */
@@ -98,7 +99,7 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
         onClick={() => void run(() => store.updateEntry(entry.id, { checkedIn: !entry.checkedIn }))}
         className="flex w-full items-center gap-3 px-3 py-3 text-left"
       >
-        <Avatar emoji={entry.emoji} className="text-2xl" />
+        <Avatar value={entry.emoji} className="text-2xl" />
         <span className="min-w-0 flex-1 truncate font-bold">{entry.nickname}</span>
         <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${badge.cls}`}>
           <Icon name={badge.icon} />

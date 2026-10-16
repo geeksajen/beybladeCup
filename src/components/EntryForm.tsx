@@ -1,11 +1,12 @@
 import { useState, type FormEvent } from 'react';
-import { EMOJIS } from '../lib/defaults';
+import { AVATAR_KEYS } from '../lib/defaults';
 import { DeckEditor, DeckView } from './Deck';
 import type { ContactInput, EntryInput } from '../types';
+import { Avatar, avatarKey, avatarName } from './avatars';
 import { Icon } from './icons';
 import { Button, ErrorText, Field, inputClass, Toggle } from './ui';
 
-export const EMPTY_ENTRY: EntryInput = { nickname: '', grade: '', beyName: '', emoji: EMOJIS[0] };
+export const EMPTY_ENTRY: EntryInput = { nickname: '', grade: '', beyName: '', emoji: AVATAR_KEYS[0] };
 export const EMPTY_CONTACT: ContactInput = { parentName: '', phone: '', childRealName: '', note: '', needsBorrowBey: false };
 
 type Errors = Partial<Record<'nickname' | 'beyName' | 'grade' | 'parentName' | 'phone', string>>;
@@ -53,7 +54,11 @@ export function EntryForm({
   busy?: boolean;
   error?: string;
 }) {
-  const [entry, setEntry] = useState<EntryInput>({ ...EMPTY_ENTRY, ...initialEntry });
+  // 舊資料的頭像是 emoji，編輯時換成頭像代號，存檔後就是新格式
+  const [entry, setEntry] = useState<EntryInput>(() => {
+    const e = { ...EMPTY_ENTRY, ...initialEntry };
+    return { ...e, emoji: avatarKey(e.emoji) };
+  });
   const [contact, setContact] = useState<ContactInput>({ ...EMPTY_CONTACT, ...initialContact });
   const [submitted, setSubmitted] = useState(false);
   const [editingDeck, setEditingDeck] = useState(false);
@@ -81,15 +86,18 @@ export function EntryForm({
           />
         </Field>
         <Field label="頭像" group>
-          <div className="flex flex-wrap gap-1.5">
-            {EMOJIS.map((em) => (
+          <div className="grid grid-cols-5 gap-1.5">
+            {AVATAR_KEYS.map((k) => (
               <button
-                key={em}
+                key={k}
                 type="button"
-                onClick={() => setEntry({ ...entry, emoji: em })}
-                className={`h-10 w-10 rounded-lg text-2xl ${entry.emoji === em ? 'bg-primary/30 ring-2 ring-primary' : 'bg-raised'}`}
+                onClick={() => setEntry({ ...entry, emoji: k })}
+                aria-label={avatarName(k)}
+                aria-pressed={entry.emoji === k}
+                className={`flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-3xl ${entry.emoji === k ? 'bg-primary/20 ring-2 ring-primary' : 'bg-raised'}`}
               >
-                {em}
+                <Avatar value={k} />
+                <span className="text-[10px] text-ink-muted">{avatarName(k)}</span>
               </button>
             ))}
           </div>

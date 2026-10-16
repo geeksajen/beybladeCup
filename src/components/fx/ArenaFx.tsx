@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { ACHIEVEMENT_BY_KEY } from '../../engine/achievements';
 import { diffArenaEvents, type ArenaEvent } from '../../engine/arenaEvents';
 import type { ScoreRules } from '../../engine/scoring';
-import { displayName } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import { playSound } from '../../lib/sound';
 import type { BracketDoc, EntryDoc, FinishType } from '../../types';
-import { Avatar, Icon } from '../icons';
+import { Avatar, PlayerName } from '../avatars';
+import { Icon } from '../icons';
 import { Confetti } from './Confetti';
 
 /** 排隊中的特效最多保留幾個（斷線重連一次收到很多變化時，只播最後幾個）。 */
@@ -97,7 +97,7 @@ export function ArenaFxOverlay({
         <Icon name={event.finish} className={`${s.anim} mb-4 text-8xl md:text-[10rem]`} />
         <div className={`${s.anim} font-display text-center text-7xl leading-tight drop-shadow-[0_6px_0_rgba(0,0,0,0.25)] md:text-[9rem]`}>{s.title}</div>
         <div className="animate-pop mt-8 text-center text-5xl font-black drop-shadow md:text-7xl" style={{ animationDelay: '0.3s' }}>
-          {displayName(entryById.get(event.winnerId))}
+          <PlayerName entry={entryById.get(event.winnerId)} />
         </div>
         {event.combo && (
           <div className="animate-pop mt-3 rounded-full bg-black/25 px-6 py-1 text-3xl font-bold text-white md:text-5xl" style={{ animationDelay: '0.4s' }}>
@@ -118,7 +118,7 @@ export function ArenaFxOverlay({
         <Confetti count={120} />
         <div className="font-display neon-text animate-pop text-7xl text-gold md:text-[9rem]">WINNER</div>
         <div className="animate-pop mt-6 text-8xl md:text-[10rem]" style={{ animationDelay: '0.2s' }}>
-          <Avatar emoji={entryById.get(event.winnerId)?.emoji} />
+          <Avatar value={entryById.get(event.winnerId)?.emoji} />
         </div>
         <div className="animate-pop mt-2 text-5xl font-black md:text-7xl" style={{ animationDelay: '0.35s' }}>
           {entryById.get(event.winnerId)?.nickname ?? '？'}
@@ -126,7 +126,7 @@ export function ArenaFxOverlay({
         <div className="font-display mt-6 text-5xl text-ink-muted md:text-6xl">
           {event.winnerScore} : {event.loserScore}
         </div>
-        <div className="mt-3 text-2xl text-ink-muted md:text-3xl">{displayName(entryById.get(event.loserId))} 也打得很棒！</div>
+        <div className="mt-3 text-2xl text-ink-muted md:text-3xl"><PlayerName entry={entryById.get(event.loserId)} /> 也打得很棒！</div>
       </div>
     );
   }
@@ -142,7 +142,7 @@ export function ArenaFxOverlay({
             解鎖成就
           </div>
           <div className="text-4xl font-black md:text-5xl">{a?.name}</div>
-          <div className="mt-1 text-2xl font-bold text-ink md:text-3xl">{displayName(entryById.get(event.entryId))}</div>
+          <div className="mt-1 text-2xl font-bold text-ink md:text-3xl"><PlayerName entry={entryById.get(event.entryId)} /></div>
         </div>
       </div>
     </div>

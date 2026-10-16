@@ -3,7 +3,8 @@ import { classifyEntries } from '../../engine/registration';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { ContactDoc, EntryDoc } from '../../types';
 import { EntryForm } from '../EntryForm';
-import { Avatar, Icon } from '../icons';
+import { Avatar } from '../avatars';
+import { Icon } from '../icons';
 import { Badge, Button, Card, ErrorText, Spinner, useAction } from '../ui';
 
 export function EntryManager() {
@@ -171,7 +172,7 @@ function EntryRow({
     <div className={`rounded-xl border border-line bg-surface p-3 ${cancelled ? 'opacity-60' : ''}`}>
       <button type="button" className="flex w-full items-center gap-2 text-left" onClick={() => setOpen(!open)}>
         <span className="w-5 text-right font-mono text-xs text-ink-muted">{cancelled ? '–' : index}</span>
-        <Avatar emoji={entry.emoji} className="text-xl" />
+        <Avatar value={entry.emoji} className="text-xl" />
         <div className="min-w-0 flex-1">
           <div className="truncate font-bold">
             {entry.nickname}

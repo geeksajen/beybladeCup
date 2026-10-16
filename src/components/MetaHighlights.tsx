@@ -1,8 +1,8 @@
 import { byWinRate, topByFinish, winRate, type MetaRow, type MetaStats } from '../engine/meta';
-import { displayName } from '../lib/format';
 import type { EntryDoc } from '../types';
 import { DeckView } from './Deck';
 import { Icon, type IconName } from './icons';
+import { PlayerName } from './avatars';
 
 const pct = (r: MetaRow) => `${Math.round(winRate(r) * 100)}%`;
 
@@ -27,7 +27,7 @@ export function MetaHighlights({ meta, entryById, big }: { meta: MetaStats; entr
         <div className={`rounded-2xl border-2 border-gold bg-gold/10 ${big ? 'p-6' : 'p-3'}`}>
           <div className={`font-bold text-gold ${big ? 'text-3xl' : 'text-sm'}`}>
             <Icon name="trophy" className="mr-1" />
-            冠軍 Deck・{displayName(entryById.get(meta.championId ?? ''))}
+            冠軍 Deck・<PlayerName entry={entryById.get(meta.championId ?? '')} />
           </div>
           <DeckView deck={meta.championDeck} className={`mt-2 ${big ? 'text-3xl' : 'text-sm'}`} />
         </div>

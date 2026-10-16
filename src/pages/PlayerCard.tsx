@@ -3,7 +3,8 @@ import { BadgeGrid, useAchievements } from '../components/Achievements';
 import { MatchCard } from '../components/bracket/MatchCard';
 import { DeckView, useCanSeeDeck } from '../components/Deck';
 import { AwardTitle } from '../components/AwardTitle';
-import { Avatar, Icon } from '../components/icons';
+import { Avatar } from '../components/avatars';
+import { Icon } from '../components/icons';
 import { NextUpBanner } from '../components/NextUp';
 import { Card } from '../components/ui';
 import { ACHIEVEMENTS } from '../engine/achievements';
@@ -47,7 +48,7 @@ export default function PlayerCard() {
             <span className="truncate pl-2">{ev.title}</span>
           </div>
           <div className="mt-2 text-center">
-            <Avatar emoji={entry.emoji} className="text-8xl leading-none" />
+            <Avatar value={entry.emoji} className="text-8xl leading-none" />
             <h1 className="neon-text mt-2 text-3xl font-black">{entry.nickname}</h1>
             {entry.beyName && (
               <div className="mt-1 font-bold text-accent">

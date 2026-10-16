@@ -44,7 +44,12 @@ export const FORMAT_LABELS: Record<Format, string> = {
   knockout: '單淘汰',
 };
 
-export const EMOJIS = ['🌀', '⚡', '🔥', '💧', '🌪️', '🐉', '🦅', '🦁', '🐺', '🦈', '🐯', '🦄', '🚀', '⭐', '💎', '🛡️', '⚔️', '👑', '🌈', '☄️'];
+/** 選手頭像代號（存在 EntryDoc.emoji）；圖案在 components/avatars.tsx，順序 = 報名表上的順序。 */
+export const AVATAR_KEYS = [
+  'bey', 'dragon', 'eagle', 'lion', 'wolf', 'shark', 'tiger', 'unicorn', 'bolt', 'flame',
+  'drop', 'tornado', 'rocket', 'star', 'gem', 'shield', 'swords', 'crown', 'rainbow', 'comet',
+] as const;
+export type AvatarKey = (typeof AVATAR_KEYS)[number];
 
 export interface SetupValues {
   title: string;
