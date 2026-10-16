@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { GroupTable } from '../components/bracket/GroupTable';
 import { KnockoutTree } from '../components/bracket/KnockoutTree';
 import { LiveMatches, upcomingMatches } from '../components/bracket/LiveMatch';
@@ -12,10 +12,12 @@ import { useNow, usePersistentState } from '../lib/hooks';
 import { isAudioReady, unlockAudio } from '../lib/sound';
 import { usePredictions, useReadyEvent } from '../providers/EventProvider';
 import { PopularityBars } from '../components/Popularity';
+import { MetaHighlights } from '../components/MetaHighlights';
+import { computeMeta, META_MIN_BATTLES } from '../engine/meta';
 import type { BracketDoc, Match } from '../types';
 import { ResultsView } from './Results';
 
-type View = 'live' | 'groups' | 'tree' | 'predict';
+type View = 'live' | 'groups' | 'tree' | 'predict' | 'meta';
 const ROTATE_MS = 12000;
 /** 同步動畫只在觸發後這段時間內打開大螢幕才會播放（避免重新整理時重播舊動畫）。 */
 const FRESH_MS = 15000;
@@ -45,6 +47,7 @@ export default function Screen() {
   const [audioReady, setAudioReady] = useState(isAudioReady);
   const enableAudio = () => void unlockAudio().then(setAudioReady);
   const preds = usePredictions(!!ev.predictionsOpen);
+  const meta = useMemo(() => (bracket ? computeMeta(bracket) : undefined), [bracket]);
 
   const views: View[] = [];
   if (bracket) {
@@ -52,6 +55,7 @@ export default function Screen() {
     if (bracket.format !== 'knockout' && bracket.groups.length > 0) views.push('groups');
     if (bracket.matches.some((m) => m.stage === 'knockout')) views.push('tree');
     if (ev.predictionsOpen) views.push('predict');
+    if (meta && meta.battles >= META_MIN_BATTLES) views.push('meta');
   }
 
   useEffect(() => {
@@ -102,6 +106,14 @@ export default function Screen() {
             <GroupTable key={g.id} bracket={bracket} group={g} entryById={entryById} big={bracket.groups.length <= 2} />
           ))}
         </div>
+      </div>
+    );
+  } else if (view === 'meta' && meta) {
+    content = (
+      <div className="mx-auto max-w-6xl">
+        <ScreenTitle>📊 Meta 強勢榜</ScreenTitle>
+        <MetaHighlights meta={meta} entryById={entryById} big />
+        <p className="mt-6 text-center text-2xl text-slate-500">共 {meta.battles} 局的統計・手機打開「對戰表 → Meta 強勢榜」看完整排行</p>
       </div>
     );
   } else if (view === 'predict') {

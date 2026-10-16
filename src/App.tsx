@@ -5,6 +5,7 @@ import { UpdateBanner } from './components/UpdateBanner';
 import Admin from './pages/Admin';
 import BracketPage from './pages/Bracket';
 import Home from './pages/Home';
+import MetaPage from './pages/Meta';
 import MyEntries from './pages/MyEntries';
 import PlayerCard from './pages/PlayerCard';
 import Players from './pages/Players';
@@ -64,6 +65,7 @@ function AppRoutes() {
         <Route path="/players" element={<Players />} />
         <Route path="/player/:id" element={<PlayerCard />} />
         <Route path="/predict" element={<Predict />} />
+        <Route path="/meta" element={<MetaPage />} />
         <Route path="/bracket" element={<BracketPage />} />
         <Route path="/results" element={<Results />} />
         <Route path="/rules" element={<Rules />} />

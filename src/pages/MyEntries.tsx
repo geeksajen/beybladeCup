@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { DeckEditor, DeckView } from '../components/Deck';
 import { EntryForm } from '../components/EntryForm';
 import { NextUpBanner } from '../components/NextUp';
 import { Badge, Button, Card, ErrorText, Spinner, useAction } from '../components/ui';
+import { deckEditableByOwner, deckSizeOf } from '../engine/deck';
 import { entryPosition, isRegistrationOpen, sortActive } from '../engine/registration';
 import { useNow } from '../lib/hooks';
 import { useReadyEvent } from '../providers/EventProvider';
@@ -108,6 +110,7 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
       </div>
       <div className="mt-3 space-y-2">
         <NextUpBanner entryId={entry.id} />
+        <MyDeck entry={entry} />
         <Link to={`/player/${entry.id}`} className="block text-sm font-bold text-cyan-700">
           🪪 看選手卡 →
         </Link>
@@ -131,5 +134,48 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
         </div>
       )}
     </Card>
+  );
+}
+
+function MyDeck({ entry }: { entry: EntryDoc }) {
+  const { event: ev, store, isFamily } = useReadyEvent();
+  const [editing, setEditing] = useState(false);
+  const { busy, error, run } = useAction();
+  const size = deckSizeOf(ev);
+  const editable = deckEditableByOwner(ev) || isFamily;
+
+  return (
+    <div className="rounded-xl border border-slate-200 p-2">
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className="text-sm font-bold">🌀 {size === 3 ? '3on3 Deck' : '我的陀螺'}</span>
+        {editable && !editing && (
+          <button type="button" className="text-sm font-bold text-cyan-700" onClick={() => setEditing(true)}>
+            {entry.deck?.length ? '修改' : '登錄'}
+          </button>
+        )}
+      </div>
+      {editing ? (
+        <DeckEditor
+          initial={entry.deck}
+          size={size}
+          busy={busy}
+          error={error}
+          onCancel={() => setEditing(false)}
+          onSave={(deck) =>
+            void run(async () => {
+              await store.updateEntry(entry.id, { deck });
+              setEditing(false);
+            })
+          }
+        />
+      ) : (
+        <>
+          <DeckView deck={entry.deck} className="text-sm" />
+          <p className="mt-1.5 text-[11px] text-slate-500">
+            {editable ? '比賽開始前只有你和主辦看得到。比賽開始後 Deck 就固定了。' : '比賽已開始，Deck 已固定；需要修改請找主辦。'}
+          </p>
+        </>
+      )}
+    </div>
   );
 }

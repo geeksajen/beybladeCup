@@ -15,6 +15,7 @@ export const DEFAULT_RULES: RuleConfig = {
   thirdPlaceMatch: true,
   arenaCount: 1,
   minutesPerMatch: 3,
+  deckSize: 3,
 };
 
 export const FINISH_TYPES: FinishType[] = ['spin', 'over', 'burst', 'xtreme'];

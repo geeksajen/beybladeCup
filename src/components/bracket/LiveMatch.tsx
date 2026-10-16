@@ -1,18 +1,25 @@
+import { nextBeys } from '../../engine/deck';
 import { matchLabel } from '../../lib/format';
-import type { BracketDoc, EntryDoc, Match } from '../../types';
+import { comboLabel } from '../../lib/parts';
+import type { BracketDoc, Combo, EntryDoc, Match } from '../../types';
 
-function Side({ entry, score, align, big }: { entry?: EntryDoc; score: number; align: 'left' | 'right'; big?: boolean }) {
+function Side({ entry, score, align, big, bey }: { entry?: EntryDoc; score: number; align: 'left' | 'right'; big?: boolean; bey?: Combo }) {
   return (
     <div className={`flex flex-1 flex-col ${align === 'left' ? 'items-start text-left' : 'items-end text-right'} min-w-0`}>
       <div className={big ? 'text-7xl' : 'text-4xl'}>{entry?.emoji ?? '🌀'}</div>
       <div className={`mt-1 w-full truncate font-black ${big ? 'text-5xl' : 'text-xl'}`}>{entry?.nickname ?? '？'}</div>
-      {entry?.beyName && <div className={`w-full truncate text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>{entry.beyName}</div>}
+      {bey ? (
+        <div className={`mt-1 max-w-full truncate rounded-lg bg-amber-100 px-2 font-bold text-amber-900 ${big ? 'text-2xl' : 'text-xs'}`}>🌀 {comboLabel(bey)}</div>
+      ) : (
+        entry?.beyName && <div className={`w-full truncate text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>{entry.beyName}</div>
+      )}
       <div className={`font-display neon-text mt-2 ${big ? 'text-9xl' : 'text-5xl'} ${align === 'left' ? 'text-cyan-600' : 'text-fuchsia-600'}`}>{score}</div>
     </div>
   );
 }
 
 export function LiveMatchCard({ match, entryById, big }: { match: Match; entryById: Map<string, EntryDoc>; big?: boolean }) {
+  const beys = nextBeys(match);
   return (
     <div className={`rounded-3xl border-2 border-fuchsia-500/70 bg-white shadow-[0_0_32px_rgba(217,70,239,0.18)] ${big ? 'p-8' : 'p-4'}`}>
       <div className={`mb-3 flex justify-between font-bold text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>
@@ -20,9 +27,9 @@ export function LiveMatchCard({ match, entryById, big }: { match: Match; entryBy
         {match.arena && <span>{match.arena} 號戰鬥盤</span>}
       </div>
       <div className="flex items-center gap-3">
-        <Side entry={match.p1 ? entryById.get(match.p1) : undefined} score={match.p1Score} align="left" big={big} />
+        <Side entry={match.p1 ? entryById.get(match.p1) : undefined} score={match.p1Score} align="left" big={big} bey={beys.p1} />
         <div className={`font-display shrink-0 text-amber-500 ${big ? 'text-6xl' : 'text-2xl'}`}>VS</div>
-        <Side entry={match.p2 ? entryById.get(match.p2) : undefined} score={match.p2Score} align="right" big={big} />
+        <Side entry={match.p2 ? entryById.get(match.p2) : undefined} score={match.p2Score} align="right" big={big} bey={beys.p2} />
       </div>
     </div>
   );

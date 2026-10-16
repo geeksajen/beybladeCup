@@ -3,6 +3,7 @@ import { ACHIEVEMENT_BY_KEY } from '../../engine/achievements';
 import { diffArenaEvents, type ArenaEvent } from '../../engine/arenaEvents';
 import type { ScoreRules } from '../../engine/scoring';
 import { displayName } from '../../lib/format';
+import { comboLabel } from '../../lib/parts';
 import { playSound } from '../../lib/sound';
 import type { BracketDoc, EntryDoc, FinishType } from '../../types';
 import { Confetti } from './Confetti';
@@ -76,6 +77,11 @@ export function ArenaFxOverlay({
         <div className="animate-pop mt-8 text-center text-5xl font-black text-white drop-shadow md:text-7xl" style={{ animationDelay: '0.3s' }}>
           {displayName(entryById.get(event.winnerId))}
         </div>
+        {event.combo && (
+          <div className="animate-pop mt-3 rounded-full bg-black/25 px-6 py-1 text-3xl font-bold text-white md:text-5xl" style={{ animationDelay: '0.4s' }}>
+            🌀 {comboLabel(event.combo)}
+          </div>
+        )}
         <div className="font-display animate-pop mt-4 text-6xl text-white md:text-8xl" style={{ animationDelay: '0.5s' }}>
           +{event.points}
         </div>

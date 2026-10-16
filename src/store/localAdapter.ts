@@ -1,5 +1,6 @@
 import { EMOJIS } from '../lib/defaults';
-import type { AuthUser, BracketDoc, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
+import { BITS, BLADES } from '../lib/parts';
+import type { AuthUser, BracketDoc, Combo, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 import type { EventStore } from './types';
 
 // 同網域（geeksajen.github.io）的其他 app 共用 localStorage，key 一律加前綴
@@ -197,6 +198,16 @@ const SEED_NAMES = ['閃電小明', '火焰阿傑', '旋風小美', '鋼鐵阿�
 const SEED_BEYS = ['Dran Sword', 'Hells Scythe', 'Wizard Arrow', 'Knight Shield', 'Leon Claw', 'Shark Edge', 'Phoenix Wing', 'Viper Tail'];
 const SEED_GRADES = ['一年級', '二年級', '三年級', '四年級', '五年級', '六年級'];
 const pick = <T>(list: T[], i: number): T => list[i % list.length];
+const SEED_RATCHETS = ['3-60', '4-60', '5-60', '9-60', '1-60', '4-80', '3-80', '5-80'];
+
+/** 測試用 Deck：集中在常見零件（Meta 統計才有東西看），同一組 Deck 內零件不重複。 */
+function seedDeck(i: number, size: number): Combo[] {
+  return Array.from({ length: size }, (_, k) => ({
+    blade: pick(BLADES.slice(0, 10), i + k * 3).en,
+    ratchet: pick(SEED_RATCHETS, i + k * 3),
+    bit: pick(BITS.slice(0, 8), i * 3 + k * 3).en,
+  }));
+}
 
 /**
  * 開發用：一次產生 n 筆測試報名（每筆不同的假 ownerUid，依序報名）。
@@ -206,6 +217,7 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
   const entries = read<Record<string, EntryDoc>>(K.entries, {});
   const contacts = read<Record<string, ContactDoc>>(K.contacts, {});
   const offset = Object.keys(entries).length;
+  const deckSize = read<EventDoc | null>(K.event, null)?.rules.deckSize ?? 3;
   const now = Date.now();
   for (let k = 0; k < n; k++) {
     const i = offset + k;
@@ -221,6 +233,7 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
       emoji: pick(EMOJIS, i),
       status: 'active',
       checkedIn,
+      deck: seedDeck(i, deckSize),
       // 每筆差 1ms，維持報名順序（正取／候補依 createdAt 排序）
       createdAt: now + k,
       updatedAt: now + k,

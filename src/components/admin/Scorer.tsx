@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { downstreamStarted, startMatchNow } from '../../engine/advance';
+import { deckSizeOf, nextBeys, reorder, setMatchDecks } from '../../engine/deck';
 import { addBattle, computeScore, decidedWinner, finalizeMatch, reopenMatch, setManualScore, undoBattle } from '../../engine/scoring';
 import { FINISH_LABELS, FINISH_TYPES } from '../../lib/defaults';
 import { describeSource, displayName, matchLabel } from '../../lib/format';
+import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
-import type { BracketDoc, FinishType, Match } from '../../types';
+import type { BracketDoc, Combo, EntryDoc, FinishType, Match } from '../../types';
 import { Button, Card, ErrorText, inputClass } from '../ui';
 import { PredictionsControl } from './PredictionsControl';
 import { useBracketMutation } from './useBracket';
@@ -144,8 +146,12 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
   const update = (fn: (m: Match) => Match) => mutate((b) => replaceMatch(b, match.id, fn));
   const battle = (winner: 'p1' | 'p2' | 'draw', finish?: FinishType | 'launchError') => {
     setPendingSide(undefined);
-    void update((m) => addBattle(m, { winner, finish, at: Date.now() }, rules));
+    // 第一局開打時，沒有另外設定順序就用報名時登錄的預設順序
+    void update((m) => addBattle(m.p1Deck || m.p2Deck ? m : setMatchDecks(m, p1?.deck, p2?.deck), { winner, finish, at: Date.now() }, rules));
   };
+  const beys = nextBeys(match);
+  const hasAnyDeck = !!(p1?.deck?.length || p2?.deck?.length);
+  const canSetOrder = deckSizeOf(ev) > 1 && hasAnyDeck && match.battles.length === 0 && !match.manualScore;
 
   return (
     <Card className="space-y-4 border-fuchsia-500/50">
@@ -163,6 +169,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           <div className="truncate text-lg font-black">{p1?.nickname}</div>
           <div className="font-display text-5xl text-cyan-600">{match.p1Score}</div>
           {errs.p1 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p1}</div>}
+          {beys.p1 && !winnerSide && <div className="mt-1 truncate rounded bg-cyan-50 px-1 text-xs font-bold text-cyan-800">🌀 {comboLabel(beys.p1)}</div>}
         </div>
         <div className="font-display text-xl text-amber-500">VS</div>
         <div className="min-w-0">
@@ -170,8 +177,20 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           <div className="truncate text-lg font-black">{p2?.nickname}</div>
           <div className="font-display text-5xl text-fuchsia-600">{match.p2Score}</div>
           {errs.p2 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p2}</div>}
+          {beys.p2 && !winnerSide && <div className="mt-1 truncate rounded bg-fuchsia-50 px-1 text-xs font-bold text-fuchsia-800">🌀 {comboLabel(beys.p2)}</div>}
         </div>
       </div>
+
+      {canSetOrder && (
+        <OrderSetup
+          key={`${match.p1Deck ? 'set' : 'new'}`}
+          match={match}
+          p1={p1}
+          p2={p2}
+          busy={busy}
+          onConfirm={(d1, d2) => void update((m) => setMatchDecks(m, d1, d2))}
+        />
+      )}
 
       <Button
         variant="secondary"
@@ -284,5 +303,80 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         </div>
       )}
     </Card>
+  );
+}
+
+/** 開打前設定本場出場順序（預設 = 報名時登錄的順序）；第一局開始後就不能改。 */
+function OrderSetup({
+  match,
+  p1,
+  p2,
+  busy,
+  onConfirm,
+}: {
+  match: Match;
+  p1?: EntryDoc;
+  p2?: EntryDoc;
+  busy: boolean;
+  onConfirm: (p1Deck?: Combo[], p2Deck?: Combo[]) => void;
+}) {
+  const confirmed = !!(match.p1Deck || match.p2Deck);
+  const [open, setOpen] = useState(!confirmed);
+  // 已設定過就從本場的順序開始調整
+  const [d1, setD1] = useState<Combo[]>(match.p1Deck ?? p1?.deck ?? []);
+  const [d2, setD2] = useState<Combo[]>(match.p2Deck ?? p2?.deck ?? []);
+
+  if (!open) {
+    return (
+      <button type="button" className="w-full rounded-xl bg-emerald-50 px-3 py-2 text-left text-sm text-emerald-800" onClick={() => setOpen(true)}>
+        ✓ 本場出場順序已確定 <span className="float-right text-cyan-700">改順序</span>
+      </button>
+    );
+  }
+  return (
+    <div className="space-y-2 rounded-xl border border-amber-300 bg-amber-50/60 p-2">
+      <div className="text-sm font-bold text-amber-900">🔀 本場出場順序（請雙方小聲告訴你）</div>
+      <div className="grid grid-cols-2 gap-2">
+        <OrderList entry={p1} deck={d1} onChange={setD1} color="text-cyan-700" />
+        <OrderList entry={p2} deck={d2} onChange={setD2} color="text-fuchsia-700" />
+      </div>
+      <Button
+        className="w-full"
+        disabled={busy}
+        onClick={() => {
+          onConfirm(d1, d2);
+          setOpen(false);
+        }}
+      >
+        確定順序
+      </Button>
+    </div>
+  );
+}
+
+function OrderList({ entry, deck, onChange, color }: { entry?: EntryDoc; deck: Combo[]; onChange: (d: Combo[]) => void; color: string }) {
+  return (
+    <div className="min-w-0">
+      <div className={`truncate text-xs font-bold ${color}`}>{displayName(entry)}</div>
+      {deck.length === 0 && <div className="text-xs text-slate-500">沒有登錄 Deck</div>}
+      <ol className="mt-1 space-y-1">
+        {deck.map((c, i) => (
+          <li key={i} className="flex items-center gap-1 rounded bg-white px-1.5 py-1 text-xs">
+            <span className="font-mono text-slate-500">{i + 1}</span>
+            <span className="min-w-0 flex-1 truncate">{comboLabel(c)}</span>
+            {i > 0 && (
+              <button
+                type="button"
+                className="shrink-0 rounded bg-slate-200 px-1.5"
+                aria-label="往前"
+                onClick={() => onChange(reorder(deck, deck.map((_, j) => (j === i - 1 ? i : j === i ? i - 1 : j))))}
+              >
+                ↑
+              </button>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }

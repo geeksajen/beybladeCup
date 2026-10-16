@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import { BadgeIcons, useAchievements } from '../components/Achievements';
+import { MetaHighlights } from '../components/MetaHighlights';
+import { computeMeta } from '../engine/meta';
 import { Confetti } from '../components/fx/Confetti';
 import { Card } from '../components/ui';
 import { displayName } from '../lib/format';
@@ -17,6 +20,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
   const others = awards.filter((a) => !['champion', 'runnerUp', 'third'].includes(a.key) && a.entryIds.length > 0);
   const participants = bracket.playerIds;
   const achievements = useAchievements();
+  const meta = useMemo(() => computeMeta(bracket), [bracket]);
 
   return (
     <div className="space-y-6">
@@ -44,6 +48,15 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
             <AwardCard key={a.key} award={a} entryById={entryById} big={big} />
           ))}
         </div>
+      )}
+      {!big && meta.battles > 0 && (
+        <Card>
+          <h2 className="mb-2 font-bold text-cyan-700">📊 本次大賽 Meta</h2>
+          <MetaHighlights meta={meta} entryById={entryById} />
+          <Link to="/meta" className="mt-2 inline-block text-sm text-cyan-700 underline">
+            看完整 Meta 強勢榜 →
+          </Link>
+        </Card>
       )}
       <Card>
         <h2 className={`mb-2 font-bold text-amber-700 ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>

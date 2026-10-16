@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { sortActive } from '../../engine/registration';
 import { FINISH_LABELS, FINISH_TYPES, STATUS_FLOW, STATUS_LABELS, type SetupValues } from '../../lib/defaults';
 import { useReadyEvent } from '../../providers/EventProvider';
+import { simulateAll } from '../../lib/devSim';
 import { clearLocalEntries, resetLocalData, seedLocalEntries } from '../../store/localAdapter';
 import type { EventDoc, EventStatus, RuleConfig } from '../../types';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
@@ -127,9 +128,9 @@ export function EventSettings() {
   );
 }
 
-/** 本機模式才有：模擬報名、清空報名、清空全部。 */
+/** 本機模式才有：模擬報名、模擬比賽、清空報名、清空全部。 */
 function DevTools() {
-  const { event: ev, entries, bracket } = useReadyEvent();
+  const { event: ev, entries, bracket, store, entryById } = useReadyEvent();
   const [count, setCount] = useState(10);
   const [checkedIn, setCheckedIn] = useState(true);
   const active = entries.filter((e) => e.status === 'active').length;
@@ -162,6 +163,17 @@ function DevTools() {
         </div>
         <Toggle label="同時標記為已報到（方便直接測賽程）" checked={checkedIn} onChange={setCheckedIn} />
       </div>
+      <Button
+        variant="secondary"
+        className="w-full"
+        disabled={!bracket || bracket.currentMatchIds.length === 0}
+        onClick={() => {
+          if (confirm('隨機打完所有能開打的場次？（分組同分需要手動決定名次時會停下來）'))
+            void store.mutateBracket((cur) => (cur ? simulateAll(cur, entryById, ev.rules) : cur));
+        }}
+      >
+        🎲 模擬打完所有比賽{bracket ? '' : '（先到「賽程」抽籤）'}
+      </Button>
       <Button
         variant="danger"
         className="w-full"
@@ -262,6 +274,7 @@ function OtherSettings({ ev }: { ev: EventDoc }) {
         </div>
         <Toggle label="發射失誤罰則（第二次起判對方 +1）" checked={rules.launchErrorPenalty} onChange={(v) => setRule('launchErrorPenalty', v)} />
         <Toggle label="淘汰賽打季軍戰" checked={rules.thirdPlaceMatch} onChange={(v) => setRule('thirdPlaceMatch', v)} />
+        <Toggle label="3on3（每人 3 顆陀螺輪流上場）；關閉 = 單顆" checked={(rules.deckSize ?? 3) === 3} onChange={(v) => setRule('deckSize', v ? 3 : 1)} />
       </div>
       <ErrorText>{error}</ErrorText>
       <Button className="w-full" disabled={busy} onClick={save}>

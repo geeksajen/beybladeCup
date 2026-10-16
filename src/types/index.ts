@@ -16,6 +16,8 @@ export interface RuleConfig {
   thirdPlaceMatch: boolean;
   arenaCount: number;
   minutesPerMatch: number;
+  /** 每人帶幾顆陀螺：3 = 3on3（預設），1 = 單顆。舊資料沒有這個欄位時視為 3。 */
+  deckSize?: 1 | 3;
 }
 
 export interface EventDoc {
@@ -35,6 +37,17 @@ export interface EventDoc {
   updatedAt: number;
 }
 
+/** 一顆陀螺的零件組合（Beyblade X）。名稱存正規化後的英文名（見 lib/parts.ts）。 */
+export interface Combo {
+  blade: string;
+  /** 只有 CX（Custom Line）才有。 */
+  assistBlade?: string;
+  /** 只有 CX，選填。 */
+  lockChip?: string;
+  ratchet: string;
+  bit: string;
+}
+
 export interface EntryInput {
   nickname: string;
   grade?: string;
@@ -44,6 +57,8 @@ export interface EntryInput {
 
 export interface EntryDoc extends EntryInput {
   id: string;
+  /** 3on3 的 Deck，陣列順序 = 預設出場順序。比賽開始前只有自己與主辦看得到（畫面上隱藏）。 */
+  deck?: Combo[];
   ownerUid: string;
   status: 'active' | 'cancelled';
   checkedIn: boolean;
@@ -85,6 +100,9 @@ export interface Match {
   p1Score: number;
   p2Score: number;
   manualScore?: boolean;
+  /** 這一場雙方的 Deck，依本場出場順序排列（開打時從報名資料複製，之後改 Deck 不影響）。 */
+  p1Deck?: Combo[];
+  p2Deck?: Combo[];
   status: 'pending' | 'live' | 'done';
   winner?: string;
   isBye?: boolean;

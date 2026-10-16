@@ -134,6 +134,7 @@
 | Xtreme Finish | 把對方打進 Xtreme Zone | 3 |
 | 平手 | 同時停止／同時出場 | 0，重打 |
 
+- **3on3**：每人 3 顆輪流上場，詳見 §14.1。
 - **一場對戰（Match）先得 4 分者勝**（設定值 `pointsToWin`，可改 3 或 5）。
 - 發射失誤（Launch Error）：第一次警告，同一場第二次判對方 +1 分。（給小孩寬鬆一點，主辦可關閉。）
 - 輸入比分時，主辦在手機上逐局點選「誰贏 ＋ 終結方式」，系統自動累計，達到 `pointsToWin` 自動結束該場。也提供「直接輸入最終比分」的快速模式。
@@ -416,6 +417,8 @@ src/
 │  ├─ player.ts           個人戰績、下一場（§13.3、§13.4）
 │  ├─ arenaEvents.ts      大螢幕特效事件（§13.1）
 │  ├─ predictions.ts      猜冠軍統計與獎項（§13.5）
+│  ├─ deck.ts             3on3 出場順序、Deck 檢查（§14.1）
+│  ├─ meta.ts             Meta 強勢榜統計（§14.7）
 │  └─ registration.ts     正取／候補推導、每人上限檢查
 ├─ store/                 唯一可以 import firebase/firestore 的地方
 │  ├─ types.ts            EventStore 介面
@@ -543,3 +546,59 @@ firebase.json                    只設定 firestore（rules ＋ indexes），�
   - 這是第 4 個監聽，但**只在需要的頁面**建立（投票頁、大螢幕開放期間、後台計分／頒獎），筆數 ≤ 參賽人數。
   - 規則：公開讀；訪客新增／修改需 `predictionsOpen == true`、`voterId` 對應的報名 `ownerUid` 是自己、欄位只有上述 4 個、`pickId` 對應的報名存在、`updatedAt == request.time`；主辦全部可寫；只有主辦能刪除。以 `firestore.rules` 為準。
   - 需要驗證的規則情境：能替自己的小孩投票 ✓／不能替別人的小孩投票 ✗／未開放時不能投 ✗／投給不存在的報名 ✗／主辦可代投 ✓。
+
+---
+
+## 14. 3on3 Deck、零件紀錄與 Meta 強勢榜（v1.2）
+
+### 14.1 3on3 規則（`RuleConfig.deckSize`，預設 3；設為 1 = 單顆）
+- 每位選手一組 **Deck = 3 顆**陀螺，報到時登錄；**比賽開始（`running`）後整場固定**，只有主辦能改。
+- 每場開打前可以重新決定出場順序：主辦在計分畫面「🔀 本場出場順序」調整後按「確定順序」；沒設定就用登錄時的預設順序（第一局輸入時自動套用）。第一局開始後不能再改。
+- 上場順序：分出勝負的局（有終結方式）才換下一顆；**平手、發射失誤用同一顆重打**；3 顆用完從第 1 顆重新輪（`engine/deck.ts` 的 `slotAt`）。
+- 同一組 Deck 的 Blade／Ratchet／Bit 重複：**只提醒、不擋**（小孩零件可能不夠）。顆數不足也只提醒。
+
+### 14.2 資料
+```ts
+interface Combo { blade: string; assistBlade?: string; lockChip?: string; ratchet: string; bit: string }  // CX 才有 assist／lockChip
+EntryDoc.deck?: Combo[]          // 陣列順序 = 預設出場順序
+Match.p1Deck?, p2Deck?: Combo[]  // 本場實際順序；開打時從報名資料複製，之後改 Deck 不影響已開打的場次
+```
+- Deck 放在報名文件裡，不另開 collection、不多一個監聽。淘汰賽某格選手改變（`resetMatch`）時本場 Deck 一併清空。
+- 規則：`validEntry` 允許 `deck`（list，≤ 3）；另外允許報名者在 `open`／`closed` 狀態**只修改** `deck`、`updatedAt`（`affectedKeys().hasOnly`），不受報名截止時間限制。`running` 之後只有主辦能改。
+- 需要驗證的規則情境：截止後（closed）能改自己的 Deck ✓／截止後改暱稱 ✗／比賽中改 Deck ✗／改別人的 Deck ✗。
+
+### 14.3 零件清單（`lib/parts.ts`）
+- 內建 Takara Tomy 英文名的起始清單（Blade、Ratchet、Bit＋縮寫、CX 的 Assist Blade／Lock Chip），輸入框用 `<datalist>` 提示，**清單沒有的可以自由輸入**。
+- 儲存前正規化：忽略大小寫／空白／連字號比對英文名、縮寫（`LF` → Low Flat）、別名（Hasbro `Soar Phoenix` → Phoenix Wing）；Ratchet 統一成 `3-60`。
+- 顯示寫法：`Dran Sword 3-60F`（Bit 用縮寫）。
+- **中文名稱（`zh` 欄位）待主辦提供後補上**；有中文時畫面優先顯示中文。
+
+### 14.4 公開時機
+- Deck 在 `running` 之前只有自己與主辦看得到（`#/my`、選手卡）；每場的出場順序要等那一場在計分畫面確定後，才出現在大螢幕。
+- **只是畫面上隱藏**：報名文件本身是公開讀，懂技術的人仍可直接讀資料庫。家庭比賽可接受；要真正保密需要另存私密 collection。
+
+### 14.5 登錄的地方
+- `#/my`：每位自己的選手有「🌀 3on3 Deck」區塊（`open`／`closed` 可改）。
+- 後台「報到」：每位選手下方顯示 Deck 狀態（`2/3`），點「編輯」直接代填；上方提示已報到但沒登錄 Deck 的人數。
+
+### 14.6 比賽中的顯示
+- 計分畫面與對戰卡（大螢幕、首頁、對戰表）顯示雙方**下一局上場的那一顆**。
+- 大螢幕終結技特效加上打出這一擊的組合（例：「🌀 Dran Sword 3-60F」）。
+
+### 14.7 Meta 強勢榜（`engine/meta.ts`、`#/meta`）
+- **以局計算**：只統計開打時有記錄 Deck 的場次；快速輸入比分的場次沒有逐局紀錄，不計。
+- 分 Blade（CX 含 Lock Chip／Assist）、Ratchet、Bit、完整組合四種，每列：使用人數、局數、勝局、勝率、各終結方式次數。
+- **同一個零件互打的局不計入該零件的勝負**。
+- 勝率排名需至少 `META_MIN_BATTLES = 5` 局，不足的顯示灰色。頁面註明「樣本小，看看就好」。
+- 亮點卡：🏆 冠軍 Deck（冠軍最後一場的 Deck）、📈 最高勝率 Blade、🎯 最高勝率 Bit、🔥 Xtreme 製造機（組合）、💥 Burst 製造機（Blade）、👥 最多人用的 Blade。
+- 入口：對戰表頁、結果頁（Meta 摘要）；大螢幕在累積 ≥ 5 局後輪播多一頁 Meta。
+- `running` 之前 `#/meta` 只顯示「比賽開始後公開」。
+
+### 14.8 開發工具（本機模式）
+- 模擬報名時每位選手自動帶一組隨機 Deck（集中在常見零件）。
+- 「🎲 模擬打完所有比賽」：隨機打完所有能開打的場次（`lib/devSim.ts`），用來測試 Meta 與頒獎畫面；分組同分需要手動決定名次時會停下來。
+
+### 14.9 之後可以做
+- 後台「合併同義詞」（例如把小孩打的「蒼龍」併到 Dran Sword）。
+- 報名表直接填 Deck。
+- 賽後 Meta 總結圖卡（方便截圖分享到 LINE 群組）。

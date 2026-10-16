@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { BadgeGrid, useAchievements } from '../components/Achievements';
 import { MatchCard } from '../components/bracket/MatchCard';
+import { DeckView, useCanSeeDeck } from '../components/Deck';
 import { NextUpBanner } from '../components/NextUp';
 import { Card } from '../components/ui';
 import { ACHIEVEMENTS } from '../engine/achievements';
@@ -13,6 +14,7 @@ export default function PlayerCard() {
   const { id = '' } = useParams();
   const { event: ev, bracket, entryById, entriesLoaded } = useReadyEvent();
   const achievements = useAchievements();
+  const canSeeDeck = useCanSeeDeck();
   const entry = entryById.get(id);
 
   if (entriesLoaded && (!entry || entry.status === 'cancelled')) {
@@ -48,6 +50,13 @@ export default function PlayerCard() {
             {entry.beyName && <div className="mt-1 font-bold text-fuchsia-700">🌀 {entry.beyName}</div>}
             {entry.grade && <div className="text-sm text-slate-500">{entry.grade}</div>}
           </div>
+
+          {canSeeDeck(entry) && entry.deck?.length ? (
+            <div className="mt-3">
+              <div className="mb-1 text-center text-[11px] font-bold tracking-widest text-slate-400">DECK</div>
+              <DeckView deck={entry.deck} className="text-sm" />
+            </div>
+          ) : null}
 
           {(rankIdx >= 0 || awards.length > 0) && (
             <div className="mt-3 flex flex-wrap justify-center gap-1.5">

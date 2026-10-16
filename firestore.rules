@@ -31,6 +31,7 @@ service cloud.firestore {
       return d.nickname is string && d.nickname.size() >= 1 && d.nickname.size() <= 12
         && (!('beyName' in d) || (d.beyName is string && d.beyName.size() <= 20))
         && (!('grade' in d) || (d.grade is string && d.grade.size() <= 10))
+        && (!('deck' in d) || (d.deck is list && d.deck.size() <= 3))
         && d.status in ['active', 'cancelled'];
     }
 
@@ -55,7 +56,14 @@ service cloud.firestore {
               && request.resource.data.checkedIn == resource.data.checkedIn
               && request.resource.data.createdAt == resource.data.createdAt
               && validEntry(request.resource.data)
-              && registrationOpen(eventId));
+              && registrationOpen(eventId))
+          // 報名截止後、比賽開始前，仍可以只修改自己的 Deck（比賽開始後 Deck 固定，只有主辦能改）
+          || (isSignedIn()
+              && resource.data.ownerUid == request.auth.uid
+              && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deck', 'updatedAt'])
+              && request.resource.data.deck is list
+              && request.resource.data.deck.size() <= 3
+              && eventData(eventId).status in ['open', 'closed']);
         // 訪客「取消」= 把 status 改成 cancelled；只有主辦能真的刪除
         allow delete: if isFamily();
       }

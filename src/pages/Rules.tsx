@@ -34,6 +34,19 @@ export default function Rules() {
         {r.launchErrorPenalty && <p className="mt-1 text-sm text-slate-700">發射失誤：第一次警告，同一場第二次起每次判對方 +1 分。</p>}
       </Card>
 
+      {(r.deckSize ?? 3) === 3 ? (
+        <Card>
+          <h2 className="mb-2 font-bold text-cyan-700">3on3 對戰</h2>
+          <ul className="space-y-1 text-sm text-slate-700">
+            <li>• 每位選手帶 <b>3 顆</b>陀螺（一組 Deck），報到時登錄，比賽開始後整場固定。</li>
+            <li>• 每場開打前，可以重新決定 3 顆的<b>出場順序</b>（小聲告訴主辦）。</li>
+            <li>• 第 1 局雙方用第 1 顆、第 2 局用第 2 顆、第 3 局用第 3 顆；還沒分出勝負就從第 1 顆重新輪。</li>
+            <li>• 平手、發射失誤重新發射時，用同一顆再打一次。</li>
+            <li>• 正式規則同一組 Deck 的 Blade、Ratchet、Bit 不能重複；零件不夠的小朋友可以跟主辦說。</li>
+          </ul>
+        </Card>
+      ) : null}
+
       <Card>
         <h2 className="mb-2 font-bold text-fuchsia-700">賽制</h2>
         <ul className="space-y-1 text-sm text-slate-700">

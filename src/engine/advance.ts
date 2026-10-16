@@ -46,6 +46,8 @@ function resetMatch(m: Match): void {
   m.p1Score = 0;
   m.p2Score = 0;
   m.manualScore = false;
+  m.p1Deck = undefined;
+  m.p2Deck = undefined;
   m.winner = undefined;
   m.status = 'pending';
 }

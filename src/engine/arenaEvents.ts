@@ -1,10 +1,11 @@
-import type { BracketDoc, FinishType } from '../types';
+import type { BracketDoc, Combo, FinishType } from '../types';
 import { ACHIEVEMENT_BY_KEY, computeAchievements, type AchievementKey } from './achievements';
+import { beysAt } from './deck';
 import type { ScoreRules } from './scoring';
 
 /** 大螢幕要播放的特效事件（比較前後兩版賽程得出，不存資料庫）。 */
 export type ArenaEvent =
-  | { kind: 'finish'; id: string; finish: FinishType; winnerId: string; points: number }
+  | { kind: 'finish'; id: string; finish: FinishType; winnerId: string; points: number; combo?: Combo }
   | { kind: 'win'; id: string; winnerId: string; loserId: string; winnerScore: number; loserScore: number }
   | { kind: 'achievement'; id: string; entryId: string; achievement: AchievementKey };
 
@@ -28,12 +29,15 @@ export function diffArenaEvents(prev: BracketDoc, next: BracketDoc, rules: Score
       m.battles.slice(before.battles.length).forEach((bt, i) => {
         if (bt.winner === 'draw' || !bt.finish || bt.finish === 'launchError') return;
         if (now - bt.at > EVENT_FRESH_MS) return;
+        const idx = before.battles.length + i;
+        const combo = beysAt(m, idx)[bt.winner];
         events.push({
           kind: 'finish',
-          id: `${m.id}:b${before.battles.length + i}`,
+          id: `${m.id}:b${idx}`,
           finish: bt.finish,
           winnerId: bt.winner === 'p1' ? m.p1! : m.p2!,
           points: rules.finishPoints[bt.finish],
+          ...(combo ? { combo } : {}),
         });
       });
     }
