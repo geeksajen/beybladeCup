@@ -1,0 +1,3993 @@
+{
+ "source": {
+  "name": "Beydex",
+  "url": "https://github.com/catgamer109/Beydex-Public-Resources",
+  "commit": "local-file",
+  "commitDate": "",
+  "syncedAt": "2026-10-16"
+ },
+ "parts": {
+  "blade": [
+   {
+    "en": "AeroPegasus",
+    "type": "Attack"
+   },
+   {
+    "en": "Arc",
+    "cx": true,
+    "type": "Stamina"
+   },
+   {
+    "en": "BearScratch",
+    "type": "Defense",
+    "aliases": [
+     "Savage Bear"
+    ]
+   },
+   {
+    "en": "BlackShell",
+    "type": "Defense",
+    "aliases": [
+     "Obsidian Shell"
+    ]
+   },
+   {
+    "en": "Blast",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "Blitz",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "Brave",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "Brush",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "BulletGriffon",
+    "type": "Balance",
+    "aliases": [
+     "Rocket Griffon"
+    ]
+   },
+   {
+    "en": "ClockMirage",
+    "type": "Stamina",
+    "aliases": [
+     "Mirage Clock"
+    ]
+   },
+   {
+    "en": "CobaltDragoon",
+    "type": "Attack",
+    "aliases": [
+     "Cobalt Dragoon"
+    ]
+   },
+   {
+    "en": "CobaltDrake",
+    "type": "Attack",
+    "aliases": [
+     "Cobalt Drake"
+    ]
+   },
+   {
+    "en": "CrimsonGaruda",
+    "type": "Balance",
+    "aliases": [
+     "Scarlet Garuda"
+    ]
+   },
+   {
+    "en": "CrocoCrunch",
+    "type": "Attack",
+    "aliases": [
+     "Bite Croc"
+    ]
+   },
+   {
+    "en": "Dark",
+    "cx": true,
+    "type": "Defense"
+   },
+   {
+    "en": "Delta",
+    "cx": true,
+    "type": "Balance"
+   },
+   {
+    "en": "DracielShield",
+    "type": "Defense"
+   },
+   {
+    "en": "DragoonStorm",
+    "type": "Attack"
+   },
+   {
+    "en": "DranBuster",
+    "type": "Attack",
+    "aliases": [
+     "Buster Dran"
+    ]
+   },
+   {
+    "en": "DranDagger",
+    "type": "Attack",
+    "aliases": [
+     "Dagger Dran"
+    ]
+   },
+   {
+    "en": "DranStrike",
+    "type": "Attack",
+    "aliases": [
+     "Strike Dran"
+    ]
+   },
+   {
+    "en": "DranSword",
+    "type": "Attack",
+    "aliases": [
+     "Sword Dran"
+    ]
+   },
+   {
+    "en": "DranzerSpiral",
+    "type": "Balance",
+    "aliases": [
+     "Dranzer Spiral"
+    ]
+   },
+   {
+    "en": "DrigerSlash",
+    "type": "Balance",
+    "aliases": [
+     "Driger Slash"
+    ]
+   },
+   {
+    "en": "Eclipse",
+    "cx": true,
+    "type": "Balance"
+   },
+   {
+    "en": "Fang",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "Flame",
+    "cx": true,
+    "type": "Stamina"
+   },
+   {
+    "en": "Flare",
+    "cx": true,
+    "type": "Defense"
+   },
+   {
+    "en": "Fortress",
+    "cx": true,
+    "type": "Defense"
+   },
+   {
+    "en": "GhostCircle",
+    "type": "Stamina",
+    "aliases": [
+     "Circle Ghost"
+    ]
+   },
+   {
+    "en": "GloryValkyrie",
+    "type": "Attack",
+    "aliases": [
+     "Glory Valkerion"
+    ]
+   },
+   {
+    "en": "GoatTackle",
+    "type": "Defense",
+    "aliases": [
+     "Tackle Goat"
+    ]
+   },
+   {
+    "en": "GolemRock",
+    "type": "Defense",
+    "aliases": [
+     "Rock Golem"
+    ]
+   },
+   {
+    "en": "HeavensRing",
+    "type": "Defense",
+    "aliases": [
+     "Ring Aether"
+    ]
+   },
+   {
+    "en": "HellsChain",
+    "type": "Balance",
+    "aliases": [
+     "Chain Incendio"
+    ]
+   },
+   {
+    "en": "HellsHammer",
+    "type": "Balance",
+    "aliases": [
+     "Hammer Incendio"
+    ]
+   },
+   {
+    "en": "HellsNether",
+    "type": "Balance",
+    "aliases": [
+     "Nether Incendio"
+    ]
+   },
+   {
+    "en": "HellsScythe",
+    "type": "Balance",
+    "aliases": [
+     "Scythe Incendio"
+    ]
+   },
+   {
+    "en": "Hunt",
+    "cx": true,
+    "type": "Stamina"
+   },
+   {
+    "en": "ImpactDrake",
+    "type": "Attack",
+    "aliases": [
+     "Impact Drake"
+    ]
+   },
+   {
+    "en": "KnightLance",
+    "type": "Defense",
+    "aliases": [
+     "Lance Knight"
+    ]
+   },
+   {
+    "en": "KnightMail",
+    "type": "Defense",
+    "aliases": [
+     "Mail Knight"
+    ]
+   },
+   {
+    "en": "KnightShield",
+    "type": "Defense",
+    "aliases": [
+     "Helm Knight"
+    ]
+   },
+   {
+    "en": "LeonClaw",
+    "type": "Balance",
+    "aliases": [
+     "Claw Leon"
+    ]
+   },
+   {
+    "en": "LeonCrest",
+    "type": "Defense",
+    "aliases": [
+     "Crest Leon"
+    ]
+   },
+   {
+    "en": "LusterDragoon",
+    "type": "Attack"
+   },
+   {
+    "en": "MammothTusk",
+    "type": "Balance",
+    "aliases": [
+     "Tusk Mammoth"
+    ]
+   },
+   {
+    "en": "MeteorDragoon",
+    "type": "Attack",
+    "aliases": [
+     "Meteoroid Dragoon"
+    ]
+   },
+   {
+    "en": "Might",
+    "cx": true,
+    "type": "Balance"
+   },
+   {
+    "en": "MummyCurse",
+    "type": "Defense",
+    "aliases": [
+     "Curse Mummy"
+    ]
+   },
+   {
+    "en": "OrochiCluster",
+    "type": "Attack",
+    "aliases": [
+     "Coil Orochi"
+    ]
+   },
+   {
+    "en": "PhoenixFeather",
+    "type": "Attack",
+    "aliases": [
+     "Feather Phoenix"
+    ]
+   },
+   {
+    "en": "PhoenixRudder",
+    "type": "Stamina",
+    "aliases": [
+     "Rudder Phoenix"
+    ]
+   },
+   {
+    "en": "PhoenixWing",
+    "type": "Attack",
+    "aliases": [
+     "Soar Phoenix"
+    ]
+   },
+   {
+    "en": "PteraSwing",
+    "type": "Stamina",
+    "aliases": [
+     "Talon Ptera"
+    ]
+   },
+   {
+    "en": "Rage",
+    "cx": true,
+    "type": "Stamina"
+   },
+   {
+    "en": "Reaper",
+    "cx": true,
+    "type": "Balance"
+   },
+   {
+    "en": "RhinoHorn",
+    "type": "Defense",
+    "aliases": [
+     "Horn Rhino"
+    ]
+   },
+   {
+    "en": "Rock Leone",
+    "type": "Defense"
+   },
+   {
+    "en": "SamuraiCalibur",
+    "type": "Balance",
+    "aliases": [
+     "Calibur Samurai"
+    ]
+   },
+   {
+    "en": "SamuraiSaber",
+    "type": "Attack",
+    "aliases": [
+     "Saber Samurai"
+    ]
+   },
+   {
+    "en": "SamuraiSteel",
+    "type": "Balance",
+    "aliases": [
+     "Steel Samurai"
+    ]
+   },
+   {
+    "en": "ScorpioSpear",
+    "type": "Balance",
+    "aliases": [
+     "Spear Scorpio"
+    ]
+   },
+   {
+    "en": "SharkEdge",
+    "type": "Attack",
+    "aliases": [
+     "Keel Shark"
+    ]
+   },
+   {
+    "en": "SharkGill",
+    "type": "Stamina",
+    "aliases": [
+     "Gill Shark"
+    ]
+   },
+   {
+    "en": "SharkScale",
+    "type": "Attack",
+    "aliases": [
+     "Scale Shark"
+    ]
+   },
+   {
+    "en": "ShelterDrake",
+    "type": "Balance",
+    "aliases": [
+     "Shelter Drake"
+    ]
+   },
+   {
+    "en": "ShinobiKnife",
+    "type": "Defense",
+    "aliases": [
+     "Knife Shinobi"
+    ]
+   },
+   {
+    "en": "ShinobiShadow",
+    "type": "Defense",
+    "aliases": [
+     "Shadow Shinobi"
+    ]
+   },
+   {
+    "en": "SilverWolf",
+    "type": "Stamina",
+    "aliases": [
+     "Sterling Wolf"
+    ]
+   },
+   {
+    "en": "SphinxCowl",
+    "type": "Defense",
+    "aliases": [
+     "Cowl Sphinx"
+    ]
+   },
+   {
+    "en": "StormPegasis",
+    "type": "Attack"
+   },
+   {
+    "en": "StormSpriggan",
+    "type": "Balance"
+   },
+   {
+    "en": "Tread",
+    "cx": true,
+    "type": "Defense"
+   },
+   {
+    "en": "TriceraPress",
+    "type": "Defense",
+    "aliases": [
+     "Brace Triceratops"
+    ]
+   },
+   {
+    "en": "TriceraSpiky",
+    "type": "Defense",
+    "aliases": [
+     "Ridge Triceratops"
+    ]
+   },
+   {
+    "en": "TyrannoBeat",
+    "type": "Attack",
+    "aliases": [
+     "Beat Tyranno"
+    ]
+   },
+   {
+    "en": "TyrannoRoar",
+    "type": "Attack",
+    "aliases": [
+     "Roar Tyranno"
+    ]
+   },
+   {
+    "en": "UnicornSting",
+    "type": "Balance",
+    "aliases": [
+     "Sting Unicorn"
+    ]
+   },
+   {
+    "en": "VictoryValkyrie",
+    "type": "Attack"
+   },
+   {
+    "en": "ViperTail",
+    "type": "Stamina",
+    "aliases": [
+     "Tail Viper"
+    ]
+   },
+   {
+    "en": "Volt",
+    "cx": true,
+    "type": "Attack"
+   },
+   {
+    "en": "WeissTiger",
+    "type": "Balance",
+    "aliases": [
+     "Pearl Tiger"
+    ]
+   },
+   {
+    "en": "WhaleWave",
+    "type": "Balance",
+    "aliases": [
+     "Tide Whale"
+    ]
+   },
+   {
+    "en": "Whip",
+    "cx": true,
+    "type": "Stamina"
+   },
+   {
+    "en": "WizardArrow",
+    "type": "Stamina",
+    "aliases": [
+     "Arrow Wizard"
+    ]
+   },
+   {
+    "en": "WizardRod",
+    "type": "Stamina",
+    "aliases": [
+     "Wand Wizard"
+    ]
+   },
+   {
+    "en": "WyvernGale",
+    "type": "Stamina",
+    "aliases": [
+     "Gale Wyvern"
+    ]
+   },
+   {
+    "en": "WyvernHover",
+    "type": "Defense",
+    "aliases": [
+     "Hover Wyvern"
+    ]
+   },
+   {
+    "en": "XenoXcalibur",
+    "type": "Attack"
+   }
+  ],
+  "ratchet": [
+   {
+    "en": "0-60",
+    "type": "Normal"
+   },
+   {
+    "en": "0-70",
+    "type": "Normal"
+   },
+   {
+    "en": "0-80",
+    "type": "Normal"
+   },
+   {
+    "en": "1-50",
+    "type": "Normal"
+   },
+   {
+    "en": "1-60",
+    "type": "Normal"
+   },
+   {
+    "en": "1-70",
+    "type": "Normal"
+   },
+   {
+    "en": "1-80",
+    "type": "Normal"
+   },
+   {
+    "en": "2-60",
+    "type": "Normal"
+   },
+   {
+    "en": "2-70",
+    "type": "Normal"
+   },
+   {
+    "en": "2-80",
+    "type": "Normal"
+   },
+   {
+    "en": "3-60",
+    "type": "Normal"
+   },
+   {
+    "en": "3-70",
+    "type": "Normal"
+   },
+   {
+    "en": "3-80",
+    "type": "Normal"
+   },
+   {
+    "en": "3-85",
+    "type": "Simple"
+   },
+   {
+    "en": "4-50",
+    "type": "Normal"
+   },
+   {
+    "en": "4-55",
+    "type": "Simple"
+   },
+   {
+    "en": "4-60",
+    "type": "Normal"
+   },
+   {
+    "en": "4-70",
+    "type": "Normal"
+   },
+   {
+    "en": "4-80",
+    "type": "Normal"
+   },
+   {
+    "en": "5-50",
+    "type": "Normal"
+   },
+   {
+    "en": "5-60",
+    "type": "Normal"
+   },
+   {
+    "en": "5-70",
+    "type": "Normal"
+   },
+   {
+    "en": "5-80",
+    "type": "Normal"
+   },
+   {
+    "en": "6-60",
+    "type": "Normal"
+   },
+   {
+    "en": "6-70",
+    "type": "Normal"
+   },
+   {
+    "en": "6-80",
+    "type": "Normal"
+   },
+   {
+    "en": "7-55",
+    "type": "Simple"
+   },
+   {
+    "en": "7-60",
+    "type": "Normal"
+   },
+   {
+    "en": "7-70",
+    "type": "Normal"
+   },
+   {
+    "en": "7-80",
+    "type": "Normal"
+   },
+   {
+    "en": "8-70",
+    "type": "Normal"
+   },
+   {
+    "en": "8-80",
+    "type": "Normal"
+   },
+   {
+    "en": "9-60",
+    "type": "Normal"
+   },
+   {
+    "en": "9-65",
+    "type": "Simple"
+   },
+   {
+    "en": "9-70",
+    "type": "Normal"
+   },
+   {
+    "en": "9-80",
+    "type": "Normal"
+   },
+   {
+    "en": "M-85",
+    "type": "Simple"
+   },
+   {
+    "en": "Operate",
+    "abbr": "Op",
+    "fusion": true,
+    "type": "Fusion"
+   },
+   {
+    "en": "Turbo",
+    "abbr": "Tr",
+    "fusion": true,
+    "type": "Fusion"
+   }
+  ],
+  "bit": [
+   {
+    "en": "Accel",
+    "abbr": "A",
+    "type": "Attack"
+   },
+   {
+    "en": "Ball",
+    "abbr": "B",
+    "type": "Stamina"
+   },
+   {
+    "en": "Bound Spike",
+    "abbr": "BS",
+    "type": "Defense"
+   },
+   {
+    "en": "Cyclone",
+    "abbr": "C",
+    "type": "Attack"
+   },
+   {
+    "en": "Disk Ball",
+    "abbr": "DB",
+    "type": "Stamina"
+   },
+   {
+    "en": "Dot",
+    "abbr": "D",
+    "type": "Defense"
+   },
+   {
+    "en": "Elevate",
+    "abbr": "E",
+    "type": "Balance"
+   },
+   {
+    "en": "Flat",
+    "abbr": "F",
+    "type": "Attack"
+   },
+   {
+    "en": "Free Ball",
+    "abbr": "FB",
+    "type": "Stamina"
+   },
+   {
+    "en": "Free Flat",
+    "abbr": "FF",
+    "type": "Attack"
+   },
+   {
+    "en": "Gear Ball",
+    "abbr": "GB",
+    "type": "Stamina"
+   },
+   {
+    "en": "Gear Flat",
+    "abbr": "GF",
+    "type": "Attack"
+   },
+   {
+    "en": "Gear Needle",
+    "abbr": "GN",
+    "type": "Defense"
+   },
+   {
+    "en": "Gear Point",
+    "abbr": "GP",
+    "type": "Balance"
+   },
+   {
+    "en": "Gear Rush",
+    "abbr": "GR",
+    "type": "Attack"
+   },
+   {
+    "en": "Gear Unite",
+    "abbr": "GU",
+    "type": "Balance"
+   },
+   {
+    "en": "Glide",
+    "abbr": "G",
+    "type": "Stamina"
+   },
+   {
+    "en": "Hexa",
+    "abbr": "H",
+    "type": "Balance"
+   },
+   {
+    "en": "High Needle",
+    "abbr": "HN",
+    "type": "Defense"
+   },
+   {
+    "en": "High Taper",
+    "abbr": "HT",
+    "type": "Balance"
+   },
+   {
+    "en": "Ignition",
+    "abbr": "I",
+    "type": "Attack"
+   },
+   {
+    "en": "Jolt",
+    "abbr": "J",
+    "type": "Attack"
+   },
+   {
+    "en": "Kick",
+    "abbr": "K",
+    "type": "Balance"
+   },
+   {
+    "en": "Level",
+    "abbr": "L",
+    "type": "Attack"
+   },
+   {
+    "en": "Low Cyclone",
+    "abbr": "LC",
+    "type": "Attack"
+   },
+   {
+    "en": "Low Flat",
+    "abbr": "LF",
+    "type": "Attack"
+   },
+   {
+    "en": "Low Orb",
+    "abbr": "LO",
+    "type": "Stamina"
+   },
+   {
+    "en": "Low Rush",
+    "abbr": "LR",
+    "type": "Attack"
+   },
+   {
+    "en": "Merge",
+    "abbr": "M",
+    "type": "Balance"
+   },
+   {
+    "en": "Metal Needle",
+    "abbr": "MN",
+    "type": "Defense"
+   },
+   {
+    "en": "Narrow",
+    "abbr": "Nr",
+    "type": "Stamina"
+   },
+   {
+    "en": "Needle",
+    "abbr": "N",
+    "type": "Defense"
+   },
+   {
+    "en": "Orb",
+    "abbr": "O",
+    "type": "Stamina"
+   },
+   {
+    "en": "Point",
+    "abbr": "P",
+    "type": "Balance"
+   },
+   {
+    "en": "Quake",
+    "abbr": "Q",
+    "type": "Attack"
+   },
+   {
+    "en": "Rubber Accel",
+    "abbr": "RA",
+    "type": "Attack"
+   },
+   {
+    "en": "Rush",
+    "abbr": "R",
+    "type": "Attack"
+   },
+   {
+    "en": "Spike",
+    "abbr": "S",
+    "type": "Defense"
+   },
+   {
+    "en": "Taper",
+    "abbr": "T",
+    "type": "Balance"
+   },
+   {
+    "en": "Trans Kick",
+    "abbr": "TK",
+    "type": "Balance"
+   },
+   {
+    "en": "Trans Point",
+    "abbr": "TP",
+    "type": "Balance"
+   },
+   {
+    "en": "Under Flat",
+    "abbr": "UF",
+    "type": "Attack"
+   },
+   {
+    "en": "Under Needle",
+    "abbr": "UN",
+    "type": "Defense"
+   },
+   {
+    "en": "Unite",
+    "abbr": "U",
+    "type": "Balance"
+   },
+   {
+    "en": "Vortex",
+    "abbr": "V",
+    "type": "Attack"
+   },
+   {
+    "en": "Wall Ball",
+    "abbr": "WB",
+    "type": "Stamina"
+   },
+   {
+    "en": "Wall Wedge",
+    "abbr": "WW",
+    "type": "Defense"
+   },
+   {
+    "en": "Wedge",
+    "abbr": "W",
+    "type": "Defense"
+   },
+   {
+    "en": "Yielding",
+    "abbr": "Y",
+    "type": "Stamina"
+   },
+   {
+    "en": "Zap",
+    "abbr": "Z",
+    "type": "Balance"
+   }
+  ],
+  "lockChip": [
+   {
+    "en": "Bahamut"
+   },
+   {
+    "en": "Brachio"
+   },
+   {
+    "en": "Cerberus"
+   },
+   {
+    "en": "Croco"
+   },
+   {
+    "en": "Drake"
+   },
+   {
+    "en": "Dran"
+   },
+   {
+    "en": "Emperor",
+    "type": "Metal"
+   },
+   {
+    "en": "Eva"
+   },
+   {
+    "en": "Fox"
+   },
+   {
+    "en": "Hells"
+   },
+   {
+    "en": "Kid"
+   },
+   {
+    "en": "Knight"
+   },
+   {
+    "en": "Leon"
+   },
+   {
+    "en": "Pegasus"
+   },
+   {
+    "en": "Perseus"
+   },
+   {
+    "en": "Phoenix"
+   },
+   {
+    "en": "Ragna"
+   },
+   {
+    "en": "Rhino"
+   },
+   {
+    "en": "Sol"
+   },
+   {
+    "en": "Tiga"
+   },
+   {
+    "en": "Unicorn"
+   },
+   {
+    "en": "Valkyrie",
+    "type": "Metal"
+   },
+   {
+    "en": "Whale"
+   },
+   {
+    "en": "Wizard"
+   },
+   {
+    "en": "Wolf"
+   }
+  ],
+  "assistBlade": [
+   {
+    "en": "Assault",
+    "abbr": "A",
+    "type": "Attack"
+   },
+   {
+    "en": "Bumper",
+    "abbr": "B",
+    "type": "Defense"
+   },
+   {
+    "en": "Charge",
+    "abbr": "C",
+    "type": "Defense"
+   },
+   {
+    "en": "Dual",
+    "abbr": "D",
+    "type": "Balance"
+   },
+   {
+    "en": "Erase",
+    "abbr": "E",
+    "type": "Stamina"
+   },
+   {
+    "en": "Free",
+    "abbr": "F",
+    "type": "Stamina"
+   },
+   {
+    "en": "Gravity",
+    "abbr": "G",
+    "type": "Attack"
+   },
+   {
+    "en": "Heavy",
+    "abbr": "H",
+    "type": "Balance"
+   },
+   {
+    "en": "Jaggy",
+    "abbr": "J",
+    "type": "Attack"
+   },
+   {
+    "en": "Knuckle",
+    "abbr": "K",
+    "type": "Attack"
+   },
+   {
+    "en": "Massive",
+    "abbr": "M",
+    "type": "Balance"
+   },
+   {
+    "en": "Odd",
+    "abbr": "O",
+    "type": "Balance"
+   },
+   {
+    "en": "Quell",
+    "abbr": "Q",
+    "type": "Defense"
+   },
+   {
+    "en": "Round",
+    "abbr": "R",
+    "type": "Stamina"
+   },
+   {
+    "en": "Slash",
+    "abbr": "S",
+    "type": "Attack"
+   },
+   {
+    "en": "Turn",
+    "abbr": "T",
+    "type": "Balance"
+   },
+   {
+    "en": "Vertical",
+    "abbr": "V",
+    "type": "Defense"
+   },
+   {
+    "en": "Wheel",
+    "abbr": "W",
+    "type": "Stamina"
+   },
+   {
+    "en": "Zillion",
+    "abbr": "Z",
+    "type": "Defense"
+   }
+  ],
+  "overBlade": [
+   {
+    "en": "Break",
+    "abbr": "B",
+    "type": "Attack"
+   },
+   {
+    "en": "Flow",
+    "abbr": "F",
+    "type": "Stamina"
+   },
+   {
+    "en": "Guard",
+    "abbr": "G",
+    "type": "Defense"
+   },
+   {
+    "en": "Outer",
+    "abbr": "O",
+    "type": "Stamina"
+   },
+   {
+    "en": "Peak",
+    "abbr": "P",
+    "type": "Balance"
+   },
+   {
+    "en": "Tough",
+    "abbr": "T",
+    "type": "Defense"
+   }
+  ]
+ },
+ "beys": [
+  {
+   "code": "BX-01",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-02",
+   "name": "HellsScythe 4-60T",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "4-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-03",
+   "name": "WizardArrow 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-04",
+   "name": "KnightShield 3-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-05",
+   "name": "WizardArrow 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-06",
+   "name": "KnightShield 3-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-07",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-08_1",
+   "name": "HellsScythe 3-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "3-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-08_2",
+   "name": "WizardArrow 4-60N",
+   "type": "Defense",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-60",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-08_3",
+   "name": "KnightShield 4-80T",
+   "type": "Balance",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "4-80",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-13",
+   "name": "KnightLance 4-80HN",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightLance",
+    "ratchet": "4-80",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "BX-14-1",
+   "name": "SharkEdge 3-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "3-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "BX-14-2",
+   "name": "SharkEdge 4-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "4-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-14-3",
+   "name": "DranSword 3-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-14-4",
+   "name": "HellsScythe 4-80LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "4-80",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "BX-14-5",
+   "name": "KnightShield 4-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "4-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "BX-14-6",
+   "name": "WizardArrow 3-60T",
+   "type": "Balance",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "3-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-15",
+   "name": "LeonClaw 5-60P",
+   "type": "Balance",
+   "combo": {
+    "blade": "LeonClaw",
+    "ratchet": "5-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BX-16-1",
+   "name": "ViperTail 5-80O",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ViperTail",
+    "ratchet": "5-80",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "BX-16-2",
+   "name": "ViperTail 4-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "ViperTail",
+    "ratchet": "4-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-16-3",
+   "name": "ViperTail 3-80HN",
+   "type": "Defense",
+   "combo": {
+    "blade": "ViperTail",
+    "ratchet": "3-80",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "BX-17_1",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-17_2",
+   "name": "WizardArrow 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-19",
+   "name": "RhinoHorn 3-80S",
+   "type": "Defense",
+   "combo": {
+    "blade": "RhinoHorn",
+    "ratchet": "3-80",
+    "bit": "Spike"
+   }
+  },
+  {
+   "code": "BX-20_1",
+   "name": "DranDagger 4-60R",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranDagger",
+    "ratchet": "4-60",
+    "bit": "Rush"
+   }
+  },
+  {
+   "code": "BX-20_2",
+   "name": "KnightShield 5-80T",
+   "type": "Balance",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "5-80",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-20_3",
+   "name": "SharkEdge 3-80F",
+   "type": "Attack",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "3-80",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-21_1",
+   "name": "HellsChain 5-60HT",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsChain",
+    "ratchet": "5-60",
+    "bit": "High Taper"
+   }
+  },
+  {
+   "code": "BX-21_2",
+   "name": "KnightLance 3-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "KnightLance",
+    "ratchet": "3-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "BX-21_3",
+   "name": "WizardArrow 4-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-22",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-23",
+   "name": "PhoenixWing 9-60GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "PhoenixWing",
+    "ratchet": "9-60",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "BX-24-1",
+   "name": "WyvernGale 5-80GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WyvernGale",
+    "ratchet": "5-80",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BX-24-2",
+   "name": "WyvernGale 3-60T",
+   "type": "Balance",
+   "combo": {
+    "blade": "WyvernGale",
+    "ratchet": "3-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-24-3",
+   "name": "KnightLance 4-60GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "KnightLance",
+    "ratchet": "4-60",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BX-24-4",
+   "name": "ViperTail 5-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "ViperTail",
+    "ratchet": "5-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-24-5",
+   "name": "LeonClaw 3-80HN",
+   "type": "Defense",
+   "combo": {
+    "blade": "LeonClaw",
+    "ratchet": "3-80",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "BX-24-6",
+   "name": "WizardArrow 4-80GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BX-26",
+   "name": "UnicornSting 5-60GP",
+   "type": "Balance",
+   "combo": {
+    "blade": "UnicornSting",
+    "ratchet": "5-60",
+    "bit": "Gear Point"
+   }
+  },
+  {
+   "code": "BX-27-1",
+   "name": "SphinxCowl 9-80GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "SphinxCowl",
+    "ratchet": "9-80",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "BX-27-2",
+   "name": "SphinxCowl 4-80HT",
+   "type": "Balance",
+   "combo": {
+    "blade": "SphinxCowl",
+    "ratchet": "4-80",
+    "bit": "High Taper"
+   }
+  },
+  {
+   "code": "BX-27-3",
+   "name": "SphinxCowl 5-60O",
+   "type": "Stamina",
+   "combo": {
+    "blade": "SphinxCowl",
+    "ratchet": "5-60",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "BX-31-1",
+   "name": "TyrannoBeat 4-70Q",
+   "type": "Attack",
+   "combo": {
+    "blade": "TyrannoBeat",
+    "ratchet": "4-70",
+    "bit": "Quake"
+   }
+  },
+  {
+   "code": "BX-31-2",
+   "name": "TyrannoBeat 3-60S",
+   "type": "Defense",
+   "combo": {
+    "blade": "TyrannoBeat",
+    "ratchet": "3-60",
+    "bit": "Spike"
+   }
+  },
+  {
+   "code": "BX-31-3",
+   "name": "HellsChain 9-80O",
+   "type": "Stamina",
+   "combo": {
+    "blade": "HellsChain",
+    "ratchet": "9-80",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "BX-31-4",
+   "name": "DranDagger 4-70P",
+   "type": "Balance",
+   "combo": {
+    "blade": "DranDagger",
+    "ratchet": "4-70",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BX-31-5",
+   "name": "SharkEdge 1-60Q",
+   "type": "Attack",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "1-60",
+    "bit": "Quake"
+   }
+  },
+  {
+   "code": "BX-31-6",
+   "name": "RhinoHorn 5-80Q",
+   "type": "Attack",
+   "combo": {
+    "blade": "RhinoHorn",
+    "ratchet": "5-80",
+    "bit": "Quake"
+   }
+  },
+  {
+   "code": "BX-33",
+   "name": "WeissTiger 3-60U",
+   "type": "Balance",
+   "combo": {
+    "blade": "WeissTiger",
+    "ratchet": "3-60",
+    "bit": "Unite"
+   }
+  },
+  {
+   "code": "BX-34",
+   "name": "CobaltDragoon 2-60C",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDragoon",
+    "ratchet": "2-60",
+    "bit": "Cyclone"
+   }
+  },
+  {
+   "code": "BX-35-1",
+   "name": "BlackShell 4-60D",
+   "type": "Defense",
+   "combo": {
+    "blade": "BlackShell",
+    "ratchet": "4-60",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-35-2",
+   "name": "BlackShell 9-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "BlackShell",
+    "ratchet": "9-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BX-35-3",
+   "name": "UnicornSting 3-70D",
+   "type": "Defense",
+   "combo": {
+    "blade": "UnicornSting",
+    "ratchet": "3-70",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-35-4",
+   "name": "WizardRod 1-60R",
+   "type": "Attack",
+   "combo": {
+    "blade": "WizardRod",
+    "ratchet": "1-60",
+    "bit": "Rush"
+   }
+  },
+  {
+   "code": "BX-35-5",
+   "name": "PhoenixWing 5-80H",
+   "type": "Balance",
+   "combo": {
+    "blade": "PhoenixWing",
+    "ratchet": "5-80",
+    "bit": "Hexa"
+   }
+  },
+  {
+   "code": "BX-35-6",
+   "name": "ViperTail 5-70D",
+   "type": "Defense",
+   "combo": {
+    "blade": "ViperTail",
+    "ratchet": "5-70",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-36-1",
+   "name": "WhaleWave 5-80E",
+   "type": "Balance",
+   "combo": {
+    "blade": "WhaleWave",
+    "ratchet": "5-80",
+    "bit": "Elevate"
+   }
+  },
+  {
+   "code": "BX-36-2",
+   "name": "WhaleWave 4-70HN",
+   "type": "Defense",
+   "combo": {
+    "blade": "WhaleWave",
+    "ratchet": "4-70",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "BX-36-3",
+   "name": "WhaleWave 3-80GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WhaleWave",
+    "ratchet": "3-80",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BX-37",
+   "name": "BearScratch 5-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "BearScratch",
+    "ratchet": "5-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-38",
+   "name": "CrimsonGaruda 4-70TP",
+   "type": "Balance",
+   "combo": {
+    "blade": "CrimsonGaruda",
+    "ratchet": "4-70",
+    "bit": "Trans Point"
+   }
+  },
+  {
+   "code": "BX-39-1",
+   "name": "ShelterDrake 7-80GP",
+   "type": "Balance",
+   "combo": {
+    "blade": "ShelterDrake",
+    "ratchet": "7-80",
+    "bit": "Gear Point"
+   }
+  },
+  {
+   "code": "BX-39-2",
+   "name": "ShelterDrake 5-70O",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ShelterDrake",
+    "ratchet": "5-70",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "BX-39-3",
+   "name": "ShelterDrake 3-60D",
+   "type": "Defense",
+   "combo": {
+    "blade": "ShelterDrake",
+    "ratchet": "3-60",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-44",
+   "name": "TriceraPress M-85BS",
+   "type": "Defense",
+   "combo": {
+    "blade": "TriceraPress",
+    "ratchet": "M-85",
+    "bit": "Bound Spike"
+   }
+  },
+  {
+   "code": "BX-45",
+   "name": "SamuraiCalibur 6-70M",
+   "type": "Balance",
+   "combo": {
+    "blade": "SamuraiCalibur",
+    "ratchet": "6-70",
+    "bit": "Merge"
+   }
+  },
+  {
+   "code": "BX-46_1",
+   "name": "CobaltDrake 9-60R",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDrake",
+    "ratchet": "9-60",
+    "bit": "Rush"
+   }
+  },
+  {
+   "code": "BX-46_2",
+   "name": "GoatTackle 7-70T",
+   "type": "Balance",
+   "combo": {
+    "blade": "GoatTackle",
+    "ratchet": "7-70",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-48-1",
+   "name": "CobaltDragoon 9-80F",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDragoon",
+    "ratchet": "9-80",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-48-2",
+   "name": "SharkEdge 4-70E",
+   "type": "Balance",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "4-70",
+    "bit": "Elevate"
+   }
+  },
+  {
+   "code": "BX-48-3",
+   "name": "MammothTusk 7-60S",
+   "type": "Defense",
+   "combo": {
+    "blade": "MammothTusk",
+    "ratchet": "7-60",
+    "bit": "Spike"
+   }
+  },
+  {
+   "code": "BX-48-4",
+   "name": "HellsScythe 3-85GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "3-85",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BX-48-5",
+   "name": "DranBuster 2-80Q",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "2-80",
+    "bit": "Quake"
+   }
+  },
+  {
+   "code": "UX-01",
+   "name": "DranBuster 1-60A",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "1-60",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "UX-02",
+   "name": "HellsHammer 3-70H",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsHammer",
+    "ratchet": "3-70",
+    "bit": "Hexa"
+   }
+  },
+  {
+   "code": "UX-03",
+   "name": "WizardRod 5-70DB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardRod",
+    "ratchet": "5-70",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "UX-04_1",
+   "name": "DranBuster 1-60A",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "1-60",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "UX-04_2",
+   "name": "WizardRod 5-70DB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardRod",
+    "ratchet": "5-70",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "UX-05-1",
+   "name": "ShinobiShadow 1-80MN",
+   "type": "Defense",
+   "combo": {
+    "blade": "ShinobiShadow",
+    "ratchet": "1-80",
+    "bit": "Metal Needle"
+   }
+  },
+  {
+   "code": "UX-05-2",
+   "name": "ShinobiShadow 9-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "ShinobiShadow",
+    "ratchet": "9-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "UX-05-3",
+   "name": "ShinobiShadow 3-70GP",
+   "type": "Balance",
+   "combo": {
+    "blade": "ShinobiShadow",
+    "ratchet": "3-70",
+    "bit": "Gear Point"
+   }
+  },
+  {
+   "code": "UX-06",
+   "name": "LeonCrest 7-60GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "LeonCrest",
+    "ratchet": "7-60",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "UX-07_1",
+   "name": "PhoenixRudder 9-70G",
+   "type": "Stamina",
+   "combo": {
+    "blade": "PhoenixRudder",
+    "ratchet": "9-70",
+    "bit": "Glide"
+   }
+  },
+  {
+   "code": "UX-07_2",
+   "name": "SphinxCowl 1-80GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "SphinxCowl",
+    "ratchet": "1-80",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "UX-07_3",
+   "name": "WyvernGale 2-60S",
+   "type": "Defense",
+   "combo": {
+    "blade": "WyvernGale",
+    "ratchet": "2-60",
+    "bit": "Spike"
+   }
+  },
+  {
+   "code": "UX-08",
+   "name": "SilverWolf 3-80FB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "SilverWolf",
+    "ratchet": "3-80",
+    "bit": "Free Ball"
+   }
+  },
+  {
+   "code": "UX-09",
+   "name": "SamuraiSaber 2-70L",
+   "type": "Attack",
+   "combo": {
+    "blade": "SamuraiSaber",
+    "ratchet": "2-70",
+    "bit": "Level"
+   }
+  },
+  {
+   "code": "UX-10_1",
+   "name": "KnightMail 3-85BS",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightMail",
+    "ratchet": "3-85",
+    "bit": "Bound Spike"
+   }
+  },
+  {
+   "code": "UX-10_2",
+   "name": "PteraSwing 7-70B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "PteraSwing",
+    "ratchet": "7-70",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "UX-10_3",
+   "name": "TyrannoBeat 1-60RA",
+   "type": "Attack",
+   "combo": {
+    "blade": "TyrannoBeat",
+    "ratchet": "1-60",
+    "bit": "Rubber Accel"
+   }
+  },
+  {
+   "code": "UX-11",
+   "name": "ImpactDrake 9-60LR",
+   "type": "Attack",
+   "combo": {
+    "blade": "ImpactDrake",
+    "ratchet": "9-60",
+    "bit": "Low Rush"
+   }
+  },
+  {
+   "code": "UX-12-1",
+   "name": "GhostCircle 0-80GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "GhostCircle",
+    "ratchet": "0-80",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "UX-12-2",
+   "name": "GhostCircle 4-60H",
+   "type": "Balance",
+   "combo": {
+    "blade": "GhostCircle",
+    "ratchet": "4-60",
+    "bit": "Hexa"
+   }
+  },
+  {
+   "code": "UX-12-3",
+   "name": "ShinobiShadow 3-80F",
+   "type": "Attack",
+   "combo": {
+    "blade": "ShinobiShadow",
+    "ratchet": "3-80",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "UX-12-4",
+   "name": "LeonClaw 0-80E",
+   "type": "Balance",
+   "combo": {
+    "blade": "LeonClaw",
+    "ratchet": "0-80",
+    "bit": "Elevate"
+   }
+  },
+  {
+   "code": "UX-12-5",
+   "name": "PhoenixFeather 2-60N",
+   "type": "Defense",
+   "combo": {
+    "blade": "PhoenixFeather",
+    "ratchet": "2-60",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "UX-12-6",
+   "name": "WyvernGale 0-80C",
+   "type": "Attack",
+   "combo": {
+    "blade": "WyvernGale",
+    "ratchet": "0-80",
+    "bit": "Cyclone"
+   }
+  },
+  {
+   "code": "UX-13",
+   "name": "GolemRock 1-60UN",
+   "type": "Defense",
+   "combo": {
+    "blade": "GolemRock",
+    "ratchet": "1-60",
+    "bit": "Under Needle"
+   }
+  },
+  {
+   "code": "UX-14",
+   "name": "ScorpioSpear 0-70Z",
+   "type": "Balance",
+   "combo": {
+    "blade": "ScorpioSpear",
+    "ratchet": "0-70",
+    "bit": "Zap"
+   }
+  },
+  {
+   "code": "UX-15_1",
+   "name": "SharkScale 4-50UF",
+   "type": "Attack",
+   "combo": {
+    "blade": "SharkScale",
+    "ratchet": "4-50",
+    "bit": "Under Flat"
+   }
+  },
+  {
+   "code": "UX-15_2",
+   "name": "TyrannoRoar 1-70L",
+   "type": "Attack",
+   "combo": {
+    "blade": "TyrannoRoar",
+    "ratchet": "1-70",
+    "bit": "Level"
+   }
+  },
+  {
+   "code": "UX-15_3",
+   "name": "HellsBrave J3-60GF",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Hells",
+    "blade": "Brave",
+    "assistBlade": "Jaggy",
+    "ratchet": "3-60",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "UX-16-1",
+   "name": "ClockMirage 9-65B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ClockMirage",
+    "ratchet": "9-65",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "UX-16-2",
+   "name": "ClockMirage 9-65B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ClockMirage",
+    "ratchet": "9-65",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "UX-16-3",
+   "name": "ClockMirage 9-65B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ClockMirage",
+    "ratchet": "9-65",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "UX-17",
+   "name": "MeteorDragoon 3-70J",
+   "type": "Attack",
+   "combo": {
+    "blade": "MeteorDragoon",
+    "ratchet": "3-70",
+    "bit": "Jolt"
+   }
+  },
+  {
+   "code": "UX-18-1",
+   "name": "Mummycurse 7-55W",
+   "type": "Defense",
+   "combo": {
+    "blade": "MummyCurse",
+    "ratchet": "7-55",
+    "bit": "Wedge"
+   }
+  },
+  {
+   "code": "UX-18-2",
+   "name": "Mummycurse 4-60C",
+   "type": "Attack",
+   "combo": {
+    "blade": "MummyCurse",
+    "ratchet": "4-60",
+    "bit": "Cyclone"
+   }
+  },
+  {
+   "code": "UX-18-3",
+   "name": "PegasusBrush M3-85W",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Pegasus",
+    "blade": "Brush",
+    "assistBlade": "Massive",
+    "ratchet": "3-85",
+    "bit": "Wedge"
+   }
+  },
+  {
+   "code": "UX-18-4",
+   "name": "SolBrave C9-70TP",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Sol",
+    "blade": "Brave",
+    "assistBlade": "Charge",
+    "ratchet": "9-70",
+    "bit": "Trans Point"
+   }
+  },
+  {
+   "code": "UX-18-5",
+   "name": "Drandagger 7-55G",
+   "type": "Stamina",
+   "combo": {
+    "blade": "DranDagger",
+    "ratchet": "7-55",
+    "bit": "Glide"
+   }
+  },
+  {
+   "code": "UX-18-6",
+   "name": "WeissTiger 4-80LR",
+   "type": "Attack",
+   "combo": {
+    "blade": "WeissTiger",
+    "ratchet": "4-80",
+    "bit": "Low Rush"
+   }
+  },
+  {
+   "code": "CX-01",
+   "name": "DranBrave S6-60V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "CX-02",
+   "name": "WizardArc R4-55LO",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Wizard",
+    "blade": "Arc",
+    "assistBlade": "Round",
+    "ratchet": "4-55",
+    "bit": "Low Orb"
+   }
+  },
+  {
+   "code": "CX-03",
+   "name": "PerseusDark B6-80W",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Perseus",
+    "blade": "Dark",
+    "assistBlade": "Bumper",
+    "ratchet": "6-80",
+    "bit": "Wedge"
+   }
+  },
+  {
+   "code": "CX-04_1",
+   "name": "DranBrave S6-60V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "CX-04_2",
+   "name": "PerseusDark B6-80W",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Perseus",
+    "blade": "Dark",
+    "assistBlade": "Bumper",
+    "ratchet": "6-80",
+    "bit": "Wedge"
+   }
+  },
+  {
+   "code": "CX-05-1",
+   "name": "HellsReaper T4-70K",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Hells",
+    "blade": "Reaper",
+    "assistBlade": "Turn",
+    "ratchet": "4-70",
+    "bit": "Kick"
+   }
+  },
+  {
+   "code": "CX-05-2",
+   "name": "RhinoReaper C4-55D",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Rhino",
+    "blade": "Reaper",
+    "assistBlade": "Charge",
+    "ratchet": "4-55",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "CX-05-3",
+   "name": "HellsArc T3-85O",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Hells",
+    "blade": "Arc",
+    "assistBlade": "Turn",
+    "ratchet": "3-85",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "CX-05-4",
+   "name": "LeonCrest 9-80K",
+   "type": "Balance",
+   "combo": {
+    "blade": "LeonCrest",
+    "ratchet": "9-80",
+    "bit": "Kick"
+   }
+  },
+  {
+   "code": "CX-05-5",
+   "name": "PhoenixRudder 4-70LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "PhoenixRudder",
+    "ratchet": "4-70",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "CX-05-6",
+   "name": "WhaleWave 7-60K",
+   "type": "Balance",
+   "combo": {
+    "blade": "WhaleWave",
+    "ratchet": "7-60",
+    "bit": "Kick"
+   }
+  },
+  {
+   "code": "CX-06-1",
+   "name": "FoxBrush J9-70GR",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Fox",
+    "blade": "Brush",
+    "assistBlade": "Jaggy",
+    "ratchet": "9-70",
+    "bit": "Gear Rush"
+   }
+  },
+  {
+   "code": "CX-06-2",
+   "name": "FoxBrush J0-80DB",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Fox",
+    "blade": "Brush",
+    "assistBlade": "Jaggy",
+    "ratchet": "0-80",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "CX-06-3",
+   "name": "FoxBrush J2-60U",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Fox",
+    "blade": "Brush",
+    "assistBlade": "Jaggy",
+    "ratchet": "2-60",
+    "bit": "Unite"
+   }
+  },
+  {
+   "code": "CX-07",
+   "name": "PegasusBlast ATr",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Pegasus",
+    "blade": "Blast",
+    "assistBlade": "Assault",
+    "ratchet": "Turbo"
+   }
+  },
+  {
+   "code": "CX-08-1",
+   "name": "CerberusFlame W5-80WB",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Cerberus",
+    "blade": "Flame",
+    "assistBlade": "Wheel",
+    "ratchet": "5-80",
+    "bit": "Wall Ball"
+   }
+  },
+  {
+   "code": "CX-08-2",
+   "name": "WhaleFlame M3-85HT",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Whale",
+    "blade": "Flame",
+    "assistBlade": "Massive",
+    "ratchet": "3-85",
+    "bit": "High Taper"
+   }
+  },
+  {
+   "code": "CX-08-3",
+   "name": "CerberusDark W1-60F",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Cerberus",
+    "blade": "Dark",
+    "assistBlade": "Wheel",
+    "ratchet": "1-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "CX-08-4",
+   "name": "DranBuster 5-80MN",
+   "type": "Defense",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "5-80",
+    "bit": "Metal Needle"
+   }
+  },
+  {
+   "code": "CX-08-5",
+   "name": "BlackShell 7-70WB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "BlackShell",
+    "ratchet": "7-70",
+    "bit": "Wall Ball"
+   }
+  },
+  {
+   "code": "CX-08-6",
+   "name": "CobaltDragoon 4-55WB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "CobaltDragoon",
+    "ratchet": "4-55",
+    "bit": "Wall Ball"
+   }
+  },
+  {
+   "code": "CX-09",
+   "name": "SolEclipse D5-70TK",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Sol",
+    "blade": "Eclipse",
+    "assistBlade": "Dual",
+    "ratchet": "5-70",
+    "bit": "Trans Kick"
+   }
+  },
+  {
+   "code": "CX-10",
+   "name": "WolfHunt F0-60DB",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Wolf",
+    "blade": "Hunt",
+    "assistBlade": "Free",
+    "ratchet": "0-60",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "CX-11_1",
+   "name": "EmperorMight HOp",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Emperor",
+    "blade": "Might",
+    "assistBlade": "Heavy",
+    "ratchet": "Operate"
+   }
+  },
+  {
+   "code": "CX-11_2",
+   "name": "GolemRock M-85HN",
+   "type": "Defense",
+   "combo": {
+    "blade": "GolemRock",
+    "ratchet": "M-85",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "CX-11_3",
+   "name": "SharkGill 5-60FB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "SharkGill",
+    "ratchet": "5-60",
+    "bit": "Free Ball"
+   }
+  },
+  {
+   "code": "CX-12",
+   "name": "PhoenixFlare Z9-80WW",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Phoenix",
+    "blade": "Flare",
+    "assistBlade": "Zillion",
+    "ratchet": "9-80",
+    "bit": "Wall Wedge"
+   }
+  },
+  {
+   "code": "BX-00_Dranzer_Blue",
+   "name": "DranzerSpiral 3-80T",
+   "type": "Balance",
+   "combo": {
+    "blade": "DranzerSpiral",
+    "ratchet": "3-80",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-00_CobaltDrake_MetalCoat_Blue",
+   "name": "CobaltDrake 4-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDrake",
+    "ratchet": "4-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_HellsScythe_MetalCoat_Gold",
+   "name": "HellsScythe 4-60T",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "4-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "BX-00_DranSword_MetalCoat_Bronze",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_DranSword_MetalCoat_Silver",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_DranSword_MetalCoat_Gold",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_Corocoro_Persona_Scythe",
+   "name": "HellsScythe 3-80F",
+   "type": "Attack",
+   "combo": {
+    "blade": "HellsScythe",
+    "ratchet": "3-80",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_DranSword_Shushiro",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_LeonClaw_Gold",
+   "name": "LeonClaw 5-60P",
+   "type": "Balance",
+   "combo": {
+    "blade": "LeonClaw",
+    "ratchet": "5-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BX-00_SharkEdge_MetalCoat_Blue",
+   "name": "SharkEdge 5-60GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "5-60",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "BX-00_DrigerSlash",
+   "name": "DrigerSlash 4-80P",
+   "type": "Balance",
+   "combo": {
+    "blade": "DrigerSlash",
+    "ratchet": "4-80",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BX-00_HellsChain_MetalCoat_Black",
+   "name": "HellsChain 5-60HT",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsChain",
+    "ratchet": "5-60",
+    "bit": "High Taper"
+   }
+  },
+  {
+   "code": "UX-00_DranBuster_MetalCoat_Red",
+   "name": "DranBuster 1-60A",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "1-60",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "UX-00_AeroPegasus_DoubleMetalCoat",
+   "name": "AeroPegasus 3-70A",
+   "type": "Attack",
+   "combo": {
+    "blade": "AeroPegasus",
+    "ratchet": "3-70",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "BX-00_DranDagger_Giants",
+   "name": "DranDagger 2-80GP",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranDagger",
+    "ratchet": "2-80",
+    "bit": "Gear Point"
+   }
+  },
+  {
+   "code": "BX-00_CobaltDragoon_MetalCoat_Black",
+   "name": "CobaltDragoon 2-60C",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDragoon",
+    "ratchet": "2-60",
+    "bit": "Cyclone"
+   }
+  },
+  {
+   "code": "BX-00_LLD_Upper",
+   "name": "Lightning L-Drago 1-60F (Upper Type)",
+   "type": "Attack",
+   "combo": {
+    "blade": "Lightning L-Drago (Upper Type)",
+    "ratchet": "1-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_LDD_Rapid-Hit",
+   "name": "Lightning L-Drago 1-60F (Rapid-Hit Type)",
+   "type": "Attack",
+   "combo": {
+    "blade": "Lightning L-Drago (Rapid-Hit Type)",
+    "ratchet": "1-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_Corocoro_PhoenixWing_Blue",
+   "name": "PhoenixWing 9-80DB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "PhoenixWing",
+    "ratchet": "9-80",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "UX-00_Dran_Deck_Sword",
+   "name": "DranSword 4-80DB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "4-80",
+    "bit": "Disk Ball"
+   }
+  },
+  {
+   "code": "UX-00_Dran_Deck_Dagger",
+   "name": "DranDagger 9-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranDagger",
+    "ratchet": "9-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "UX-00_Dran_Deck_Buster",
+   "name": "DranBuster 3-70N",
+   "type": "Defense",
+   "combo": {
+    "blade": "DranBuster",
+    "ratchet": "3-70",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-00_ShinobiKnife_Blue",
+   "name": "ShinobiKnife 4-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "ShinobiKnife",
+    "ratchet": "4-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "BX-00_RBG_CobaltDrake_Clear",
+   "name": "CobaltDrake 4-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDrake",
+    "ratchet": "4-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_DracielShield",
+   "name": "DracielShield 7-60D",
+   "type": "Defense",
+   "combo": {
+    "blade": "DracielShield",
+    "ratchet": "7-60",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-00_25_Anniversary_DragonStorm",
+   "name": "DragoonStorm 4-60RA",
+   "type": "Attack",
+   "combo": {
+    "blade": "DragoonStorm",
+    "ratchet": "4-60",
+    "bit": "Rubber Accel"
+   }
+  },
+  {
+   "code": "BX-00_25_Anniversary_StormPegasis",
+   "name": "StormPegasis 3-70RA",
+   "type": "Attack",
+   "combo": {
+    "blade": "StormPegasis",
+    "ratchet": "3-70",
+    "bit": "Rubber Accel"
+   }
+  },
+  {
+   "code": "BX-00_25_Anniversary_VictoryValkyrie",
+   "name": "VictoryValkyrie 2-60RA",
+   "type": "Attack",
+   "combo": {
+    "blade": "VictoryValkyrie",
+    "ratchet": "2-60",
+    "bit": "Rubber Accel"
+   }
+  },
+  {
+   "code": "BX-00_25_Anniversary_DranSword",
+   "name": "DranSword 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_RBG_MammothTusk_MetalCoat_Black",
+   "name": "MammothTusk 2-80E",
+   "type": "Balance",
+   "combo": {
+    "blade": "MammothTusk",
+    "ratchet": "2-80",
+    "bit": "Elevate"
+   }
+  },
+  {
+   "code": "BX-00_XenoXcalibur",
+   "name": "XenoXcalibur 3-60GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "XenoXcalibur",
+    "ratchet": "3-60",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "BXG-29_IronMan",
+   "name": "Iron Man 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Iron Man",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BXG-29_Thanos",
+   "name": "Thanos 4-60P",
+   "type": "Balance",
+   "combo": {
+    "blade": "Thanos",
+    "ratchet": "4-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BXG-30_Spider-Man",
+   "name": "Spider-Man 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "Spider-Man",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BXG-30_Venom",
+   "name": "Venom 3-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "Venom",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "DoubleStarter_Miles_Morales",
+   "name": "Miles Morales 1-60GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "Miles Morales",
+    "ratchet": "1-60",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "DoubleStarter_Green_Goblin",
+   "name": "Green Goblin 9-80HT",
+   "type": "Balance",
+   "combo": {
+    "blade": "Green Goblin",
+    "ratchet": "9-80",
+    "bit": "High Taper"
+   }
+  },
+  {
+   "code": "DoubleStarter_Captain_America",
+   "name": "Captain America 4-70GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Captain America",
+    "ratchet": "4-70",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "DoubleStarter_Red_Hulk",
+   "name": "Red Hulk 1-80R",
+   "type": "Attack",
+   "combo": {
+    "blade": "Red Hulk",
+    "ratchet": "1-80",
+    "bit": "Rush"
+   }
+  },
+  {
+   "code": "DoubleStarter_Chewbacca",
+   "name": "Chewbacca 4-80LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "Chewbacca",
+    "ratchet": "4-80",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "DoubleStarter_Stormtrooper",
+   "name": "Stormtrooper 5-70B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Stormtrooper",
+    "ratchet": "5-70",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "DoubleStarter_ObiWanKenobi",
+   "name": "Obi-Wan Kenobi 4-60P",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Obi-Wan Kenobi",
+    "ratchet": "4-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "DoubleStarter_GeneralGrievous",
+   "name": "General Grievous 3-80HN",
+   "type": "Balance",
+   "combo": {
+    "blade": "General Grievous",
+    "ratchet": "3-80",
+    "bit": "High Needle"
+   }
+  },
+  {
+   "code": "BXG-33_Luke_Skywalker",
+   "name": "Luke Skywalker 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Luke Skywalker",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "BXG-33_Darth_Vader",
+   "name": "Darth Vader 4-60P",
+   "type": "Balance",
+   "combo": {
+    "blade": "Darth Vader",
+    "ratchet": "4-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BXG-34_TheMandalorian",
+   "name": "The Mandalorian 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "The Mandalorian",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BXG-34_Moff_Gideon",
+   "name": "Moff Gideon 3-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "Moff Gideon",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BXG-37_Optimus_Primal",
+   "name": "Optimus Primal 3-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "Optimus Primal",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BXG-37_Starscream",
+   "name": "Starscream 3-80N",
+   "type": "Defense",
+   "combo": {
+    "blade": "Starscream",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BXG-36_Optimus_Prime",
+   "name": "Optimus Prime 4-60P",
+   "type": "Balance",
+   "combo": {
+    "blade": "Optimus Prime",
+    "ratchet": "4-60",
+    "bit": "Point"
+   }
+  },
+  {
+   "code": "BXG-36_Megatron",
+   "name": "Megatron 4-80B",
+   "type": "Stamina",
+   "combo": {
+    "blade": "Megatron",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "CX-00_ValkyrieVolt_MetalCoat_Gold",
+   "name": "ValkyrieVolt S4-70V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Valkyrie",
+    "blade": "Volt",
+    "assistBlade": "Slash",
+    "ratchet": "4-70",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "UX-00_KnightMail_MetalCoat_Navy",
+   "name": "KnightMail 3-85BS",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightMail",
+    "ratchet": "3-85",
+    "bit": "Bound Spike"
+   }
+  },
+  {
+   "code": "BX-00_RockLeone",
+   "name": "Rock Leone 6-80GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "Rock Leone",
+    "ratchet": "6-80",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "BXG-41_Spinosaurus",
+   "name": "TyrannoRoar 3-85A",
+   "type": "Attack",
+   "combo": {
+    "blade": "TyrannoRoar",
+    "ratchet": "3-85",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "BXG-41_Quetzalcoatlus",
+   "name": "PteraSwing 4-55D",
+   "type": "Defense",
+   "combo": {
+    "blade": "PteraSwing",
+    "ratchet": "4-55",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BXG-40_T._Rex",
+   "name": "TyrannoBeat 1-80GB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "TyrannoBeat",
+    "ratchet": "1-80",
+    "bit": "Gear Ball"
+   }
+  },
+  {
+   "code": "BXG-40_Mosasaurus",
+   "name": "TriceraSpiky 9-60U",
+   "type": "Balance",
+   "combo": {
+    "blade": "TriceraSpiky",
+    "ratchet": "9-60",
+    "bit": "Unite"
+   }
+  },
+  {
+   "code": "CX-00_PegasusBlast_Red",
+   "name": "PegasusBlast ATr",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Pegasus",
+    "blade": "Blast",
+    "assistBlade": "Assault",
+    "ratchet": "Turbo"
+   }
+  },
+  {
+   "code": "CX-00_WizardArc_MetalCoat_Black",
+   "name": "WizardArc R4-55LO",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Wizard",
+    "blade": "Arc",
+    "assistBlade": "Round",
+    "ratchet": "4-55",
+    "bit": "Low Orb"
+   }
+  },
+  {
+   "code": "UX-00_WyvernHover",
+   "name": "WyvernHover 2-80GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "WyvernHover",
+    "ratchet": "2-80",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "UX-00_WyvernHover_MetalCoat_Violet",
+   "name": "WyvernHover 2-80GN",
+   "type": "Defense",
+   "combo": {
+    "blade": "WyvernHover",
+    "ratchet": "2-80",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "UX-00_HellsHammer_Barcelona",
+   "name": "HellsHammer 3-70H (Metal Coat Red FC Barcelona Ver.)",
+   "type": "Balance",
+   "combo": {
+    "bit": "Hexa",
+    "blade": "HellsHammer",
+    "ratchet": "3-70"
+   }
+  },
+  {
+   "code": "UX-00_Dranbuster_Barcelona",
+   "name": "DranBuster 1-60A (Metal Coat Blue FC Barcelona Ver.)",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranBuster",
+    "bit": "Accel",
+    "ratchet": "1-60"
+   }
+  },
+  {
+   "code": "BX-00_PhoenixWing_Black",
+   "name": "PhoenixWing 9-60GF (Metal Coat: Black)",
+   "type": "Attack",
+   "combo": {
+    "blade": "PhoenixWing",
+    "bit": "Gear Flat",
+    "ratchet": "9-60"
+   }
+  },
+  {
+   "code": "BBX_Evobattle_LeonFang",
+   "name": "LeonFang T4-60A",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Leon",
+    "blade": "Fang",
+    "assistBlade": "Turn",
+    "ratchet": "4-60",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "Black_DranzerSpiral",
+   "name": "DranzerSpiral 3-80T",
+   "type": "Balance",
+   "combo": {
+    "blade": "DranzerSpiral",
+    "ratchet": "3-80",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "Green_CrocoCrunch",
+   "name": "CrocoCrunch 2-60Q",
+   "type": "Attack",
+   "combo": {
+    "blade": "CrocoCrunch",
+    "ratchet": "2-60",
+    "bit": "Quake"
+   }
+  },
+  {
+   "code": "Orange_SamuraiSaber",
+   "name": "SamuraiSaber 2-70L",
+   "type": "Attack",
+   "combo": {
+    "blade": "SamuraiSaber",
+    "ratchet": "2-70",
+    "bit": "Level"
+   }
+  },
+  {
+   "code": "SamuraiSteel",
+   "name": "SamuraiSteel 5-70GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "SamuraiSteel",
+    "ratchet": "5-70",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "DranArc",
+   "name": "DranArc S2-70K",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Arc",
+    "assistBlade": "Slash",
+    "ratchet": "2-70",
+    "bit": "Kick"
+   }
+  },
+  {
+   "code": "Gold_DranBrave",
+   "name": "DranBrave S6-60V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "Silver_DranBrave",
+   "name": "DranBrave S6-60V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "Bronze_DranBrave",
+   "name": "DranBrave S6-60V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "Magma_Shark",
+   "name": "SharkEdge 2-60GP (Tsuri Spirits Promo)",
+   "type": "Balance",
+   "combo": {
+    "blade": "SharkEdge",
+    "ratchet": "2-60",
+    "bit": "Gear Point"
+   }
+  },
+  {
+   "code": "OrochiCluster",
+   "name": "OrochiCluster 6-60LF",
+   "type": "Attack",
+   "combo": {
+    "blade": "OrochiCluster",
+    "ratchet": "6-60",
+    "bit": "Low Flat"
+   }
+  },
+  {
+   "code": "UX-00_AeroPegasus_RedVer.",
+   "name": "AeroPegasus 3-70A",
+   "type": "Attack",
+   "combo": {
+    "blade": "AeroPegasus",
+    "ratchet": "3-70",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "TsuriWhale",
+   "name": "WhaleWave 1-80GF",
+   "type": "Attack",
+   "combo": {
+    "blade": "WhaleWave",
+    "ratchet": "1-80",
+    "bit": "Gear Flat"
+   }
+  },
+  {
+   "code": "BX-00_White_Goon",
+   "name": "CobaltDragoon 9-60F",
+   "type": "Attack",
+   "combo": {
+    "blade": "CobaltDragoon",
+    "ratchet": "9-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "BX-00_Black_DranSword",
+   "name": "DranSword 1-60V",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "1-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "StormSpriggan",
+   "name": "StormSpriggan 2-70M",
+   "type": "Balance",
+   "combo": {
+    "blade": "StormSpriggan",
+    "ratchet": "2-70",
+    "bit": "Merge"
+   }
+  },
+  {
+   "code": "CX-13",
+   "name": "BahamutBlitz BK1-50I",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Bahamut",
+    "blade": "Blitz",
+    "overBlade": "Break",
+    "assistBlade": "Knuckle",
+    "ratchet": "1-50",
+    "bit": "Ignition"
+   }
+  },
+  {
+   "code": "CX-14",
+   "name": "KnightFortress GV8-70UN",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Knight",
+    "blade": "Fortress",
+    "overBlade": "Guard",
+    "assistBlade": "Vertical",
+    "ratchet": "8-70",
+    "bit": "Under Needle"
+   }
+  },
+  {
+   "code": "CX-15",
+   "name": "RagnaRage FE4-55Y",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Ragna",
+    "blade": "Rage",
+    "overBlade": "Flow",
+    "assistBlade": "Erase",
+    "ratchet": "4-55",
+    "bit": "Yielding"
+   }
+  },
+  {
+   "code": "CX-16",
+   "name": "BahamutBlitz BK1-50I",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Bahamut",
+    "blade": "Blitz",
+    "overBlade": "Break",
+    "assistBlade": "Knuckle",
+    "ratchet": "1-50",
+    "bit": "Ignition"
+   }
+  },
+  {
+   "code": "Corocoro_BahamutBlitz_Yellow",
+   "name": "BahamutBlitz BK1-50I",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Bahamut",
+    "blade": "Blitz",
+    "overBlade": "Break",
+    "assistBlade": "Knuckle",
+    "ratchet": "1-50",
+    "bit": "Ignition"
+   }
+  },
+  {
+   "code": "ScorpioSpearMagenta",
+   "name": "ScorpioSpear 0-70Z",
+   "type": "Balance",
+   "combo": {
+    "blade": "ScorpioSpear",
+    "ratchet": "0-70",
+    "bit": "Zap"
+   }
+  },
+  {
+   "code": "CX-17-1",
+   "name": "UnicornDelta PO3-60GU",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Unicorn",
+    "blade": "Delta",
+    "overBlade": "Peak",
+    "assistBlade": "Odd",
+    "ratchet": "3-60",
+    "bit": "Gear Unite"
+   }
+  },
+  {
+   "code": "CX-17-2",
+   "name": "UnicornDelta PO1-80GR",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Unicorn",
+    "blade": "Delta",
+    "overBlade": "Peak",
+    "assistBlade": "Odd",
+    "ratchet": "1-80",
+    "bit": "Gear Rush"
+   }
+  },
+  {
+   "code": "CX-17-3",
+   "name": "SamuraiSaber 9-65LO",
+   "type": "Stamina",
+   "combo": {
+    "blade": "SamuraiSaber",
+    "ratchet": "9-65",
+    "bit": "Low Orb"
+   }
+  },
+  {
+   "code": "CX-17-4",
+   "name": "HellsHammer 3-85GU",
+   "type": "Balance",
+   "combo": {
+    "blade": "HellsHammer",
+    "ratchet": "3-85",
+    "bit": "Gear Unite"
+   }
+  },
+  {
+   "code": "CX-17-5",
+   "name": "TyrannoBeat 3-60N",
+   "type": "Defense",
+   "combo": {
+    "blade": "TyrannoBeat",
+    "ratchet": "3-60",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "CX-17-6",
+   "name": "CrimsonGaruda 7-80GU",
+   "type": "Balance",
+   "combo": {
+    "blade": "CrimsonGaruda",
+    "ratchet": "7-80",
+    "bit": "Gear Unite"
+   }
+  },
+  {
+   "code": "BX-49",
+   "name": "DranStrike 4-50FF",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranStrike",
+    "ratchet": "4-50",
+    "bit": "Free Flat"
+   }
+  },
+  {
+   "code": "G1_DranStrike_Gold",
+   "name": "DranStrike 4-50FF",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranStrike",
+    "ratchet": "4-50",
+    "bit": "Free Flat"
+   }
+  },
+  {
+   "code": "G1_DranStrike_Silver",
+   "name": "DranStrike 4-50FF",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranStrike",
+    "ratchet": "4-50",
+    "bit": "Free Flat"
+   }
+  },
+  {
+   "code": "G1_DranStrike_Bronze",
+   "name": "DranStrike 4-50FF",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranStrike",
+    "ratchet": "4-50",
+    "bit": "Free Flat"
+   }
+  },
+  {
+   "code": "SamuraiSaber_JFA",
+   "name": "SamuraiSaber 5-60K",
+   "type": "Balance",
+   "combo": {
+    "blade": "SamuraiSaber",
+    "ratchet": "5-60",
+    "bit": "Kick"
+   }
+  },
+  {
+   "code": "BlackDranbrave",
+   "name": "DranBrave S6-60V (Metal Coat: Black TT Mall Exclusive)",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Dran",
+    "blade": "Brave",
+    "assistBlade": "Slash",
+    "ratchet": "6-60",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "CX-18-1",
+   "name": "BrachioWhip OW5-70Nr",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Brachio",
+    "blade": "Whip",
+    "overBlade": "Outer",
+    "assistBlade": "Wheel",
+    "ratchet": "5-70",
+    "bit": "Narrow"
+   }
+  },
+  {
+   "code": "CX-18-2",
+   "name": "BrachioWhip OW5-70Nr",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Brachio",
+    "blade": "Whip",
+    "overBlade": "Outer",
+    "assistBlade": "Wheel",
+    "ratchet": "5-70",
+    "bit": "Narrow"
+   }
+  },
+  {
+   "code": "CX-18-3",
+   "name": "BrachioWhip OW5-70Nr",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Brachio",
+    "blade": "Whip",
+    "overBlade": "Outer",
+    "assistBlade": "Wheel",
+    "ratchet": "5-70",
+    "bit": "Narrow"
+   }
+  },
+  {
+   "code": "CX-00_DrakeBrave",
+   "name": "DrakeBrave G4-70I (Metal Coat: Blue Rare Bey Get)",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Drake",
+    "blade": "Brave",
+    "assistBlade": "Gravity",
+    "ratchet": "4-70",
+    "bit": "Ignition"
+   }
+  },
+  {
+   "code": "CX-00_HornetFort",
+   "name": "HornetFort R7-60T (Metal Coat: Yellow Rare Bey Get)",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Hornet",
+    "blade": "Fort",
+    "assistBlade": "Round",
+    "ratchet": "7-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "CX-00_KrakenWriggle",
+   "name": "KrakenWriggle S3-70O (Metal Coat: Blue Rare Bey Get)",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Kraken",
+    "blade": "Wriggle",
+    "assistBlade": "Slash",
+    "ratchet": "3-70",
+    "bit": "Orb"
+   }
+  },
+  {
+   "code": "CX-00_BucksAntlers",
+   "name": "BucksAntlers B2-70D (Metal Coat: Orange Rare Bey Get)",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Stag",
+    "blade": "Antler",
+    "assistBlade": "Bumper",
+    "ratchet": "2-70",
+    "bit": "Dot"
+   }
+  },
+  {
+   "code": "BX-50-1",
+   "name": "HeavensRing 0-80DS",
+   "type": "Defense",
+   "combo": {
+    "blade": "HeavensRing",
+    "ratchet": "0-80",
+    "bit": "Disk Spike"
+   }
+  },
+  {
+   "code": "BX-50-2",
+   "name": "HeavensRing 6-60TP",
+   "type": "Balance",
+   "combo": {
+    "blade": "HeavensRing",
+    "ratchet": "6-60",
+    "bit": "Trans Point"
+   }
+  },
+  {
+   "code": "BX-50-3",
+   "name": "ImpactDrake 7-55FB",
+   "type": "Stamina",
+   "combo": {
+    "blade": "ImpactDrake",
+    "ratchet": "7-55",
+    "bit": "Free Ball"
+   }
+  },
+  {
+   "code": "BX-50-4",
+   "name": "GhostCircle M-85DS",
+   "type": "Defense",
+   "combo": {
+    "blade": "GhostCircle",
+    "ratchet": "M-85",
+    "bit": "Disk Spike"
+   }
+  },
+  {
+   "code": "BX-50-5",
+   "name": "WolfFlame D9-65L",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Wolf",
+    "blade": "Flame",
+    "assistBlade": "Dual",
+    "ratchet": "9-65",
+    "bit": "Level"
+   }
+  },
+  {
+   "code": "BX-50-6",
+   "name": "CerberusReaper B0-80WB",
+   "type": "Stamina",
+   "combo": {
+    "lockChip": "Cerberus",
+    "blade": "Reaper",
+    "assistBlade": "Bumper",
+    "ratchet": "0-80",
+    "bit": "Wall Ball"
+   }
+  },
+  {
+   "code": "DranSword_2.0",
+   "name": "DranSword 3-60F (Version 2.0)",
+   "type": "Attack",
+   "combo": {
+    "blade": "DranSword",
+    "ratchet": "3-60",
+    "bit": "Flat"
+   }
+  },
+  {
+   "code": "UX-21_2",
+   "name": "SilverWolf 9-70R",
+   "type": "Attack",
+   "combo": {
+    "blade": "SilverWolf",
+    "ratchet": "9-70",
+    "bit": "Rush"
+   }
+  },
+  {
+   "code": "UX-21_3",
+   "name": "WyvernHover 8-80B",
+   "type": "Stamina  ",
+   "combo": {
+    "blade": "WyvernHover",
+    "ratchet": "8-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "ClockMirage_FateRewinder",
+   "name": "ClockMirage 4-55S",
+   "type": "Defense",
+   "combo": {
+    "blade": "ClockMirage",
+    "ratchet": "4-55",
+    "bit": "Spike"
+   }
+  },
+  {
+   "code": "Eva_00",
+   "name": "EvaArc B0-70E",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Eva",
+    "blade": "Arc",
+    "assistBlade": "Bumper",
+    "ratchet": "0-70",
+    "bit": "Elevate"
+   }
+  },
+  {
+   "code": "Eva_01",
+   "name": "EvaBrave A1-70V",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Eva",
+    "blade": "Brave",
+    "assistBlade": "Assault",
+    "ratchet": "1-70",
+    "bit": "Vortex"
+   }
+  },
+  {
+   "code": "Eva_02",
+   "name": "EvaBrush T2-70A",
+   "type": "Attack",
+   "combo": {
+    "lockChip": "Eva",
+    "blade": "Brush",
+    "assistBlade": "Turn",
+    "ratchet": "2-70",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "TigaRage",
+   "name": "TigaRage FT3-60T",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Tiga",
+    "overBlade": "Flow",
+    "blade": "Rage",
+    "assistBlade": "Turn",
+    "ratchet": "3-60",
+    "bit": "Taper"
+   }
+  },
+  {
+   "code": "CX-19-1",
+   "name": "CrocoTread TQ5-50GN",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Croco",
+    "blade": "Tread",
+    "overBlade": "Tough",
+    "assistBlade": "Quell",
+    "ratchet": "5-50",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "CX-19-2",
+   "name": "CrocoTread TQ5-50GN",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Croco",
+    "blade": "Tread",
+    "overBlade": "Tough",
+    "assistBlade": "Quell",
+    "ratchet": "5-50",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "CX-19-3",
+   "name": "CrocoTread TQ5-50GN",
+   "type": "Defense",
+   "combo": {
+    "lockChip": "Croco",
+    "blade": "Tread",
+    "overBlade": "Tough",
+    "assistBlade": "Quell",
+    "ratchet": "5-50",
+    "bit": "Gear Needle"
+   }
+  },
+  {
+   "code": "BX-52",
+   "name": "LusterDragoon 6-60LC",
+   "type": "Attack",
+   "combo": {
+    "blade": "LusterDragoon",
+    "ratchet": "6-60",
+    "bit": "Low Cyclone"
+   }
+  },
+  {
+   "code": "BX-53_1",
+   "name": "AeroPegasus 3-70A",
+   "type": "Attack",
+   "combo": {
+    "blade": "AeroPegasus",
+    "ratchet": "3-70",
+    "bit": "Accel"
+   }
+  },
+  {
+   "code": "BX-53_2",
+   "name": "KnightShield 3-80N (Version 2.0)",
+   "type": "Defense",
+   "combo": {
+    "blade": "KnightShield",
+    "ratchet": "3-80",
+    "bit": "Needle"
+   }
+  },
+  {
+   "code": "BX-53_3",
+   "name": "WizardArrow 4-80B (Version 2.0)",
+   "type": "Stamina",
+   "combo": {
+    "blade": "WizardArrow",
+    "ratchet": "4-80",
+    "bit": "Ball"
+   }
+  },
+  {
+   "code": "CX-00_KidHunt",
+   "name": "KidHunt K4-70TK",
+   "type": "Balance",
+   "combo": {
+    "lockChip": "Kid",
+    "blade": "Hunt",
+    "assistBlade": "Knuckle",
+    "ratchet": "4-70",
+    "bit": "Trans Kick"
+   }
+  }
+ ]
+}

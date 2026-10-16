@@ -1,24 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GroupTable } from '../components/bracket/GroupTable';
 import { KnockoutTree } from '../components/bracket/KnockoutTree';
-import { LiveMatches, upcomingMatches } from '../components/bracket/LiveMatch';
 import { ArenaFxOverlay, useArenaEvents } from '../components/fx/ArenaFx';
 import { Confetti } from '../components/fx/Confetti';
 import { Countdown } from '../components/fx/Countdown';
 import { DrawAnimation } from '../components/fx/DrawAnimation';
+import { MetaHighlights } from '../components/MetaHighlights';
+import { PopularityBars } from '../components/Popularity';
+import { FocusView } from '../components/screen/FocusView';
+import { PostMatchView } from '../components/screen/PostMatchView';
+import { Ticker, tickerItems } from '../components/screen/Ticker';
+import { computeMeta, META_MIN_BATTLES } from '../engine/meta';
 import { classifyEntries } from '../engine/registration';
-import { describeSource, displayName, formatCountdown, formatDateTime, matchLabel } from '../lib/format';
+import { intermissionPages, isBattling, liveMatches, pageDuration, POST_MATCH_MS, type ScreenPage } from '../engine/screen';
+import { displayName, formatCountdown, formatDateTime } from '../lib/format';
 import { useNow, usePersistentState } from '../lib/hooks';
 import { isAudioReady, unlockAudio } from '../lib/sound';
 import { usePredictions, useReadyEvent } from '../providers/EventProvider';
-import { PopularityBars } from '../components/Popularity';
-import { MetaHighlights } from '../components/MetaHighlights';
-import { computeMeta, META_MIN_BATTLES } from '../engine/meta';
-import type { BracketDoc, Match } from '../types';
 import { ResultsView } from './Results';
 
-type View = 'live' | 'groups' | 'tree' | 'predict' | 'meta';
-const ROTATE_MS = 12000;
 /** 同步動畫只在觸發後這段時間內打開大螢幕才會播放（避免重新整理時重播舊動畫）。 */
 const FRESH_MS = 15000;
 
@@ -35,33 +35,50 @@ function useTrigger(value: number | undefined): [boolean, () => void] {
   return [active, () => setActive(false)];
 }
 
+/**
+ * 大螢幕依比賽節奏切換（不是固定時間輪播）：
+ * - 對打中（有局數、或剛按倒數）→ 鎖定目前場次的主版面
+ * - 一場剛結束 → 積分更新／晉級畫面
+ * - 中場（下一場還沒開打）→ 目前場次與其他資訊交替輪播
+ */
+type Mode = 'pre' | 'results' | 'focus' | 'post' | 'intermission';
+
 export default function Screen() {
   const { event: ev, bracket, entries, entryById } = useReadyEvent();
   const now = useNow();
-  const [viewIdx, setViewIdx] = useState(0);
   const [isFull, setIsFull] = useState(false);
   const [drawing, stopDrawing] = useTrigger(bracket?.drawAt);
   const [countingDown, stopCountdown] = useTrigger(bracket?.countdownAt);
-  const [fx, nextFx] = useArenaEvents(bracket, ev.rules);
+  const arena = useArenaEvents(bracket, ev.rules);
   const [soundPref, setSoundPref] = usePersistentState<'on' | 'off'>('screenSound', 'on');
   const [audioReady, setAudioReady] = useState(isAudioReady);
   const enableAudio = () => void unlockAudio().then(setAudioReady);
   const preds = usePredictions(!!ev.predictionsOpen);
   const meta = useMemo(() => (bracket ? computeMeta(bracket) : undefined), [bracket]);
 
-  const views: View[] = [];
-  if (bracket) {
-    views.push('live');
-    if (bracket.format !== 'knockout' && bracket.groups.length > 0) views.push('groups');
-    if (bracket.matches.some((m) => m.stage === 'knockout')) views.push('tree');
-    if (ev.predictionsOpen) views.push('predict');
-    if (meta && meta.battles >= META_MIN_BATTLES) views.push('meta');
-  }
+  const lastWin = arena.lastWin;
+  const postMatch = bracket && lastWin && now - lastWin.at < POST_MATCH_MS && bracket.matches.some((m) => m.id === lastWin.matchId && m.status === 'done');
+  const mode: Mode =
+    ev.status === 'finished' && bracket?.awards ? 'results' : !bracket ? 'pre' : isBattling(bracket, now) ? 'focus' : postMatch ? 'post' : 'intermission';
 
+  const extra: ScreenPage[] = [];
+  if (bracket) {
+    if (bracket.format !== 'knockout' && bracket.groups.length > 0) extra.push('groups');
+    if (bracket.matches.some((m) => m.stage === 'knockout')) extra.push('tree');
+    if (ev.predictionsOpen) extra.push('predict');
+    if (meta && meta.battles >= META_MIN_BATTLES) extra.push('meta');
+  }
+  const pages = intermissionPages(extra);
+
+  // 中場輪播：每次進入中場都從「目前場次」開始
+  const [rot, setRot] = useState({ idx: 0, since: Date.now() });
   useEffect(() => {
-    const t = setInterval(() => setViewIdx((i) => i + 1), ROTATE_MS);
-    return () => clearInterval(t);
-  }, []);
+    if (mode === 'intermission') setRot({ idx: 0, since: Date.now() });
+  }, [mode]);
+  const page: ScreenPage = mode === 'intermission' ? pages[rot.idx % pages.length] : 'focus';
+  useEffect(() => {
+    if (mode === 'intermission' && now - rot.since >= pageDuration(page)) setRot({ idx: rot.idx + 1, since: now });
+  }, [mode, now, rot, page]);
 
   useEffect(() => {
     const onChange = () => setIsFull(!!document.fullscreenElement);
@@ -69,18 +86,18 @@ export default function Screen() {
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
-  const view = views.length ? views[viewIdx % views.length] : undefined;
-  const firstLive = bracket?.currentMatchIds.map((id) => bracket.matches.find((m) => m.id === id)).find((m): m is Match => !!m);
+  const firstLive = bracket ? liveMatches(bracket)[0] : undefined;
+  const showTicker = !!bracket && (mode === 'focus' || (mode === 'intermission' && page === 'focus'));
 
   let content;
-  if (ev.status === 'finished' && bracket?.awards) {
+  if (mode === 'results' && bracket) {
     content = (
       <>
         <Confetti count={140} />
         <ResultsView bracket={bracket} entryById={entryById} title={ev.title} big />
       </>
     );
-  } else if (!bracket) {
+  } else if (mode === 'pre' || !bracket) {
     const c = classifyEntries(entries, ev.capacity, ev.waitlistCapacity);
     content = (
       <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
@@ -97,18 +114,20 @@ export default function Screen() {
         </div>
       </div>
     );
-  } else if (view === 'groups') {
+  } else if (mode === 'post' && lastWin) {
+    content = <PostMatchView bracket={bracket} matchId={lastWin.matchId} entryById={entryById} />;
+  } else if (page === 'groups') {
     content = (
       <div>
         <ScreenTitle>{bracket.format === 'roundRobin' ? '積分表' : '分組積分'}</ScreenTitle>
         <div className={`grid gap-4 ${bracket.groups.length === 1 ? 'mx-auto max-w-4xl grid-cols-1' : bracket.groups.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
           {bracket.groups.map((g) => (
-            <GroupTable key={g.id} bracket={bracket} group={g} entryById={entryById} big={bracket.groups.length <= 2} />
+            <GroupTable key={g.id} bracket={bracket} group={g} entryById={entryById} big={bracket.groups.length <= 4} />
           ))}
         </div>
       </div>
     );
-  } else if (view === 'meta' && meta) {
+  } else if (page === 'meta' && meta) {
     content = (
       <div className="mx-auto max-w-6xl">
         <ScreenTitle>📊 Meta 強勢榜</ScreenTitle>
@@ -116,7 +135,7 @@ export default function Screen() {
         <p className="mt-6 text-center text-2xl text-slate-500">共 {meta.battles} 局的統計・手機打開「對戰表 → Meta 強勢榜」看完整排行</p>
       </div>
     );
-  } else if (view === 'predict') {
+  } else if (page === 'predict') {
     content = (
       <div className="mx-auto max-w-5xl">
         <ScreenTitle>🔮 猜冠軍人氣榜</ScreenTitle>
@@ -130,7 +149,7 @@ export default function Screen() {
         </p>
       </div>
     );
-  } else if (view === 'tree') {
+  } else if (page === 'tree') {
     content = (
       <div>
         <ScreenTitle>淘汰賽</ScreenTitle>
@@ -138,13 +157,19 @@ export default function Screen() {
       </div>
     );
   } else {
-    content = <LiveView bracket={bracket} />;
+    content = (
+      <div className="h-[calc(100dvh-9rem)]">
+        <FocusView bracket={bracket} entryById={entryById} arenaCount={ev.rules.arenaCount} />
+      </div>
+    );
   }
 
   return (
-    <div className="arena-bg min-h-dvh cursor-default p-6 md:p-10">
+    <div className={`arena-bg min-h-dvh cursor-default p-6 md:p-10 ${showTicker ? 'pb-24' : ''}`}>
       {content}
-      <div className="fixed bottom-4 right-4 flex gap-2">
+
+      {/* 控制鈕放右上角，不擋跑馬燈 */}
+      <div className="fixed right-3 top-3 z-40 flex gap-2 opacity-60 hover:opacity-100">
         {soundPref === 'on' && !audioReady ? (
           <button type="button" onClick={enableAudio} className="animate-pulse rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-amber-950">
             🔇 點一下開啟音效
@@ -157,9 +182,9 @@ export default function Screen() {
               setSoundPref('on');
               enableAudio();
             }}
-            className="rounded-full bg-slate-200/80 px-4 py-2 text-sm text-slate-700"
+            className="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs text-slate-700"
           >
-            {soundPref === 'on' ? '🔊 音效' : '🔈 音效關'}
+            {soundPref === 'on' ? '🔊' : '🔈 音效關'}
           </button>
         )}
         {!isFull && (
@@ -169,19 +194,25 @@ export default function Screen() {
               if (soundPref === 'on') enableAudio();
               void document.documentElement.requestFullscreen?.().catch(() => undefined);
             }}
-            className="rounded-full bg-slate-200/80 px-4 py-2 text-sm text-slate-700"
+            className="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs text-slate-700"
           >
             ⛶ 全螢幕
           </button>
         )}
       </div>
-      {bracket && view && ev.status !== 'finished' && (
-        <div className="fixed bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-          {views.map((v, i) => (
-            <span key={v} className={`h-2 w-8 rounded-full ${i === viewIdx % views.length ? 'bg-cyan-600' : 'bg-slate-300'}`} />
+
+      {mode === 'intermission' && pages.length > 1 && (
+        <div className={`fixed left-1/2 flex -translate-x-1/2 gap-2 ${showTicker ? 'bottom-20' : 'bottom-4'}`}>
+          {pages.map((_, i) => (
+            <span key={i} className={`h-2 rounded-full ${i === rot.idx % pages.length ? 'w-8 bg-cyan-600' : 'w-4 bg-slate-300'}`} />
           ))}
         </div>
       )}
+
+      {showTicker && bracket && (
+        <Ticker items={tickerItems({ bracket, ev, entryById, preds, meta, recentAchievements: arena.recentAchievements, now })} />
+      )}
+
       {drawing && bracket && (
         <DrawAnimation
           groups={bracket.groups.length ? bracket.groups : [{ id: 'all', name: '參賽選手', playerIds: bracket.playerIds }]}
@@ -196,50 +227,13 @@ export default function Screen() {
           title={firstLive ? `${displayName(entryById.get(firstLive.p1 ?? ''))}  vs  ${displayName(entryById.get(firstLive.p2 ?? ''))}` : undefined}
         />
       )}
-      {fx && !drawing && !countingDown && <ArenaFxOverlay key={fx.id} event={fx} entryById={entryById} sound={soundPref === 'on' && audioReady} onDone={nextFx} />}
+      {arena.current && !drawing && !countingDown && (
+        <ArenaFxOverlay key={arena.current.id} event={arena.current} entryById={entryById} sound={soundPref === 'on' && audioReady} onDone={arena.next} />
+      )}
     </div>
   );
 }
 
 function ScreenTitle({ children }: { children: string }) {
   return <h2 className="neon-text mb-6 text-center text-5xl font-black">{children}</h2>;
-}
-
-function LiveView({ bracket }: { bracket: BracketDoc }) {
-  const { entryById, event: ev } = useReadyEvent();
-  const upcoming = upcomingMatches(bracket, 4);
-  // 下一輪就要上場的場次（每個戰鬥盤一場）：選手已確定的前幾場
-  const onDeck = new Set(upcoming.filter((m) => m.p1 && m.p2).slice(0, ev.rules.arenaCount).map((m) => m.id));
-  return (
-    <div className="space-y-8">
-      {bracket.currentMatchIds.length > 0 ? (
-        <>
-          <ScreenTitle>⚔️ 目前場次</ScreenTitle>
-          <LiveMatches bracket={bracket} entryById={entryById} big />
-        </>
-      ) : (
-        <ScreenTitle>等待下一場…</ScreenTitle>
-      )}
-      {upcoming.length > 0 && (
-        <div>
-          <h3 className="mb-3 text-3xl font-bold text-slate-600">接下來</h3>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-6">
-            {upcoming.map((m) => (
-              <div
-                key={m.id}
-                className={`relative flex items-center justify-between rounded-2xl bg-white px-6 py-4 text-3xl shadow-sm ${onDeck.has(m.id) ? 'border-4 border-amber-400' : ''}`}
-              >
-                {onDeck.has(m.id) && (
-                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 animate-pulse rounded-full bg-amber-400 px-4 py-0.5 text-lg font-black text-amber-950">📣 請準備</span>
-                )}
-                <span className="truncate font-bold">{m.p1 ? displayName(entryById.get(m.p1)) : describeSource(m.p1Source)}</span>
-                <span className="mx-4 shrink-0 text-xl text-slate-500">{matchLabel(m.id)}</span>
-                <span className="truncate text-right font-bold">{m.p2 ? displayName(entryById.get(m.p2)) : describeSource(m.p2Source)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
 }

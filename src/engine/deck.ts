@@ -1,4 +1,4 @@
-import { comboKey, normalizeCombo, partKey } from '../lib/parts';
+import { comboKey, isFusionRatchet, normalizeCombo, partKey } from '../lib/parts';
 import type { Battle, Combo, EntryDoc, EventDoc, FinishType, Match } from '../types';
 
 const FINISHES: readonly string[] = ['spin', 'over', 'burst', 'xtreme'];
@@ -59,9 +59,11 @@ export function checkDeck(rows: Combo[], size: number): DeckCheck {
   const deck: Combo[] = [];
   rows.forEach((raw, i) => {
     const c = normalizeCombo(raw);
-    const filled = [c.blade, c.ratchet, c.bit].filter(Boolean).length;
-    if (filled === 0 && !c.assistBlade && !c.lockChip) return;
-    if (filled < 3) errors.push(`第 ${i + 1} 顆還沒填完（Blade、Ratchet、Bit 都要填）`);
+    const empty = !c.blade && !c.ratchet && !c.bit && !c.assistBlade && !c.lockChip && !c.overBlade;
+    if (empty) return;
+    // 融合型 Ratchet（Turbo 等）本身就包含 Bit
+    const done = c.blade && c.ratchet && (c.bit || isFusionRatchet(c.ratchet));
+    if (!done) errors.push(`第 ${i + 1} 顆還沒填完（Blade、Ratchet、Bit 都要填）`);
     else deck.push(c);
   });
   if (deck.length > size) errors.push(`最多 ${size} 顆`);
@@ -81,6 +83,9 @@ export function checkDeck(rows: Combo[], size: number): DeckCheck {
   dup('Blade', deck.map((c) => c.blade));
   dup('Ratchet', deck.map((c) => c.ratchet));
   dup('Bit', deck.map((c) => c.bit));
+  dup('Lock Chip', deck.map((c) => c.lockChip));
+  dup('Assist Blade', deck.map((c) => c.assistBlade));
+  dup('Over Blade', deck.map((c) => c.overBlade));
   return { errors, warnings, deck };
 }
 

@@ -40,11 +40,14 @@ export interface EventDoc {
 /** 一顆陀螺的零件組合（Beyblade X）。名稱存正規化後的英文名（見 lib/parts.ts）。 */
 export interface Combo {
   blade: string;
-  /** 只有 CX（Custom Line）才有。 */
+  /** 只有 CX（Custom Line）才有。CX 的 blade 是 Main Blade（CXE 是 Metal Blade）。 */
   assistBlade?: string;
   /** 只有 CX，選填。 */
   lockChip?: string;
+  /** 只有 CXE（擴充三片式）才有。 */
+  overBlade?: string;
   ratchet: string;
+  /** Ratchet 是融合型（Turbo、Operate 等，Ratchet 與 Bit 一體）時為空字串。 */
   bit: string;
 }
 

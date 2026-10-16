@@ -1,5 +1,6 @@
 import { Card } from '../components/ui';
 import { FINISH_LABELS, FINISH_TYPES } from '../lib/defaults';
+import { CATALOG_SOURCE } from '../lib/parts';
 import { useReadyEvent } from '../providers/EventProvider';
 
 export default function Rules() {
@@ -85,6 +86,12 @@ export default function Rules() {
           <li>• 友誼第一、比賽第二，輸了也要跟對手握手 🤝</li>
         </ul>
       </Card>
-    </div>
+      <p className="pb-4 text-center text-[11px] text-slate-400">
+        零件資料來源：
+        <a href={CATALOG_SOURCE.url} target="_blank" rel="noreferrer" className="underline">
+          Beydex
+        </a>
+        （{CATALOG_SOURCE.commitDate || CATALOG_SOURCE.syncedAt} 版）・中文名稱為暫譯
+      </p>    </div>
   );
 }

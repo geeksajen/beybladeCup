@@ -4,7 +4,7 @@ import { byWinRate, computeMeta, topByFinish } from '../src/engine/meta';
 import { generateBracket } from '../src/engine/scheduler';
 import { DEFAULT_RULES } from '../src/lib/defaults';
 import { simulateAll } from '../src/lib/devSim';
-import { comboLabel, normalizePart } from '../src/lib/parts';
+import { comboLabel, isFusionRatchet, normalizeCombo, normalizePart, stockCombosFor } from '../src/lib/parts';
 import type { EntryDoc } from '../src/types';
 import type { Battle, BracketDoc, Combo, FinishType, Match } from '../src/types';
 
@@ -34,19 +34,43 @@ const bracket = (matches: Match[]): BracketDoc => ({
 
 describe('parts', () => {
   it('正規化：大小寫、縮寫、Ratchet 格式、別名', () => {
-    expect(normalizePart('blade', ' dran  sword ')).toBe('Dran Sword');
-    expect(normalizePart('blade', 'Soar Phoenix')).toBe('Phoenix Wing');
+    expect(normalizePart('blade', ' dran  sword ')).toBe('DranSword');
+    // Hasbro 名稱是別名
+    expect(normalizePart('blade', 'Soar Phoenix')).toBe('PhoenixWing');
+    expect(normalizePart('blade', 'Sword Dran')).toBe('DranSword');
+    // 舊版清單的拼法
+    expect(normalizePart('bit', 'Disc Ball')).toBe('Disk Ball');
     expect(normalizePart('bit', 'lf')).toBe('Low Flat');
     expect(normalizePart('ratchet', '3 60')).toBe('3-60');
     expect(normalizePart('ratchet', '3–60')).toBe('3-60');
     expect(normalizePart('blade', '新陀螺')).toBe('新陀螺');
-    expect(normalizePart('blade', '龍之劍')).toBe('Dran Sword');
+    expect(normalizePart('blade', '龍之劍')).toBe('DranSword');
   });
 
   it('組合寫法：Blade 用中文、Bit 用縮寫', () => {
     expect(comboLabel(A)).toBe('龍之劍 3-60F');
     expect(comboLabel(c('新陀螺', '3-60', 'Mystery'))).toBe('新陀螺 3-60 Mystery');
-    expect(comboLabel({ ...C, lockChip: 'Pegasus', blade: 'Brave', assistBlade: 'Slash' })).toBe('天馬 Brave 斬擊 4-80B');
+    // CX：Lock Chip＋Main Blade，Assist 縮寫直接接 Ratchet（官方寫法 DranBrave S6-60V）
+    expect(comboLabel({ lockChip: 'Dran', blade: 'Brave', assistBlade: 'Slash', ratchet: '6-60', bit: 'Vortex' })).toBe('龍勇者 S6-60V');
+    // CXE：Over Blade＋Assist（BahamutBlitz BK1-50I）
+    expect(comboLabel({ lockChip: 'Bahamut', blade: 'Blitz', overBlade: 'Break', assistBlade: 'Knuckle', ratchet: '1-50', bit: 'Ignition' })).toBe(
+      '巴哈姆特閃擊 BK1-50I',
+    );
+  });
+
+  it('融合型 Ratchet 不需要 Bit', () => {
+    expect(isFusionRatchet('Turbo')).toBe(true);
+    expect(isFusionRatchet('Tr')).toBe(true);
+    expect(isFusionRatchet('3-60')).toBe(false);
+    expect(normalizeCombo({ blade: 'DranSword', ratchet: 'Tr', bit: 'Flat' })).toEqual({ blade: 'DranSword', ratchet: 'Turbo', bit: '' });
+    expect(checkDeck([{ blade: 'DranSword', ratchet: 'Turbo', bit: '' }], 1)).toMatchObject({ errors: [], warnings: [] });
+  });
+
+  it('原廠組合', () => {
+    const s = stockCombosFor({ blade: 'dran sword' });
+    expect(s.map((x) => comboLabel(x.combo))).toContain('龍之劍 3-60F');
+    expect(stockCombosFor({ blade: 'Brave', lockChip: 'Dran' }).every((x) => x.combo.lockChip === 'Dran')).toBe(true);
+    expect(stockCombosFor({})).toEqual([]);
   });
 });
 
@@ -70,7 +94,7 @@ describe('deck', () => {
     expect(r.errors).toEqual([]);
     expect(r.deck).toHaveLength(2);
     expect(r.warnings.join()).toMatch(/目前只有 2 顆/);
-    expect(r.warnings.join()).toMatch(/Blade「Dran Sword」重複/);
+    expect(r.warnings.join()).toMatch(/Blade「DranSword」重複/);
     expect(checkDeck([A, B, C], 3)).toMatchObject({ errors: [], warnings: [] });
   });
 });

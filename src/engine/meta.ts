@@ -55,6 +55,7 @@ export function computeMeta(b: BracketDoc): MetaStats {
 
   const row = (kind: MetaKind, c: Combo) => {
     const { key, label } = EXTRACT[kind](c);
+    if (!key) return undefined; // 融合型 Ratchet 沒有 Bit
     const map = maps[kind];
     if (!map.has(key)) map.set(key, { key, label, players: 0, battles: 0, wins: 0, finishes: emptyFinishes(), users: new Set() });
     return map.get(key)!;
@@ -62,8 +63,8 @@ export function computeMeta(b: BracketDoc): MetaStats {
 
   for (const m of b.matches) {
     if (m.isBye || m.manualScore || !m.p1 || !m.p2 || !m.p1Deck?.length || !m.p2Deck?.length) continue;
-    for (const c of m.p1Deck) for (const k of kinds) row(k, c).users.add(m.p1);
-    for (const c of m.p2Deck) for (const k of kinds) row(k, c).users.add(m.p2);
+    for (const c of m.p1Deck) for (const k of kinds) row(k, c)?.users.add(m.p1);
+    for (const c of m.p2Deck) for (const k of kinds) row(k, c)?.users.add(m.p2);
     m.battles.forEach((bt, i) => {
       if (!isDecisive(bt)) return;
       const beys = beysAt(m, i);
@@ -75,10 +76,12 @@ export function computeMeta(b: BracketDoc): MetaStats {
         const w = row(k, win);
         const l = row(k, lose);
         if (w === l) continue; // 同零件互打：不影響這個零件的勝率
-        w.battles++;
-        w.wins++;
-        w.finishes[bt.finish]++;
-        l.battles++;
+        if (w) {
+          w.battles++;
+          w.wins++;
+          w.finishes[bt.finish]++;
+        }
+        if (l) l.battles++;
       }
     });
   }

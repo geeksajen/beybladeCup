@@ -11,22 +11,42 @@ import { Confetti } from './Confetti';
 /** 排隊中的特效最多保留幾個（斷線重連一次收到很多變化時，只播最後幾個）。 */
 const MAX_QUEUE = 6;
 
-/** 監聽賽程變化，回傳目前要播放的特效與「播完了」的回呼。 */
-export function useArenaEvents(bracket: BracketDoc | null | undefined, rules: ScoreRules): [ArenaEvent | undefined, () => void] {
+type AchievementEvent = Extract<ArenaEvent, { kind: 'achievement' }>;
+
+export interface ArenaEventState {
+  /** 目前要播放的特效。 */
+  current?: ArenaEvent;
+  /** 播完了，換下一個。 */
+  next: () => void;
+  /** 最近一場結束（大螢幕切到「積分更新」用）。 */
+  lastWin?: { matchId: string; at: number };
+  /** 最近解鎖的成就（新的在前，跑馬燈用）。 */
+  recentAchievements: AchievementEvent[];
+}
+
+/** 監聽賽程變化，回傳要播放的特效、最近一場結束與最近解鎖的成就。 */
+export function useArenaEvents(bracket: BracketDoc | null | undefined, rules: ScoreRules): ArenaEventState {
   const prev = useRef(bracket);
   const rulesRef = useRef(rules);
   rulesRef.current = rules;
   const [queue, setQueue] = useState<ArenaEvent[]>([]);
+  const [lastWin, setLastWin] = useState<{ matchId: string; at: number }>();
+  const [recent, setRecent] = useState<AchievementEvent[]>([]);
 
   useEffect(() => {
     const p = prev.current;
     prev.current = bracket;
     if (!p || !bracket || p === bracket) return;
     const evs = diffArenaEvents(p, bracket, rulesRef.current, Date.now());
-    if (evs.length) setQueue((q) => [...q, ...evs.filter((e) => !q.some((x) => x.id === e.id))].slice(-MAX_QUEUE));
+    if (!evs.length) return;
+    setQueue((q) => [...q, ...evs.filter((e) => !q.some((x) => x.id === e.id))].slice(-MAX_QUEUE));
+    const win = [...evs].reverse().find((e) => e.kind === 'win');
+    if (win?.kind === 'win') setLastWin({ matchId: win.matchId, at: Date.now() });
+    const ach = evs.filter((e): e is AchievementEvent => e.kind === 'achievement').reverse();
+    if (ach.length) setRecent((r) => [...ach, ...r.filter((x) => !ach.some((a) => a.id === x.id))].slice(0, 5));
   }, [bracket]);
 
-  return [queue[0], () => setQueue((q) => q.slice(1))];
+  return { current: queue[0], next: () => setQueue((q) => q.slice(1)), lastWin, recentAchievements: recent };
 }
 
 const FINISH_STYLE: Record<FinishType, { title: string; bg: string; text: string; ms: number; anim: string }> = {

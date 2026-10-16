@@ -1,5 +1,5 @@
 import { EMOJIS } from '../lib/defaults';
-import { BITS, BLADES } from '../lib/parts';
+import { STOCK_BEYS } from '../lib/parts';
 import type { AuthUser, BracketDoc, Combo, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 import type { EventStore } from './types';
 
@@ -198,17 +198,11 @@ const SEED_NAMES = ['閃電小明', '火焰阿傑', '旋風小美', '鋼鐵阿�
 const SEED_BEYS = ['Dran Sword', 'Hells Scythe', 'Wizard Arrow', 'Knight Shield', 'Leon Claw', 'Shark Edge', 'Phoenix Wing', 'Viper Tail'];
 const SEED_GRADES = ['一年級', '二年級', '三年級', '四年級', '五年級', '六年級'];
 const pick = <T>(list: T[], i: number): T => list[i % list.length];
-const SEED_RATCHETS = ['3-60', '4-60', '5-60', '9-60', '1-60', '4-80', '3-80', '5-80'];
-
-/** 測試用 Deck：集中在常見零件（Meta 統計才有東西看），同一組 Deck 內零件不重複。 */
+/** 測試用 Deck：從原廠組合挑（Meta 統計才有東西看），集中在前 15 款常見陀螺。 */
 function seedDeck(i: number, size: number): Combo[] {
-  return Array.from({ length: size }, (_, k) => ({
-    blade: pick(BLADES.slice(0, 10), i + k * 3).en,
-    ratchet: pick(SEED_RATCHETS, i + k * 3),
-    bit: pick(BITS.slice(0, 8), i * 3 + k * 3).en,
-  }));
+  const pool = STOCK_BEYS.slice(0, 15);
+  return Array.from({ length: size }, (_, k) => ({ ...pool[(i * 2 + k * 5) % pool.length].combo }));
 }
-
 /**
  * 開發用：一次產生 n 筆測試報名（每筆不同的假 ownerUid，依序報名）。
  * 暱稱接在現有報名之後編號，不會跟已有的重複。

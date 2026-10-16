@@ -4,11 +4,14 @@ import {
   CATALOG,
   comboLabel,
   findPart,
+  isCx,
+  isFusionRatchet,
   normalizePart,
   partKey,
   partLabel,
   RATCHET_BLADES,
   RATCHET_HEIGHTS,
+  stockCombosFor,
   type PartDef,
   type PartKind,
 } from '../lib/parts';
@@ -17,7 +20,16 @@ import type { Combo, EntryDoc } from '../types';
 import { Button, ErrorText, inputClass } from './ui';
 
 const EMPTY: Combo = { blade: '', ratchet: '', bit: '' };
-const KIND_LABEL: Record<PartKind, string> = { blade: 'Blade', ratchet: 'Ratchet', bit: 'Bit', lockChip: 'Lock Chip', assistBlade: 'Assist Blade' };
+const KIND_LABEL: Record<PartKind, string> = {
+  blade: 'Blade',
+  ratchet: 'Ratchet',
+  bit: 'Bit',
+  lockChip: 'Lock Chip',
+  assistBlade: 'Assist Blade',
+  overBlade: 'Over Blade',
+};
+/** 這幾種零件用縮寫稱呼（F、S、B…）。 */
+const ABBR_KINDS: PartKind[] = ['bit', 'assistBlade', 'overBlade'];
 
 /** 自己、主辦，或比賽開始後才看得到 Deck（畫面上隱藏，資料本身是公開讀）。 */
 export function useCanSeeDeck(): (entry: EntryDoc | undefined) => boolean {
@@ -40,9 +52,13 @@ export function DeckView({ deck, highlight, className = '' }: { deck?: Combo[]; 
   );
 }
 
-const complete = (c: Combo) => !!(c.blade && c.ratchet && c.bit);
-const isEmpty = (c: Combo) => !c.blade && !c.ratchet && !c.bit && !c.assistBlade && !c.lockChip;
-const stepsFor = (cx: boolean): PartKind[] => (cx ? ['lockChip', 'blade', 'assistBlade', 'ratchet', 'bit'] : ['blade', 'ratchet', 'bit']);
+const complete = (c: Combo) => !!(c.blade && c.ratchet && (c.bit || isFusionRatchet(c.ratchet)));
+const isEmpty = (c: Combo) => !c.blade && !c.ratchet && !c.bit && !c.assistBlade && !c.lockChip && !c.overBlade;
+/** 每顆要選的零件：CX 是 Lock Chip → Main Blade → Over Blade（CXE 才有）→ Assist → Ratchet → Bit；融合型 Ratchet 不用選 Bit。 */
+const stepsFor = (cx: boolean, c?: Combo): PartKind[] => {
+  const steps: PartKind[] = cx ? ['lockChip', 'blade', 'overBlade', 'assistBlade', 'ratchet', 'bit'] : ['blade', 'ratchet', 'bit'];
+  return c && isFusionRatchet(c.ratchet) ? steps.filter((k) => k !== 'bit') : steps;
+};
 
 /**
  * 「今天熱門」：其他選手已登錄的零件，依使用次數排序。
@@ -51,7 +67,7 @@ const stepsFor = (cx: boolean): PartKind[] => (cx ? ['lockChip', 'blade', 'assis
 function usePopularParts(): Record<PartKind, string[]> {
   const { entries, event: ev, isFamily } = useReadyEvent();
   return useMemo(() => {
-    const out = { blade: [], ratchet: [], bit: [], lockChip: [], assistBlade: [] } as Record<PartKind, string[]>;
+    const out: Record<PartKind, string[]> = { blade: [], ratchet: [], bit: [], lockChip: [], assistBlade: [], overBlade: [] };
     if (!isFamily && !deckPublic(ev)) return out;
     for (const kind of Object.keys(out) as PartKind[]) {
       const counts = new Map<string, number>();
@@ -92,7 +108,7 @@ export function DeckEditor({
   saveLabel?: string;
 }) {
   const [deck, setDeck] = useState<Combo[]>(() => Array.from({ length: size }, (_, i) => ({ ...EMPTY, ...initial?.[i] })));
-  const [cx, setCx] = useState<boolean[]>(() => deck.map((r) => !!(r.assistBlade || r.lockChip)));
+  const [cx, setCx] = useState<boolean[]>(() => deck.map((r) => !!r.blade && isCx(r)));
   const [step, setStep] = useState<Step>(() => (deck.some(complete) ? 'summary' : { bey: 0, kind: 'blade' }));
   // 從確認畫面點進來編輯單一顆時，編完回確認畫面
   const [single, setSingle] = useState(false);
@@ -104,28 +120,46 @@ export function DeckEditor({
     setStep('summary');
   };
 
-  const advance = (bey: number, kind: PartKind, next: Combo[]) => {
-    const steps = stepsFor(cx[bey]);
-    const i = steps.indexOf(kind);
-    if (i < steps.length - 1) return setStep({ bey, kind: steps[i + 1] });
+  /** 這一顆填完：跳到下一顆空的，或回確認畫面。 */
+  const nextBeyOrSummary = (bey: number, next: Combo[]) => {
     const nextBey = next.findIndex((c, j) => j > bey && isEmpty(c));
     if (!single && nextBey >= 0) return setStep({ bey: nextBey, kind: stepsFor(cx[nextBey])[0] });
     goSummary();
   };
 
+  const advance = (bey: number, kind: PartKind, next: Combo[]) => {
+    const steps = stepsFor(cx[bey], next[bey]);
+    const i = steps.indexOf(kind);
+    if (i >= 0 && i < steps.length - 1) return setStep({ bey, kind: steps[i + 1] });
+    nextBeyOrSummary(bey, next);
+  };
+
   const pick = (bey: number, kind: PartKind, value: string) => {
-    const next = deck.map((c, j) => (j === bey ? { ...c, [kind]: normalizePart(kind, value) } : c));
+    const next = deck.map((c, j) => {
+      if (j !== bey) return c;
+      const updated = { ...c, [kind]: normalizePart(kind, value) };
+      // 換成融合型 Ratchet 時清掉 Bit
+      if (kind === 'ratchet' && isFusionRatchet(updated.ratchet)) updated.bit = '';
+      return updated;
+    });
     setDeck(next);
     advance(bey, kind, next);
   };
 
+  /** 原廠組合一鍵帶入：保留已選的 Blade，其他零件照原廠填好。 */
+  const applyStock = (bey: number, combo: Combo) => {
+    const next = deck.map((c, j) => (j === bey ? { ...combo } : c));
+    setDeck(next);
+    nextBeyOrSummary(bey, next);
+  };
+
   const back = () => {
     if (step === 'summary') return;
-    const steps = stepsFor(cx[step.bey]);
+    const steps = stepsFor(cx[step.bey], deck[step.bey]);
     const i = steps.indexOf(step.kind);
     if (i > 0) return setStep({ bey: step.bey, kind: steps[i - 1] });
     if (!single && step.bey > 0) {
-      const prev = stepsFor(cx[step.bey - 1]);
+      const prev = stepsFor(cx[step.bey - 1], deck[step.bey - 1]);
       return setStep({ bey: step.bey - 1, kind: prev[prev.length - 1] });
     }
     if (deck.some(complete) || single) return goSummary();
@@ -134,13 +168,17 @@ export function DeckEditor({
 
   const setCxFor = (bey: number, on: boolean) => {
     setCx((list) => list.map((v, j) => (j === bey ? on : v)));
-    if (!on) setDeck((list) => list.map((c, j) => (j === bey ? { ...c, assistBlade: undefined, lockChip: undefined } : c)));
+    // 切換系列時 Blade 清單不同，清掉已選的 Blade 與 CX 專用零件
+    setDeck((list) => list.map((c, j) => (j === bey ? { ...c, blade: '', assistBlade: undefined, lockChip: undefined, overBlade: undefined } : c)));
     setStep({ bey, kind: stepsFor(on)[0] });
   };
 
   if (step !== 'summary') {
     const cur = deck[step.bey];
-    const steps = stepsFor(cx[step.bey]);
+    const steps = stepsFor(cx[step.bey], cur);
+    const bladeIdx = steps.indexOf('blade');
+    // Blade 選好之後，每一步上方都提供原廠組合（目前的組合已經是原廠的就不顯示）
+    const stocks = steps.indexOf(step.kind) > bladeIdx ? stockCombosFor(cur).filter((s) => comboLabel(s.combo) !== comboLabel(cur)).slice(0, 3) : [];
     return (
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-2">
@@ -193,14 +231,33 @@ export function DeckEditor({
           </div>
         )}
 
+        {stocks.length > 0 && (
+          <div className="space-y-1.5 rounded-xl border-2 border-cyan-300 bg-cyan-50 p-2">
+            <div className="text-xs font-bold text-cyan-800">⚡ 沒有改裝？直接用原廠組合</div>
+            {stocks.map((s) => (
+              <button
+                key={s.code}
+                type="button"
+                onClick={() => applyStock(step.bey, s.combo)}
+                className="flex w-full items-center justify-between gap-2 rounded-lg bg-white px-3 py-2 text-left active:scale-[0.98]"
+              >
+                <span className="min-w-0 truncate font-black">{comboLabel(s.combo)}</span>
+                <span className="shrink-0 text-[11px] text-slate-500">{s.code} 原廠</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         {step.kind === 'ratchet' ? (
           <RatchetPicker key={`${step.bey}-r`} value={cur.ratchet} popular={popular.ratchet} onPick={(v) => pick(step.bey, 'ratchet', v)} />
         ) : (
           <PartPicker
-            key={`${step.bey}-${step.kind}`}
+            key={`${step.bey}-${step.kind}-${cx[step.bey]}`}
             kind={step.kind}
             value={cur[step.kind] ?? ''}
             popular={popular[step.kind]}
+            filter={step.kind === 'blade' ? (d) => !!d.cx === cx[step.bey] : undefined}
+            optional={step.kind === 'overBlade' ? '沒有 Over Blade（一般 CX）' : undefined}
             onPick={(v) => pick(step.bey, step.kind, v)}
           />
         )}
@@ -274,7 +331,7 @@ export function DeckEditor({
 }
 
 function Chip({ def, kind, selected, onClick }: { def: PartDef; kind: PartKind; selected: boolean; onClick: () => void }) {
-  const isBit = kind === 'bit' && def.abbr;
+  const isBit = ABBR_KINDS.includes(kind) && !!def.abbr;
   return (
     <button
       type="button"
@@ -296,14 +353,35 @@ function matches(d: PartDef, q: string): boolean {
   return [d.en, d.zh, d.abbr, ...(d.aliases ?? [])].some((n) => n && partKey(n).includes(k));
 }
 
-/** Blade／Bit／Lock Chip／Assist Blade：搜尋＋今天熱門＋全部，點一下就選。 */
-function PartPicker({ kind, value, popular, onPick }: { kind: PartKind; value: string; popular: string[]; onPick: (v: string) => void }) {
+/** Blade／Bit／Lock Chip／Assist／Over Blade：搜尋＋今天熱門＋全部，點一下就選。 */
+function PartPicker({
+  kind,
+  value,
+  popular,
+  onPick,
+  filter,
+  optional,
+}: {
+  kind: PartKind;
+  value: string;
+  popular: string[];
+  onPick: (v: string) => void;
+  /** 只顯示部分清單（例如一般 Blade／CX Main Blade）；搜尋時仍然全部找得到。 */
+  filter?: (d: PartDef) => boolean;
+  /** 這個零件可以沒有：顯示「略過」按鈕的文字。 */
+  optional?: string;
+}) {
   const [q, setQ] = useState('');
   const catalog = CATALOG[kind];
+  const shown = filter ? catalog.filter(filter) : catalog;
   const query = q.trim();
   const found = query ? catalog.filter((d) => matches(d, query)) : [];
   const exact = query && found.some((d) => partKey(d.en) === partKey(normalizePart(kind, query)));
-  const cols = kind === 'bit' ? 'grid-cols-4' : 'grid-cols-3';
+  const cols = ABBR_KINDS.includes(kind) ? 'grid-cols-4' : 'grid-cols-3';
+  const hot = popular
+    .map((n) => defOf(kind, n))
+    .filter((d) => !filter || filter(d))
+    .slice(0, ABBR_KINDS.includes(kind) ? 8 : 6);
   const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
     // 在報名表單裡按 Enter 不要送出整張表單
     if (e.key !== 'Enter') return;
@@ -327,6 +405,11 @@ function PartPicker({ kind, value, popular, onPick }: { kind: PartKind; value: s
         onChange={(e) => setQ(e.target.value)}
         onKeyDown={onKey}
       />
+      {optional && (
+        <button type="button" className={`w-full rounded-xl border-2 py-2 text-sm font-bold ${value ? 'border-slate-200 bg-white' : 'border-fuchsia-500 bg-fuchsia-50'}`} onClick={() => onPick('')}>
+          {optional}
+        </button>
+      )}
       {query ? (
         <>
           {grid(found)}
@@ -338,15 +421,15 @@ function PartPicker({ kind, value, popular, onPick }: { kind: PartKind; value: s
         </>
       ) : (
         <>
-          {popular.length > 0 && (
+          {hot.length > 0 && (
             <div>
               <div className="mb-1 text-xs font-bold text-amber-700">🔥 今天熱門</div>
-              {grid(popular.slice(0, kind === 'bit' ? 8 : 6).map((n) => defOf(kind, n)))}
+              {grid(hot)}
             </div>
           )}
           <div>
-            {popular.length > 0 && <div className="mb-1 text-xs font-bold text-slate-500">全部</div>}
-            {grid(catalog)}
+            {hot.length > 0 && <div className="mb-1 text-xs font-bold text-slate-500">全部</div>}
+            {grid(shown)}
           </div>
         </>
       )}
@@ -367,6 +450,7 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
   };
   const btn = (selected: boolean) =>
     `rounded-xl border-2 py-2.5 font-display text-lg active:scale-95 ${selected ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-white'}`;
+  const fusion = CATALOG.ratchet.filter((d) => d.fusion);
 
   return (
     <div className="space-y-3">
@@ -402,10 +486,23 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
           ))}
         </div>
       </div>
+      {fusion.length > 0 && (
+        <div>
+          <div className="mb-1 text-xs font-bold text-slate-600">融合型（Ratchet 和 Bit 一體，不用再選 Bit）</div>
+          <div className="grid grid-cols-4 gap-1.5">
+            {fusion.map((d) => (
+              <button key={d.en} type="button" className={btn(partKey(d.en) === partKey(value))} onClick={() => onPick(d.en)}>
+                <div className="leading-tight">{d.abbr ?? d.en}</div>
+                <div className="font-sans text-[10px] text-slate-500">{d.zh ?? d.en}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="flex gap-2">
         <input
           className={`${inputClass} py-2 text-sm`}
-          placeholder="其他寫法，例如 Turbo"
+          placeholder="其他寫法"
           value={other}
           onChange={(e) => setOther(e.target.value)}
           onKeyDown={(e) => {

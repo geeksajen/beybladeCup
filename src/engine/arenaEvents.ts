@@ -6,7 +6,7 @@ import type { ScoreRules } from './scoring';
 /** 大螢幕要播放的特效事件（比較前後兩版賽程得出，不存資料庫）。 */
 export type ArenaEvent =
   | { kind: 'finish'; id: string; finish: FinishType; winnerId: string; points: number; combo?: Combo }
-  | { kind: 'win'; id: string; winnerId: string; loserId: string; winnerScore: number; loserScore: number }
+  | { kind: 'win'; id: string; matchId: string; winnerId: string; loserId: string; winnerScore: number; loserScore: number }
   | { kind: 'achievement'; id: string; entryId: string; achievement: AchievementKey };
 
 /** 逐局紀錄超過這個時間才收到（例如大螢幕斷線後重連），就不播放終結特效。 */
@@ -47,6 +47,7 @@ export function diffArenaEvents(prev: BracketDoc, next: BracketDoc, rules: Score
       events.push({
         kind: 'win',
         id: `${m.id}:win`,
+        matchId: m.id,
         winnerId: m.winner,
         loserId: p1Won ? m.p2 : m.p1,
         winnerScore: p1Won ? m.p1Score : m.p2Score,

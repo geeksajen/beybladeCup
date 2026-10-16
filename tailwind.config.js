@@ -37,6 +37,10 @@ export default {
           '0%, 20%, 40%': { filter: 'brightness(1.8)' },
           '10%, 30%, 100%': { filter: 'brightness(1)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         slideDown: {
           '0%': { transform: 'translateY(-150%)', opacity: '0' },
           '15%, 85%': { transform: 'translateY(0)', opacity: '1' },
@@ -51,6 +55,7 @@ export default {
         shake: 'shake 0.7s ease-out both',
         flash: 'flash 1s ease-out both',
         'slide-down': 'slideDown 2.4s ease-in-out both',
+        marquee: 'marquee 40s linear infinite',
       },
     },
   },

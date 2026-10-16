@@ -3,6 +3,7 @@ import { sortActive } from '../../engine/registration';
 import { FINISH_LABELS, FINISH_TYPES, STATUS_FLOW, STATUS_LABELS, type SetupValues } from '../../lib/defaults';
 import { useReadyEvent } from '../../providers/EventProvider';
 import { simulateAll } from '../../lib/devSim';
+import { CATALOG, CATALOG_SOURCE, STOCK_BEYS } from '../../lib/parts';
 import { clearLocalEntries, resetLocalData, seedLocalEntries } from '../../store/localAdapter';
 import type { EventDoc, EventStatus, RuleConfig } from '../../types';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
@@ -102,6 +103,22 @@ export function EventSettings() {
       </Card>
 
       <OtherSettings ev={ev} />
+
+      <Card>
+        <h2 className="mb-1 font-bold">零件清單</h2>
+        <p className="text-sm text-slate-700">
+          來源：
+          <a href={CATALOG_SOURCE.url} target="_blank" rel="noreferrer" className="text-cyan-700 underline">
+            Beydex
+          </a>
+          （{CATALOG_SOURCE.commitDate || '日期不明'} 版，{CATALOG_SOURCE.syncedAt} 同步）
+        </p>
+        <p className="mt-1 text-xs text-slate-600">
+          Blade {CATALOG.blade.length}・Ratchet {CATALOG.ratchet.length}・Bit {CATALOG.bit.length}・Lock Chip {CATALOG.lockChip.length}・Assist{' '}
+          {CATALOG.assistBlade.length}・Over {CATALOG.overBlade.length}・原廠組合 {STOCK_BEYS.length}
+        </p>
+        <p className="mt-1 text-xs text-slate-500">更新方式：在專案執行 npm run sync-parts，檢查變動、補上中文名稱（src/data/parts-zh.ts）後部署。清單沒有的零件，登錄時可以直接打字。</p>
+      </Card>
 
       <Card>
         <h2 className="mb-1 font-bold">隱私</h2>

@@ -13,7 +13,20 @@ export function advanceCount(b: BracketDoc, groupId: string): number {
   return max;
 }
 
-export function GroupTable({ bracket, group, entryById, big }: { bracket: BracketDoc; group: Group; entryById: Map<string, EntryDoc>; big?: boolean }) {
+export function GroupTable({
+  bracket,
+  group,
+  entryById,
+  big,
+  highlight = [],
+}: {
+  bracket: BracketDoc;
+  group: Group;
+  entryById: Map<string, EntryDoc>;
+  big?: boolean;
+  /** 正在比賽的選手（大螢幕標示）。 */
+  highlight?: string[];
+}) {
   const rows = groupStandings(bracket, group.id);
   const complete = isGroupComplete(bracket, group.id);
   const adv = advanceCount(bracket, group.id);
@@ -40,7 +53,7 @@ export function GroupTable({ bracket, group, entryById, big }: { bracket: Bracke
           {rows.map((r, i) => {
             const advancing = complete && i < adv && !r.tied;
             return (
-              <tr key={r.id} className={`border-t border-slate-200 ${advancing ? 'text-cyan-800' : ''}`}>
+              <tr key={r.id} className={`border-t border-slate-200 ${advancing ? 'text-cyan-800' : ''} ${highlight.includes(r.id) ? 'bg-amber-100' : ''}`}>
                 <td className="py-1 font-mono text-slate-600">{complete && r.tied ? '=' : r.rank}</td>
                 <td className="truncate py-1 font-semibold">
                   {displayName(entryById.get(r.id))}
