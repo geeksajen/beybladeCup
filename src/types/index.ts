@@ -53,15 +53,17 @@ export interface EntryInput {
   grade?: string;
   beyName?: string;
   emoji?: string;
+  /** 3on3 的 Deck（選填，報名時或之後在「我的報名」登錄），陣列順序 = 預設出場順序。比賽開始前只有自己與主辦看得到（畫面上隱藏）。 */
+  deck?: Combo[];
 }
 
 export interface EntryDoc extends EntryInput {
   id: string;
-  /** 3on3 的 Deck，陣列順序 = 預設出場順序。比賽開始前只有自己與主辦看得到（畫面上隱藏）。 */
-  deck?: Combo[];
   ownerUid: string;
   status: 'active' | 'cancelled';
   checkedIn: boolean;
+  /** 主辦報到時確認過的 Deck（deckSignature）；之後 Deck 被修改就不相符 = 需要重新確認。 */
+  deckCheckedKey?: string;
   createdAt: number;
   updatedAt: number;
 }

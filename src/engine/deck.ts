@@ -1,5 +1,5 @@
-import { normalizeCombo, partKey } from '../lib/parts';
-import type { Battle, Combo, EventDoc, FinishType, Match } from '../types';
+import { comboKey, normalizeCombo, partKey } from '../lib/parts';
+import type { Battle, Combo, EntryDoc, EventDoc, FinishType, Match } from '../types';
 
 const FINISHES: readonly string[] = ['spin', 'over', 'burst', 'xtreme'];
 
@@ -82,6 +82,18 @@ export function checkDeck(rows: Combo[], size: number): DeckCheck {
   dup('Ratchet', deck.map((c) => c.ratchet));
   dup('Bit', deck.map((c) => c.bit));
   return { errors, warnings, deck };
+}
+
+/** Deck 的指紋：用來判斷主辦確認過之後有沒有被修改。 */
+export function deckSignature(deck: Combo[] | undefined): string {
+  return (deck ?? []).map(comboKey).join('/');
+}
+
+export type DeckStatus = 'none' | 'unconfirmed' | 'confirmed';
+
+export function deckStatus(e: Pick<EntryDoc, 'deck' | 'deckCheckedKey'>): DeckStatus {
+  if (!e.deck?.length) return 'none';
+  return e.deckCheckedKey === deckSignature(e.deck) ? 'confirmed' : 'unconfirmed';
 }
 
 export function deckSizeOf(ev: Pick<EventDoc, 'rules'>): 1 | 3 {

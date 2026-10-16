@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { EMOJIS } from '../lib/defaults';
+import { DeckEditor, DeckView } from './Deck';
 import type { ContactInput, EntryInput } from '../types';
 import { Button, ErrorText, Field, inputClass, Toggle } from './ui';
 
@@ -39,7 +40,10 @@ export function EntryForm({
   onCancel,
   busy,
   error,
+  deckSize,
 }: {
+  /** 有傳才顯示選填的 Deck 區塊（新報名用；修改報名時 Deck 在「我的報名」另外編輯）。 */
+  deckSize?: number;
   initialEntry?: EntryInput;
   initialContact?: ContactInput;
   submitLabel: string;
@@ -51,6 +55,7 @@ export function EntryForm({
   const [entry, setEntry] = useState<EntryInput>({ ...EMPTY_ENTRY, ...initialEntry });
   const [contact, setContact] = useState<ContactInput>({ ...EMPTY_CONTACT, ...initialContact });
   const [submitted, setSubmitted] = useState(false);
+  const [editingDeck, setEditingDeck] = useState(false);
   // 第一次送出後即時驗證，修正後錯誤訊息馬上消失
   const errors: Errors = submitted ? validate(entry, contact) : {};
 
@@ -98,6 +103,37 @@ export function EntryForm({
         </div>
       </div>
 
+      {deckSize && (
+        <div className="space-y-2 border-t border-slate-200 pt-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-700">🌀 {deckSize === 3 ? '3on3 Deck' : '陀螺組合'}（選填）</h3>
+          <p className="text-xs text-slate-600">
+            可以現在登錄{deckSize === 3 ? ' 3 顆陀螺' : ''}，也可以之後在「我的報名」再填或修改。不登錄也能比賽，只是不會列入 Meta 強勢榜統計。比賽開始前只有你和主辦看得到。
+          </p>
+          {editingDeck ? (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-2">
+              <DeckEditor
+                initial={entry.deck}
+                size={deckSize}
+                busy={false}
+                saveLabel="確定"
+                onCancel={() => setEditingDeck(false)}
+                onSave={(deck) => {
+                  setEntry({ ...entry, deck: deck.length ? deck : undefined });
+                  setEditingDeck(false);
+                }}
+              />
+            </div>
+          ) : (
+            <>
+              {entry.deck?.length ? <DeckView deck={entry.deck} className="text-sm" /> : null}
+              <Button variant="secondary" className="w-full" onClick={() => setEditingDeck(true)}>
+                {entry.deck?.length ? '修改 Deck' : `＋ 登錄 ${deckSize === 3 ? '3 顆陀螺' : '陀螺組合'}`}
+              </Button>
+            </>
+          )}
+        </div>
+      )}
+
       <div className="space-y-4 border-t border-slate-200 pt-4">
         <h3 className="text-sm font-bold uppercase tracking-wider text-fuchsia-700">聯絡資料（只有主辦看得到）</h3>
         <Field label="家長稱呼" required error={errors.parentName}>
@@ -122,7 +158,7 @@ export function EntryForm({
             取消
           </Button>
         )}
-        <Button type="submit" variant="neon" className="flex-1" disabled={busy}>
+        <Button type="submit" variant="neon" className="flex-1" disabled={busy || editingDeck}>
           {busy ? '送出中…' : submitLabel}
         </Button>
       </div>

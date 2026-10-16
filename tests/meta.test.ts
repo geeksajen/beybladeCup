@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { checkDeck, nextBeys, setMatchDecks, slotAt } from '../src/engine/deck';
+import { checkDeck, deckSignature, deckStatus, nextBeys, setMatchDecks, slotAt } from '../src/engine/deck';
 import { byWinRate, computeMeta, topByFinish } from '../src/engine/meta';
 import { generateBracket } from '../src/engine/scheduler';
 import { DEFAULT_RULES } from '../src/lib/defaults';
@@ -40,11 +40,13 @@ describe('parts', () => {
     expect(normalizePart('ratchet', '3 60')).toBe('3-60');
     expect(normalizePart('ratchet', '3–60')).toBe('3-60');
     expect(normalizePart('blade', '新陀螺')).toBe('新陀螺');
+    expect(normalizePart('blade', '龍之劍')).toBe('Dran Sword');
   });
 
-  it('組合寫法用 Bit 縮寫', () => {
-    expect(comboLabel(A)).toBe('Dran Sword 3-60F');
-    expect(comboLabel({ ...C, lockChip: 'Pegasus', blade: 'Brave', assistBlade: 'Slash' })).toBe('Pegasus Brave Slash 4-80B');
+  it('組合寫法：Blade 用中文、Bit 用縮寫', () => {
+    expect(comboLabel(A)).toBe('龍之劍 3-60F');
+    expect(comboLabel(c('新陀螺', '3-60', 'Mystery'))).toBe('新陀螺 3-60 Mystery');
+    expect(comboLabel({ ...C, lockChip: 'Pegasus', blade: 'Brave', assistBlade: 'Slash' })).toBe('天馬 Brave 斬擊 4-80B');
   });
 });
 
@@ -73,6 +75,16 @@ describe('deck', () => {
   });
 });
 
+describe('deckStatus', () => {
+  it('主辦確認後 Deck 被修改 → 回到待確認', () => {
+    expect(deckStatus({})).toBe('none');
+    expect(deckStatus({ deck: [A, B, C] })).toBe('unconfirmed');
+    const key = deckSignature([A, B, C]);
+    expect(deckStatus({ deck: [A, B, C], deckCheckedKey: key })).toBe('confirmed');
+    expect(deckStatus({ deck: [B, A, C], deckCheckedKey: key })).toBe('unconfirmed');
+  });
+});
+
 describe('computeMeta', () => {
   it('以局計算零件勝率與終結方式；同零件互打不計', () => {
     // 第 1 局 A(3-60) vs X 贏；第 2 局 B vs Y(3-60) 輸；第 3 局 C vs Z 贏 Xtreme
@@ -82,9 +94,9 @@ describe('computeMeta', () => {
     const rat = s.rows.ratchet.find((r) => r.key === '360')!;
     // A(3-60) 贏 X(3-80)：+1 局 +1 勝；B(4-60) 輸 Y(3-60)：+1 局 +1 勝
     expect([rat.battles, rat.wins, rat.players]).toEqual([2, 2, 2]);
-    const dran = s.rows.blade.find((r) => r.label === 'Dran Sword')!;
+    const dran = s.rows.blade.find((r) => r.label === '龍之劍')!;
     expect([dran.battles, dran.wins, dran.finishes.over]).toEqual([1, 1, 1]);
-    expect(topByFinish(s.rows.combo, 'xtreme')?.label).toBe('Wizard Arrow 4-80B');
+    expect(topByFinish(s.rows.combo, 'xtreme')?.label).toBe('巫師之箭 4-80B');
   });
 
   it('同零件互打：該零件不計勝負', () => {

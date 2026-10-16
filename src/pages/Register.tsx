@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { EntryForm } from '../components/EntryForm';
 import { Confetti } from '../components/fx/Confetti';
 import { Button, Card, useAction } from '../components/ui';
+import { deckSizeOf } from '../engine/deck';
 import { entryPosition, registrationState } from '../engine/registration';
 import { isInAppBrowser } from '../lib/format';
 import { useNow } from '../lib/hooks';
@@ -36,6 +37,9 @@ export default function Register() {
           )}
           {pos.kind === 'unknown' && <p className="text-slate-700">資料同步中…</p>}
         </Card>
+        {entry && !entry.deck?.length && (
+          <Card className="text-left text-sm text-slate-700">🌀 還沒登錄 Deck 沒關係，比賽前到「我的報名」補上就好，當天報到會比較快。</Card>
+        )}
         <Card className="border-amber-500/40 text-left text-sm text-amber-900">
           ⚠️ 之後要修改或取消，請用<b>同一支手機、同一個瀏覽器</b>打開「我的報名」。換裝置的話請直接聯絡主辦。
         </Card>
@@ -88,6 +92,7 @@ export default function Register() {
           <Card>
             <EntryForm
               key={formKey}
+              deckSize={deckSizeOf(ev)}
               submitLabel={state.willBeWaitlist ? '送出（候補）' : '送出報名'}
               busy={busy}
               error={error}

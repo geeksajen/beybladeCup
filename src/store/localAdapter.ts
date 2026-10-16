@@ -233,7 +233,8 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
       emoji: pick(EMOJIS, i),
       status: 'active',
       checkedIn,
-      deck: seedDeck(i, deckSize),
+      // 每 5 人有 1 人沒登錄 Deck（測試報到補登錄、計分時的提醒）
+      deck: i % 5 === 4 ? undefined : seedDeck(i, deckSize),
       // 每筆差 1ms，維持報名順序（正取／候補依 createdAt 排序）
       createdAt: now + k,
       updatedAt: now + k,

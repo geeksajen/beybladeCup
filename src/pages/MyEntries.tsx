@@ -24,6 +24,12 @@ export default function MyEntries() {
     <div className="space-y-4 pt-2">
       <h1 className="text-2xl font-black">我的報名</h1>
       <p className="text-sm text-slate-600">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
+      {deckEditableByOwner(ev) && active.some((e) => !e.deck?.length) && (
+        <Card className="border-amber-400 bg-amber-50/60 text-sm text-amber-900">
+          ⚠️ 還沒登錄 Deck：<b>{active.filter((e) => !e.deck?.length).map((e) => e.nickname).join('、')}</b>
+          <div className="mt-1 text-xs">比賽前先登錄，當天報到會快很多！不登錄也能比賽，只是不會列入 Meta 強勢榜。</div>
+        </Card>
+      )}
       {active.length === 0 && (
         <Card className="text-center">
           <p className="text-slate-700">這個瀏覽器還沒有報名紀錄。</p>

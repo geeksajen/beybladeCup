@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { downstreamStarted, startMatchNow } from '../../engine/advance';
-import { deckSizeOf, nextBeys, reorder, setMatchDecks } from '../../engine/deck';
+import { deckSignature, deckSizeOf, nextBeys, reorder, setMatchDecks } from '../../engine/deck';
+import { DeckEditor } from '../Deck';
 import { addBattle, computeScore, decidedWinner, finalizeMatch, reopenMatch, setManualScore, undoBattle } from '../../engine/scoring';
 import { FINISH_LABELS, FINISH_TYPES } from '../../lib/defaults';
 import { describeSource, displayName, matchLabel } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { BracketDoc, Combo, EntryDoc, FinishType, Match } from '../../types';
-import { Button, Card, ErrorText, inputClass } from '../ui';
+import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 import { PredictionsControl } from './PredictionsControl';
 import { useBracketMutation } from './useBracket';
 
@@ -181,9 +182,16 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         </div>
       </div>
 
+      {match.battles.length === 0 && !match.manualScore && (
+        <>
+          <MissingDeck entry={p1} />
+          <MissingDeck entry={p2} />
+        </>
+      )}
+
       {canSetOrder && (
         <OrderSetup
-          key={`${match.p1Deck ? 'set' : 'new'}`}
+          key={`${match.p1Deck ? 'set' : 'new'}-${deckSignature(p1?.deck)}-${deckSignature(p2?.deck)}`}
           match={match}
           p1={p1}
           p2={p2}
@@ -377,6 +385,33 @@ function OrderList({ entry, deck, onChange, color }: { entry?: EntryDoc; deck: C
           </li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+/** 開打前發現選手沒有 Deck：可以現在補（不補也能照常比賽，只是這場不列入 Meta 統計）。 */
+function MissingDeck({ entry }: { entry?: EntryDoc }) {
+  const { event: ev, store } = useReadyEvent();
+  const [open, setOpen] = useState(false);
+  const { busy, error, run } = useAction();
+  if (!entry || entry.deck?.length) return null;
+  if (!open) {
+    return (
+      <button type="button" className="w-full rounded-xl bg-amber-50 px-3 py-2 text-left text-xs text-amber-900" onClick={() => setOpen(true)}>
+        ⚠️ {entry.nickname} 還沒登錄 Deck（可以照常比賽，只是不列入 Meta 統計）<span className="float-right font-bold text-cyan-700">現在補</span>
+      </button>
+    );
+  }
+  return (
+    <div className="rounded-xl border border-amber-300 bg-white p-2">
+      <div className="mb-2 text-sm font-bold">{displayName(entry)} 的 Deck</div>
+      <DeckEditor
+        size={deckSizeOf(ev)}
+        busy={busy}
+        error={error}
+        onCancel={() => setOpen(false)}
+        onSave={(deck) => void run(() => store.updateEntry(entry.id, { deck, deckCheckedKey: deckSignature(deck) }))}
+      />
     </div>
   );
 }
