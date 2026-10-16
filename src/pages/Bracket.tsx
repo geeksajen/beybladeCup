@@ -15,7 +15,7 @@ export default function BracketPage() {
     return (
       <div className="pt-10 text-center">
         <div className="text-5xl">⚔️</div>
-        <p className="mt-3 text-slate-700">比賽當天報到完成後，主辦會抽籤產生對戰表。</p>
+        <p className="mt-3 text-ink">比賽當天報到完成後，主辦會抽籤產生對戰表。</p>
       </div>
     );
   }
@@ -27,23 +27,23 @@ export default function BracketPage() {
   return (
     <div className="space-y-5 pt-2">
       <h1 className="text-2xl font-black">對戰表</h1>
-      <Link to="/meta" className="block rounded-xl bg-cyan-50 px-3 py-2 text-center text-sm font-bold text-cyan-800">
+      <Link to="/meta" className="block rounded-xl bg-primary/10 px-3 py-2 text-center text-sm font-bold text-primary">
         📊 Meta 強勢榜：大家都用什麼零件？ →
       </Link>
       {ev.predictionsOpen && (
-        <Link to="/predict" className="block rounded-xl bg-fuchsia-50 px-3 py-2 text-center text-sm font-bold text-fuchsia-800">
+        <Link to="/predict" className="block rounded-xl bg-accent/10 px-3 py-2 text-center text-sm font-bold text-accent">
           🔮 猜冠軍投票開放中 →
         </Link>
       )}
       {bracket.currentMatchIds.length > 0 && (
         <section>
-          <h2 className="mb-2 text-sm font-bold text-fuchsia-700">● 目前場次</h2>
+          <h2 className="mb-2 text-sm font-bold text-accent">● 目前場次</h2>
           <LiveMatches bracket={bracket} entryById={entryById} />
         </section>
       )}
       {upcoming.length > 0 && (
         <section>
-          <h2 className="mb-2 text-sm font-bold text-slate-600">接下來</h2>
+          <h2 className="mb-2 text-sm font-bold text-ink-muted">接下來</h2>
           <div className="grid grid-cols-2 gap-2">
             {upcoming.map((m) => (
               <MatchCard key={m.id} match={m} entryById={entryById} />
@@ -53,7 +53,7 @@ export default function BracketPage() {
       )}
       {bracket.groups.length > 0 && bracket.format !== 'knockout' && (
         <section className="space-y-3">
-          <h2 className="text-sm font-bold text-slate-600">{bracket.format === 'roundRobin' ? '積分表' : '分組積分'}</h2>
+          <h2 className="text-sm font-bold text-ink-muted">{bracket.format === 'roundRobin' ? '積分表' : '分組積分'}</h2>
           {bracket.groups.map((g) => (
             <GroupTable key={g.id} bracket={bracket} group={g} entryById={entryById} />
           ))}
@@ -61,7 +61,7 @@ export default function BracketPage() {
       )}
       {hasKo && (
         <section>
-          <h2 className="mb-2 text-sm font-bold text-slate-600">淘汰賽</h2>
+          <h2 className="mb-2 text-sm font-bold text-ink-muted">淘汰賽</h2>
           <KnockoutTree bracket={bracket} entryById={entryById} />
         </section>
       )}

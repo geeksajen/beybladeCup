@@ -31,16 +31,16 @@ export default function Register() {
           </p>
         )}
         <Card>
-          {pos.kind === 'confirmed' && <p className="text-xl font-bold text-cyan-700">正取第 {pos.index} 位</p>}
+          {pos.kind === 'confirmed' && <p className="text-xl font-bold text-primary">正取第 {pos.index} 位</p>}
           {pos.kind === 'waitlist' && (
-            <p className="text-xl font-bold text-amber-700">候補第 {pos.index} 位（有人取消時會自動遞補）</p>
+            <p className="text-xl font-bold text-gold">候補第 {pos.index} 位（有人取消時會自動遞補）</p>
           )}
-          {pos.kind === 'unknown' && <p className="text-slate-700">資料同步中…</p>}
+          {pos.kind === 'unknown' && <p className="text-ink">資料同步中…</p>}
         </Card>
         {entry && !entry.deck?.length && (
-          <Card className="text-left text-sm text-slate-700">🌀 還沒登錄 Deck 沒關係，比賽前到「我的報名」補上就好，當天報到會比較快。</Card>
+          <Card className="text-left text-sm text-ink">🌀 還沒登錄 Deck 沒關係，比賽前到「我的報名」補上就好，當天報到會比較快。</Card>
         )}
-        <Card className="border-amber-500/40 text-left text-sm text-amber-900">
+        <Card className="border-gold/40 text-left text-sm text-gold">
           ⚠️ 之後要修改或取消，請用<b>同一支手機、同一個瀏覽器</b>打開「我的報名」。換裝置的話請直接聯絡主辦。
         </Card>
         <div className="flex gap-2">
@@ -69,25 +69,25 @@ export default function Register() {
     <div className="space-y-4 pt-2">
       <h1 className="text-2xl font-black">我要報名</h1>
       {isInAppBrowser() && (
-        <Card className="border-amber-500/60 bg-amber-50/50 text-sm text-amber-900">
+        <Card className="border-gold/60 bg-gold/10 text-sm text-gold">
           📱 你正在用 LINE / FB 的內建瀏覽器。之後要修改報名必須用同一個瀏覽器，建議點右上角「⋯」選擇<b>用 Safari／Chrome 開啟</b>後再報名。
         </Card>
       )}
       {!state.canRegister ? (
         <Card className="text-center">
           <p className="text-lg font-bold">{state.reason}</p>
-          <Link to="/" className="mt-3 inline-block text-cyan-700 underline">
+          <Link to="/" className="mt-3 inline-block text-primary underline">
             回首頁
           </Link>
         </Card>
       ) : (
         <>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-ink-muted">
             不限同學、不限年級，兄弟姊妹也可以報名。每位家長最多替 {ev.maxEntriesPerOwner} 位小朋友報名
             {state.myActiveCount > 0 && `（你已報名 ${state.myActiveCount} 位）`}。
           </p>
           {state.willBeWaitlist && (
-            <Card className="border-amber-500/50 text-sm text-amber-800">正取名額已滿，現在報名會進入候補名單。</Card>
+            <Card className="border-gold/50 text-sm text-gold">正取名額已滿，現在報名會進入候補名單。</Card>
           )}
           <Card>
             <EntryForm

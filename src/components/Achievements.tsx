@@ -33,7 +33,7 @@ export function BadgeGrid({ keys }: { keys: AchievementKey[] }) {
       {ACHIEVEMENTS.map((a) => (
         <div
           key={a.key}
-          className={`flex items-center gap-2 rounded-xl px-2 py-1.5 ${got.has(a.key) ? 'bg-amber-100 text-amber-950' : 'bg-slate-100 text-slate-400'}`}
+          className={`flex items-center gap-2 rounded-xl px-2 py-1.5 ${got.has(a.key) ? 'bg-gold/10 text-gold' : 'bg-raised text-ink-subtle'}`}
         >
           <span className={`text-2xl ${got.has(a.key) ? '' : 'opacity-40 grayscale'}`}>{a.icon}</span>
           <div className="min-w-0">

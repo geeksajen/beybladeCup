@@ -16,7 +16,7 @@ export default function Setup() {
         <div className="mb-6 text-center">
           <div className="text-5xl">🌀</div>
           <h1 className="neon-text mt-2 text-2xl font-black">歡迎！先設定比賽</h1>
-          <p className="mt-2 text-sm text-slate-600">完成設定後才能開始使用。這些設定之後都可以在後台「活動設定」修改。</p>
+          <p className="mt-2 text-sm text-ink-muted">完成設定後才能開始使用。這些設定之後都可以在後台「活動設定」修改。</p>
         </div>
         <Card>
           <EventSetupForm

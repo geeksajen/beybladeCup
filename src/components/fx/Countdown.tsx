@@ -18,11 +18,11 @@ export function Countdown({ onDone, title }: { onDone: () => void; title?: strin
   if (step >= STEPS.length) return null;
   const last = step === STEPS.length - 1;
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-50/90 backdrop-blur">
-      {title && <div className="mb-6 px-4 text-center text-2xl font-bold text-slate-800 md:text-4xl">{title}</div>}
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-canvas/90 backdrop-blur">
+      {title && <div className="mb-6 px-4 text-center text-2xl font-bold text-ink md:text-4xl">{title}</div>}
       <div
         key={step}
-        className={`animate-pop font-display neon-text ${last ? 'text-6xl text-fuchsia-700 md:text-9xl' : 'text-[10rem] text-cyan-700 md:text-[16rem]'}`}
+        className={`animate-pop font-display neon-text ${last ? 'text-6xl text-accent md:text-9xl' : 'text-[10rem] text-primary md:text-[16rem]'}`}
       >
         {STEPS[step]}
       </div>

@@ -108,7 +108,7 @@ export function EventSetupForm({
               type="button"
               onClick={() => set('arenaCount', n)}
               className={`rounded-lg border px-3 py-2.5 font-bold ${
-                v.arenaCount === n ? 'border-cyan-600 bg-cyan-500/20 text-cyan-800' : 'border-slate-400 text-slate-700'
+                v.arenaCount === n ? 'border-primary bg-primary/20 text-primary' : 'border-line-strong text-ink'
               }`}
             >
               {n} 個
@@ -116,7 +116,7 @@ export function EventSetupForm({
           ))}
         </div>
       </Field>
-      {lockSchedule && <p className="text-xs text-amber-700">比賽已開始，日期與名額不能再修改。</p>}
+      {lockSchedule && <p className="text-xs text-gold">比賽已開始，日期與名額不能再修改。</p>}
       <ErrorText>{error}</ErrorText>
       <Button type="submit" className="w-full" disabled={busy}>
         {busy ? '儲存中…' : submitLabel}

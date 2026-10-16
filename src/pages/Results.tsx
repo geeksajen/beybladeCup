@@ -14,7 +14,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
   const find = (key: string) => awards.find((a) => a.key === key)?.entryIds ?? [];
   const podium = [
     { key: 'runnerUp', ids: find('runnerUp'), label: '🥈', h: big ? 'h-40' : 'h-24', color: 'from-slate-300 to-slate-500' },
-    { key: 'champion', ids: find('champion'), label: '🏆', h: big ? 'h-56' : 'h-32', color: 'from-amber-300 to-amber-600' },
+    { key: 'champion', ids: find('champion'), label: '🏆', h: big ? 'h-56' : 'h-32', color: 'from-gold to-gold/50' },
     { key: 'third', ids: find('third'), label: '🥉', h: big ? 'h-28' : 'h-16', color: 'from-orange-400 to-orange-700' },
   ];
   const others = awards.filter((a) => !['champion', 'runnerUp', 'third'].includes(a.key) && a.entryIds.length > 0);
@@ -26,7 +26,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
     <div className="space-y-6">
       <div className="text-center">
         <h1 className={`neon-text font-black ${big ? 'text-6xl' : 'text-3xl'}`}>{title}</h1>
-        <p className={`mt-1 text-slate-700 ${big ? 'text-2xl' : ''}`}>最終成績</p>
+        <p className={`mt-1 text-ink ${big ? 'text-2xl' : ''}`}>最終成績</p>
       </div>
       <div className="flex items-end justify-center gap-2">
         {podium.map((p) => (
@@ -51,29 +51,29 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
       )}
       {!big && meta.battles > 0 && (
         <Card>
-          <h2 className="mb-2 font-bold text-cyan-700">📊 本次大賽 Meta</h2>
+          <h2 className="mb-2 font-bold text-primary">📊 本次大賽 Meta</h2>
           <MetaHighlights meta={meta} entryById={entryById} />
-          <Link to="/meta" className="mt-2 inline-block text-sm text-cyan-700 underline">
+          <Link to="/meta" className="mt-2 inline-block text-sm text-primary underline">
             看完整 Meta 強勢榜 →
           </Link>
         </Card>
       )}
       <Card>
-        <h2 className={`mb-2 font-bold text-amber-700 ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>
+        <h2 className={`mb-2 font-bold text-gold ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>
         <div className={`flex flex-wrap gap-2 ${big ? 'text-2xl' : 'text-sm'}`}>
           {participants.map((id) =>
             big ? (
-              <span key={id} className="rounded-full bg-slate-200 px-3 py-1 font-semibold">
+              <span key={id} className="rounded-full bg-raised px-3 py-1 font-semibold">
                 {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
               </span>
             ) : (
-              <Link key={id} to={`/player/${id}`} className="rounded-full bg-slate-200 px-3 py-1 font-semibold active:bg-slate-300">
+              <Link key={id} to={`/player/${id}`} className="rounded-full bg-raised px-3 py-1 font-semibold active:bg-line">
                 {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
               </Link>
             ),
           )}
         </div>
-        <p className={`mt-3 text-slate-600 ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！{!big && '點名字可以看自己的選手卡。'}</p>
+        <p className={`mt-3 text-ink-muted ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！{!big && '點名字可以看自己的選手卡。'}</p>
       </Card>
     </div>
   );
@@ -82,7 +82,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
 function AwardCard({ award, entryById, big }: { award: Award; entryById: Map<string, EntryDoc>; big?: boolean }) {
   return (
     <Card className="text-center">
-      <div className={`font-bold text-fuchsia-700 ${big ? 'text-3xl' : 'text-lg'}`}>{award.label}</div>
+      <div className={`font-bold text-accent ${big ? 'text-3xl' : 'text-lg'}`}>{award.label}</div>
       {award.entryIds.map((id) => (
         <div key={id} className={`mt-1 font-black ${big ? 'text-3xl' : 'text-xl'}`}>
           {displayName(entryById.get(id))}
@@ -98,8 +98,8 @@ export default function Results() {
     return (
       <div className="pt-10 text-center">
         <div className="text-5xl">🏆</div>
-        <p className="mt-3 text-slate-700">比賽結束後會在這裡公布結果。</p>
-        <Link to="/bracket" className="mt-3 inline-block text-cyan-700 underline">
+        <p className="mt-3 text-ink">比賽結束後會在這裡公布結果。</p>
+        <Link to="/bracket" className="mt-3 inline-block text-primary underline">
           看對戰表
         </Link>
       </div>

@@ -72,13 +72,13 @@ export function EventSettings() {
               type="button"
               disabled={status.busy}
               onClick={() => changeStatus(s)}
-              className={`rounded-lg px-1 py-2 text-xs font-bold ${ev.status === s ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
+              className={`rounded-lg px-1 py-2 text-xs font-bold ${ev.status === s ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
             >
               {STATUS_LABELS[s]}
             </button>
           ))}
         </div>
-        <p className="mt-2 text-xs text-slate-600">{STATUS_HELP[ev.status]}</p>
+        <p className="mt-2 text-xs text-ink-muted">{STATUS_HELP[ev.status]}</p>
         {ev.status === 'draft' && (
           <Button variant="neon" className="mt-3 w-full" disabled={status.busy} onClick={() => changeStatus('open')}>
             開放報名 🚀
@@ -99,30 +99,30 @@ export function EventSettings() {
           error={setup.error}
           onSubmit={saveSetup}
         />
-        {savedMsg && !setup.error && <p className="mt-2 text-center text-sm text-emerald-600">{savedMsg}</p>}
+        {savedMsg && !setup.error && <p className="mt-2 text-center text-sm text-success">{savedMsg}</p>}
       </Card>
 
       <OtherSettings ev={ev} />
 
       <Card>
         <h2 className="mb-1 font-bold">零件清單</h2>
-        <p className="text-sm text-slate-700">
+        <p className="text-sm text-ink">
           來源：
-          <a href={CATALOG_SOURCE.url} target="_blank" rel="noreferrer" className="text-cyan-700 underline">
+          <a href={CATALOG_SOURCE.url} target="_blank" rel="noreferrer" className="text-primary underline">
             Beydex
           </a>
           （{CATALOG_SOURCE.commitDate || '日期不明'} 版，{CATALOG_SOURCE.syncedAt} 同步）
         </p>
-        <p className="mt-1 text-xs text-slate-600">
+        <p className="mt-1 text-xs text-ink-muted">
           Blade {CATALOG.blade.length}・Ratchet {CATALOG.ratchet.length}・Bit {CATALOG.bit.length}・Lock Chip {CATALOG.lockChip.length}・Assist{' '}
           {CATALOG.assistBlade.length}・Over {CATALOG.overBlade.length}・原廠組合 {STOCK_BEYS.length}
         </p>
-        <p className="mt-1 text-xs text-slate-500">更新方式：在專案執行 npm run sync-parts，檢查變動、補上中文名稱（src/data/parts-zh.ts）後部署。清單沒有的零件，登錄時可以直接打字。</p>
+        <p className="mt-1 text-xs text-ink-muted">更新方式：在專案執行 npm run sync-parts，檢查變動、補上中文名稱（src/data/parts-zh.ts）後部署。清單沒有的零件，登錄時可以直接打字。</p>
       </Card>
 
       <Card>
         <h2 className="mb-1 font-bold">隱私</h2>
-        <p className="mb-3 text-xs text-slate-600">比賽結束一個月後，請清除所有家長聯絡資料。結果頁（只有暱稱）會保留。</p>
+        <p className="mb-3 text-xs text-ink-muted">比賽結束一個月後，請清除所有家長聯絡資料。結果頁（只有暱稱）會保留。</p>
         <Button
           variant="danger"
           className="w-full"
@@ -160,10 +160,10 @@ function DevTools() {
   };
 
   return (
-    <Card className="space-y-3 border-amber-500/40">
-      <h2 className="font-bold text-amber-700">開發工具（本機模式）</h2>
+    <Card className="space-y-3 border-gold/40">
+      <h2 className="font-bold text-gold">開發工具（本機模式）</h2>
       <div>
-        <div className="mb-1 text-sm font-semibold text-slate-800">模擬報名（目前有效報名 {active} 人）</div>
+        <div className="mb-1 text-sm font-semibold text-ink">模擬報名（目前有效報名 {active} 人）</div>
         <div className="flex gap-2">
           <input
             className={`${inputClass} w-24 text-center`}
@@ -260,8 +260,8 @@ function OtherSettings({ ev }: { ev: EventDoc }) {
       <Field label="每位家長最多報名幾人">
         <input className={inputClass} type="number" min={1} max={10} value={maxEntries} onChange={(e) => setMaxEntries(Number(e.target.value))} />
       </Field>
-      <div className="border-t border-slate-200 pt-3">
-        <h3 className="mb-2 text-sm font-bold text-cyan-700">規則參數（Beyblade X）</h3>
+      <div className="border-t border-line pt-3">
+        <h3 className="mb-2 text-sm font-bold text-primary">規則參數（Beyblade X）</h3>
         <div className="grid grid-cols-2 gap-3">
           <Field label="先得幾分獲勝">
             <input className={inputClass} type="number" min={1} max={10} value={rules.pointsToWin} onChange={(e) => setRule('pointsToWin', Number(e.target.value))} />
@@ -297,7 +297,7 @@ function OtherSettings({ ev }: { ev: EventDoc }) {
       <Button className="w-full" disabled={busy} onClick={save}>
         {busy ? '儲存中…' : '儲存其他設定'}
       </Button>
-      {saved && !error && <p className="text-center text-sm text-emerald-600">已儲存</p>}
+      {saved && !error && <p className="text-center text-sm text-success">已儲存</p>}
     </Card>
   );
 }

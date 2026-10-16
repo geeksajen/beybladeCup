@@ -15,14 +15,14 @@ export function KnockoutTree({ bracket, entryById, big }: { bracket: BracketDoc;
           const ms = ko.filter((m) => m.round === r).sort((a, b) => a.order - b.order);
           return (
             <div key={r} className={`flex flex-col ${big ? 'flex-1' : 'w-48'}`}>
-              <div className={`mb-2 text-center font-bold text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>{roundLabel(firstRoundSize / 2 ** idx)}</div>
+              <div className={`mb-2 text-center font-bold text-ink-muted ${big ? 'text-2xl' : 'text-xs'}`}>{roundLabel(firstRoundSize / 2 ** idx)}</div>
               <div className="flex flex-1 flex-col justify-around gap-3">
                 {ms.map((m) => (
                   <MatchCard key={m.id} match={m} entryById={entryById} className={big ? 'text-xl' : ''} />
                 ))}
                 {r === rounds[rounds.length - 1] && third && (
                   <div>
-                    <div className={`mb-1 mt-4 text-center font-bold text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>季軍戰</div>
+                    <div className={`mb-1 mt-4 text-center font-bold text-ink-muted ${big ? 'text-2xl' : 'text-xs'}`}>季軍戰</div>
                     <MatchCard match={third} entryById={entryById} className={big ? 'text-xl' : ''} />
                   </div>
                 )}

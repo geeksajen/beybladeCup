@@ -23,8 +23,8 @@ export function MetaHighlights({ meta, entryById, big }: { meta: MetaStats; entr
   return (
     <div className={big ? 'space-y-6' : 'space-y-3'}>
       {meta.championDeck?.length ? (
-        <div className={`rounded-2xl border-2 border-amber-400 bg-amber-50 ${big ? 'p-6' : 'p-3'}`}>
-          <div className={`font-bold text-amber-800 ${big ? 'text-3xl' : 'text-sm'}`}>
+        <div className={`rounded-2xl border-2 border-gold bg-gold/10 ${big ? 'p-6' : 'p-3'}`}>
+          <div className={`font-bold text-gold ${big ? 'text-3xl' : 'text-sm'}`}>
             🏆 冠軍 Deck・{displayName(entryById.get(meta.championId ?? ''))}
           </div>
           <DeckView deck={meta.championDeck} className={`mt-2 ${big ? 'text-3xl' : 'text-sm'}`} />
@@ -32,12 +32,12 @@ export function MetaHighlights({ meta, entryById, big }: { meta: MetaStats; entr
       ) : null}
       <div className={`grid gap-2 ${big ? 'grid-cols-3 gap-4' : 'grid-cols-2'}`}>
         {cards.map((c) => (
-          <div key={c.title} className={`rounded-2xl border border-slate-200 bg-white ${big ? 'p-5' : 'p-2.5'}`}>
-            <div className={`font-bold text-slate-500 ${big ? 'text-2xl' : 'text-[11px]'}`}>
+          <div key={c.title} className={`rounded-2xl border border-line bg-surface ${big ? 'p-5' : 'p-2.5'}`}>
+            <div className={`font-bold text-ink-muted ${big ? 'text-2xl' : 'text-[11px]'}`}>
               {c.icon} {c.title}
             </div>
             <div className={`truncate font-black ${big ? 'text-4xl' : 'text-base'}`}>{c.main}</div>
-            <div className={`text-slate-600 ${big ? 'text-2xl' : 'text-xs'}`}>{c.sub}</div>
+            <div className={`text-ink-muted ${big ? 'text-2xl' : 'text-xs'}`}>{c.sub}</div>
           </div>
         ))}
       </div>

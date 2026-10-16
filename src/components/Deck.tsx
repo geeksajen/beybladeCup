@@ -39,12 +39,12 @@ export function useCanSeeDeck(): (entry: EntryDoc | undefined) => boolean {
 
 /** Deck 列表：「1. 龍之劍 3-60F」。highlight = 目前上場的那顆。 */
 export function DeckView({ deck, highlight, className = '' }: { deck?: Combo[]; highlight?: number; className?: string }) {
-  if (!deck?.length) return <p className={`text-sm text-slate-500 ${className}`}>還沒登錄 Deck</p>;
+  if (!deck?.length) return <p className={`text-sm text-ink-muted ${className}`}>還沒登錄 Deck</p>;
   return (
     <ol className={`space-y-1 ${className}`}>
       {deck.map((c, i) => (
-        <li key={i} className={`flex items-center gap-2 rounded-lg px-2 py-1 ${i === highlight ? 'bg-fuchsia-100 font-bold text-fuchsia-900' : 'bg-slate-100'}`}>
-          <span className="w-5 shrink-0 text-center font-mono text-xs text-slate-500">{i + 1}</span>
+        <li key={i} className={`flex items-center gap-2 rounded-lg px-2 py-1 ${i === highlight ? 'bg-accent/10 font-bold text-accent' : 'bg-raised'}`}>
+          <span className="w-5 shrink-0 text-center font-mono text-xs text-ink-muted">{i + 1}</span>
           <span className="min-w-0 truncate">{comboLabel(c)}</span>
         </li>
       ))}
@@ -182,7 +182,7 @@ export function DeckEditor({
     return (
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <button type="button" className="rounded-lg bg-slate-200 px-3 py-1.5 text-sm font-bold" onClick={back}>
+          <button type="button" className="rounded-lg bg-raised px-3 py-1.5 text-sm font-bold" onClick={back}>
             ← 上一步
           </button>
           <div className="text-center">
@@ -193,23 +193,23 @@ export function DeckEditor({
             {size > 1 && (
               <div className="mt-0.5 flex justify-center gap-1">
                 {deck.map((c, j) => (
-                  <span key={j} className={`h-1.5 w-6 rounded-full ${j === step.bey ? 'bg-fuchsia-500' : complete(c) ? 'bg-cyan-500' : 'bg-slate-300'}`} />
+                  <span key={j} className={`h-1.5 w-6 rounded-full ${j === step.bey ? 'bg-accent' : complete(c) ? 'bg-primary' : 'bg-line'}`} />
                 ))}
               </div>
             )}
           </div>
-          <button type="button" className="rounded-lg px-2 py-1.5 text-xs font-bold text-cyan-700" onClick={goSummary}>
+          <button type="button" className="rounded-lg px-2 py-1.5 text-xs font-bold text-primary" onClick={goSummary}>
             {deck.some(complete) ? '完成' : '略過'}
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-1 rounded-lg bg-slate-100 px-2 py-1.5 text-xs">
+        <div className="flex flex-wrap items-center gap-1 rounded-lg bg-raised px-2 py-1.5 text-xs">
           {steps.map((k) => (
             <button
               key={k}
               type="button"
               onClick={() => setStep({ bey: step.bey, kind: k })}
-              className={`rounded px-1.5 py-0.5 ${k === step.kind ? 'bg-fuchsia-500 font-bold text-white' : cur[k] ? 'bg-white text-slate-800' : 'text-slate-400'}`}
+              className={`rounded px-1.5 py-0.5 ${k === step.kind ? 'bg-accent font-bold text-on' : cur[k] ? 'bg-surface text-ink' : 'text-ink-subtle'}`}
             >
               {cur[k] ? partLabel(k, cur[k]!) : KIND_LABEL[k]}
             </button>
@@ -217,13 +217,13 @@ export function DeckEditor({
         </div>
 
         {step.kind === steps[0] && (
-          <div className="grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1 text-sm">
+          <div className="grid grid-cols-2 gap-1 rounded-lg bg-raised p-1 text-sm">
             {[false, true].map((on) => (
               <button
                 key={String(on)}
                 type="button"
                 onClick={() => on !== cx[step.bey] && setCxFor(step.bey, on)}
-                className={`rounded-md py-1 font-bold ${cx[step.bey] === on ? 'bg-white shadow-sm' : 'text-slate-500'}`}
+                className={`rounded-md py-1 font-bold ${cx[step.bey] === on ? 'bg-surface shadow-sm' : 'text-ink-muted'}`}
               >
                 {on ? 'CX 系列（三片式）' : '一般'}
               </button>
@@ -232,17 +232,17 @@ export function DeckEditor({
         )}
 
         {stocks.length > 0 && (
-          <div className="space-y-1.5 rounded-xl border-2 border-cyan-300 bg-cyan-50 p-2">
-            <div className="text-xs font-bold text-cyan-800">⚡ 沒有改裝？直接用原廠組合</div>
+          <div className="space-y-1.5 rounded-xl border-2 border-primary/40 bg-primary/10 p-2">
+            <div className="text-xs font-bold text-primary">⚡ 沒有改裝？直接用原廠組合</div>
             {stocks.map((s) => (
               <button
                 key={s.code}
                 type="button"
                 onClick={() => applyStock(step.bey, s.combo)}
-                className="flex w-full items-center justify-between gap-2 rounded-lg bg-white px-3 py-2 text-left active:scale-[0.98]"
+                className="flex w-full items-center justify-between gap-2 rounded-lg bg-surface px-3 py-2 text-left active:scale-[0.98]"
               >
                 <span className="min-w-0 truncate font-black">{comboLabel(s.combo)}</span>
-                <span className="shrink-0 text-[11px] text-slate-500">{s.code} 原廠</span>
+                <span className="shrink-0 text-[11px] text-ink-muted">{s.code} 原廠</span>
               </button>
             ))}
           </div>
@@ -273,10 +273,10 @@ export function DeckEditor({
   };
   return (
     <div className="space-y-2">
-      {size > 1 && <p className="text-xs text-slate-600">由上到下是預設出場順序，每場開打前主辦還可以調整。</p>}
+      {size > 1 && <p className="text-xs text-ink-muted">由上到下是預設出場順序，每場開打前主辦還可以調整。</p>}
       {deck.map((c, i) => (
-        <div key={i} className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2 py-2">
-          <span className="w-5 shrink-0 text-center font-mono text-sm text-slate-500">{i + 1}</span>
+        <div key={i} className="flex items-center gap-2 rounded-xl border border-line bg-surface px-2 py-2">
+          <span className="w-5 shrink-0 text-center font-mono text-sm text-ink-muted">{i + 1}</span>
           <button
             type="button"
             className="min-w-0 flex-1 truncate text-left text-sm font-bold"
@@ -285,17 +285,17 @@ export function DeckEditor({
               setStep({ bey: i, kind: stepsFor(cx[i])[0] });
             }}
           >
-            {complete(c) ? comboLabel(c) : isEmpty(c) ? <span className="font-normal text-slate-400">＋ 點這裡登錄第 {i + 1} 顆</span> : <span className="text-amber-700">⚠️ 還沒填完，點這裡繼續</span>}
+            {complete(c) ? comboLabel(c) : isEmpty(c) ? <span className="font-normal text-ink-subtle">＋ 點這裡登錄第 {i + 1} 顆</span> : <span className="text-gold">⚠️ 還沒填完，點這裡繼續</span>}
           </button>
           {i > 0 && (
-            <button type="button" className="shrink-0 rounded bg-slate-200 px-2 py-0.5 text-sm" onClick={() => move(i)} aria-label="往上移">
+            <button type="button" className="shrink-0 rounded bg-raised px-2 py-0.5 text-sm" onClick={() => move(i)} aria-label="往上移">
               ↑
             </button>
           )}
           {!isEmpty(c) && (
             <button
               type="button"
-              className="shrink-0 px-1 text-rose-500"
+              className="shrink-0 px-1 text-danger"
               aria-label="清除"
               onClick={() => setDeck((list) => list.map((x, j) => (j === i ? { ...EMPTY } : x)))}
             >
@@ -305,7 +305,7 @@ export function DeckEditor({
         </div>
       ))}
       {check.warnings.map((w) => (
-        <p key={w} className="rounded-lg bg-amber-50 px-3 py-1.5 text-xs text-amber-800">
+        <p key={w} className="rounded-lg bg-gold/10 px-3 py-1.5 text-xs text-gold">
           ⚠️ {w}
         </p>
       ))}
@@ -337,11 +337,11 @@ function Chip({ def, kind, selected, onClick }: { def: PartDef; kind: PartKind; 
       type="button"
       onClick={onClick}
       className={`flex min-h-[3rem] flex-col items-center justify-center rounded-xl border-2 px-1 py-1 text-center leading-tight transition active:scale-95 ${
-        selected ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-white'
+        selected ? 'border-accent bg-accent/10' : 'border-line bg-surface'
       }`}
     >
       <span className={`font-black ${isBit ? 'text-lg' : 'text-sm'}`}>{isBit ? def.abbr : (def.zh ?? def.en)}</span>
-      <span className="text-[10px] text-slate-500">{isBit ? (def.zh ?? def.en) : def.zh ? def.en : ''}</span>
+      <span className="text-[10px] text-ink-muted">{isBit ? (def.zh ?? def.en) : def.zh ? def.en : ''}</span>
     </button>
   );
 }
@@ -406,7 +406,7 @@ function PartPicker({
         onKeyDown={onKey}
       />
       {optional && (
-        <button type="button" className={`w-full rounded-xl border-2 py-2 text-sm font-bold ${value ? 'border-slate-200 bg-white' : 'border-fuchsia-500 bg-fuchsia-50'}`} onClick={() => onPick('')}>
+        <button type="button" className={`w-full rounded-xl border-2 py-2 text-sm font-bold ${value ? 'border-line bg-surface' : 'border-accent bg-accent/10'}`} onClick={() => onPick('')}>
           {optional}
         </button>
       )}
@@ -414,7 +414,7 @@ function PartPicker({
         <>
           {grid(found)}
           {!exact && (
-            <button type="button" className="w-full rounded-xl border-2 border-dashed border-cyan-400 py-2 text-sm font-bold text-cyan-800" onClick={() => onPick(query)}>
+            <button type="button" className="w-full rounded-xl border-2 border-dashed border-primary py-2 text-sm font-bold text-primary" onClick={() => onPick(query)}>
               使用「{query}」（清單裡沒有的零件）
             </button>
           )}
@@ -423,12 +423,12 @@ function PartPicker({
         <>
           {hot.length > 0 && (
             <div>
-              <div className="mb-1 text-xs font-bold text-amber-700">🔥 今天熱門</div>
+              <div className="mb-1 text-xs font-bold text-gold">🔥 今天熱門</div>
               {grid(hot)}
             </div>
           )}
           <div>
-            {hot.length > 0 && <div className="mb-1 text-xs font-bold text-slate-500">全部</div>}
+            {hot.length > 0 && <div className="mb-1 text-xs font-bold text-ink-muted">全部</div>}
             {grid(shown)}
           </div>
         </>
@@ -449,14 +449,14 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
     if (b && h) onPick(`${b}-${h}`);
   };
   const btn = (selected: boolean) =>
-    `rounded-xl border-2 py-2.5 font-display text-lg active:scale-95 ${selected ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-white'}`;
+    `rounded-xl border-2 py-2.5 font-display text-lg active:scale-95 ${selected ? 'border-accent bg-accent/10' : 'border-line bg-surface'}`;
   const fusion = CATALOG.ratchet.filter((d) => d.fusion);
 
   return (
     <div className="space-y-3">
       {popular.length > 0 && (
         <div>
-          <div className="mb-1 text-xs font-bold text-amber-700">🔥 今天熱門</div>
+          <div className="mb-1 text-xs font-bold text-gold">🔥 今天熱門</div>
           <div className="grid grid-cols-4 gap-1.5">
             {popular.slice(0, 4).map((r) => (
               <button key={r} type="button" className={btn(r === value)} onClick={() => onPick(r)}>
@@ -467,7 +467,7 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
         </div>
       )}
       <div>
-        <div className="mb-1 text-xs font-bold text-slate-600">① 刃數（前面的數字）</div>
+        <div className="mb-1 text-xs font-bold text-ink-muted">① 刃數（前面的數字）</div>
         <div className="grid grid-cols-5 gap-1.5">
           {RATCHET_BLADES.map((b) => (
             <button key={b} type="button" className={btn(b === blades)} onClick={() => choose(b, height)}>
@@ -477,7 +477,7 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
         </div>
       </div>
       <div>
-        <div className="mb-1 text-xs font-bold text-slate-600">② 高度（後面的數字）</div>
+        <div className="mb-1 text-xs font-bold text-ink-muted">② 高度（後面的數字）</div>
         <div className="grid grid-cols-4 gap-1.5">
           {RATCHET_HEIGHTS.map((h) => (
             <button key={h} type="button" className={btn(h === height)} onClick={() => choose(blades, h)}>
@@ -488,12 +488,12 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
       </div>
       {fusion.length > 0 && (
         <div>
-          <div className="mb-1 text-xs font-bold text-slate-600">融合型（Ratchet 和 Bit 一體，不用再選 Bit）</div>
+          <div className="mb-1 text-xs font-bold text-ink-muted">融合型（Ratchet 和 Bit 一體，不用再選 Bit）</div>
           <div className="grid grid-cols-4 gap-1.5">
             {fusion.map((d) => (
               <button key={d.en} type="button" className={btn(partKey(d.en) === partKey(value))} onClick={() => onPick(d.en)}>
                 <div className="leading-tight">{d.abbr ?? d.en}</div>
-                <div className="font-sans text-[10px] text-slate-500">{d.zh ?? d.en}</div>
+                <div className="font-sans text-[10px] text-ink-muted">{d.zh ?? d.en}</div>
               </button>
             ))}
           </div>

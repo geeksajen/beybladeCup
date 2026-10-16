@@ -12,12 +12,12 @@ export function PredictionsControl() {
   if (ev.status === 'finished') return null;
 
   return (
-    <Card className={open ? 'border-fuchsia-400' : ''}>
+    <Card className={open ? 'border-accent' : ''}>
       <div className="flex items-center gap-3">
         <span className="text-3xl">🔮</span>
         <div className="min-w-0 flex-1">
-          <div className="font-bold">猜冠軍：{open ? <span className="text-fuchsia-700">投票開放中</span> : '未開放'}</div>
-          <div className="text-xs text-slate-600">已有 {count} 票・建議抽籤後開放，淘汰賽開打前截止</div>
+          <div className="font-bold">猜冠軍：{open ? <span className="text-accent">投票開放中</span> : '未開放'}</div>
+          <div className="text-xs text-ink-muted">已有 {count} 票・建議抽籤後開放，淘汰賽開打前截止</div>
         </div>
         <Button
           variant={open ? 'secondary' : 'primary'}
@@ -31,7 +31,7 @@ export function PredictionsControl() {
           {open ? '截止投票' : '開放投票'}
         </Button>
       </div>
-      <a href="#/predict" target="_blank" rel="noreferrer" className="mt-2 block text-xs text-cyan-700 underline">
+      <a href="#/predict" target="_blank" rel="noreferrer" className="mt-2 block text-xs text-primary underline">
         開啟投票頁（可以在這台裝置替小孩代投）
       </a>
       <ErrorText>{error}</ErrorText>

@@ -21,7 +21,7 @@ export function UpdateBanner() {
       <button
         type="button"
         onClick={reloadToLatest}
-        className="rounded-full bg-cyan-600 px-4 py-2 text-sm font-bold text-white shadow-lg"
+        className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-on shadow-lg"
       >
         網站有新版本，點這裡更新 ↻
       </button>

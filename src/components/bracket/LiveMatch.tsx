@@ -20,11 +20,11 @@ function Side({ entry, score, align, size, bey }: { entry?: EntryDoc; score: num
       <div className={s.emoji}>{entry?.emoji ?? '🌀'}</div>
       <div className={`mt-1 w-full truncate font-black ${s.name}`}>{entry?.nickname ?? '？'}</div>
       {bey ? (
-        <div className={`mt-1 max-w-full truncate rounded-lg bg-amber-100 px-2 font-bold text-amber-900 ${s.bey}`}>🌀 {comboLabel(bey)}</div>
+        <div className={`mt-1 max-w-full truncate rounded-lg bg-gold/10 px-2 font-bold text-gold ${s.bey}`}>🌀 {comboLabel(bey)}</div>
       ) : (
-        entry?.beyName && <div className={`w-full truncate text-slate-600 ${s.bey}`}>{entry.beyName}</div>
+        entry?.beyName && <div className={`w-full truncate text-ink-muted ${s.bey}`}>{entry.beyName}</div>
       )}
-      <div className={`font-display neon-text mt-2 ${s.score} ${align === 'left' ? 'text-cyan-600' : 'text-fuchsia-600'}`}>{score}</div>
+      <div className={`font-display neon-text mt-2 ${s.score} ${align === 'left' ? 'text-primary' : 'text-accent'}`}>{score}</div>
     </div>
   );
 }
@@ -38,7 +38,7 @@ function BattleLog({ match, size }: { match: Match; size: CardSize }) {
       {decisive.map((b, i) => (
         <span
           key={i}
-          className={`rounded-lg px-3 py-0.5 font-bold text-white ${FINISH_LABELS[b.finish].color} ${b.winner === 'p1' ? 'ring-4 ring-cyan-300' : 'ring-4 ring-fuchsia-300'}`}
+          className={`rounded-lg px-3 py-0.5 font-bold text-on ${FINISH_LABELS[b.finish].color} ${b.winner === 'p1' ? 'ring-4 ring-primary/40' : 'ring-4 ring-accent/40'}`}
         >
           {b.winner === 'p1' ? '◀ ' : ''}
           {FINISH_LABELS[b.finish].name}
@@ -55,15 +55,15 @@ export function LiveMatchCard({ match, entryById, big, size: sizeProp }: { match
   const beys = nextBeys(match);
   const tv = size !== 'sm';
   return (
-    <div className={`rounded-3xl border-2 border-fuchsia-500/70 bg-white shadow-[0_0_32px_rgba(217,70,239,0.18)] ${s.pad}`}>
-      <div className={`mb-3 flex justify-between font-bold text-slate-600 ${s.head}`}>
+    <div className={`rounded-3xl border-2 border-accent/70 bg-surface shadow-[0_0_32px_rgb(var(--accent)/0.18)] ${s.pad}`}>
+      <div className={`mb-3 flex justify-between font-bold text-ink-muted ${s.head}`}>
         <span>{matchLabel(match.id)}</span>
-        {tv && !match.manualScore && <span className="text-fuchsia-700">第 {match.battles.filter(isDecisive).length + 1} 局</span>}
+        {tv && !match.manualScore && <span className="text-accent">第 {match.battles.filter(isDecisive).length + 1} 局</span>}
         {match.arena && <span>{match.arena} 號戰鬥盤</span>}
       </div>
       <div className="flex items-center gap-3">
         <Side entry={match.p1 ? entryById.get(match.p1) : undefined} score={match.p1Score} align="left" size={size} bey={beys.p1} />
-        <div className={`font-display shrink-0 text-amber-500 ${s.vs}`}>VS</div>
+        <div className={`font-display shrink-0 text-gold ${s.vs}`}>VS</div>
         <Side entry={match.p2 ? entryById.get(match.p2) : undefined} score={match.p2Score} align="right" size={size} bey={beys.p2} />
       </div>
       {tv && <BattleLog match={match} size={size} />}

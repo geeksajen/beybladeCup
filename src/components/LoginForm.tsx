@@ -19,7 +19,7 @@ export function LoginForm() {
     <div className="arena-bg flex min-h-dvh items-start justify-center px-4 pt-16">
       <Card className="w-full max-w-sm">
         <h1 className="mb-1 text-xl font-black">主辦登入</h1>
-        <p className="mb-4 text-sm text-slate-600">請用家庭帳號登入後台。</p>
+        <p className="mb-4 text-sm text-ink-muted">請用家庭帳號登入後台。</p>
         {signedInButNotFamily ? (
           <div className="space-y-3">
             <ErrorText>此帳號（{user.email}）不是主辦帳號。</ErrorText>
@@ -30,7 +30,7 @@ export function LoginForm() {
         ) : (
           <form onSubmit={submit} className="space-y-3">
             {store.mode === 'local' && (
-              <p className="rounded-lg bg-amber-50/60 px-3 py-2 text-xs text-amber-700">
+              <p className="rounded-lg bg-gold/10 px-3 py-2 text-xs text-gold">
                 本機模式：任意 Email／密碼都可以登入（只在這個分頁有效）。
               </p>
             )}
@@ -52,7 +52,7 @@ export function LoginForm() {
             </Button>
           </form>
         )}
-        <Link to="/" className="mt-4 block text-center text-sm text-slate-600 underline">
+        <Link to="/" className="mt-4 block text-center text-sm text-ink-muted underline">
           回首頁
         </Link>
       </Card>

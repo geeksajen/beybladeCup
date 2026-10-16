@@ -21,7 +21,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
   const [selected, setSelected] = useState<string>();
   const { mutate, busy, error } = useBracketMutation();
 
-  if (!bracket) return <Card className="text-center text-slate-700">還沒有賽程，請先到「賽程」分頁抽籤。</Card>;
+  if (!bracket) return <Card className="text-center text-ink">還沒有賽程，請先到「賽程」分頁抽籤。</Card>;
 
   const live = bracket.currentMatchIds.map((id) => bracket.matches.find((m) => m.id === id)).filter((m): m is Match => !!m);
   const current = live.find((m) => m.id === selected) ?? live[0];
@@ -39,7 +39,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
               key={m.id}
               type="button"
               onClick={() => setSelected(m.id)}
-              className={`rounded-xl px-2 py-2 text-sm font-bold ${m.id === current?.id ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
+              className={`rounded-xl px-2 py-2 text-sm font-bold ${m.id === current?.id ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
             >
               {m.arena} 號盤・{matchLabel(m.id)}
             </button>
@@ -58,20 +58,20 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
           </Button>
         </Card>
       ) : (
-        <Card className="text-center text-slate-700">
+        <Card className="text-center text-ink">
           目前沒有可以開打的場次。
-          {pending.some((m) => !m.p1 || !m.p2) && <div className="mt-1 text-sm text-amber-700">淘汰賽要等前面的結果（或同分的名次）確定。</div>}
+          {pending.some((m) => !m.p1 || !m.p2) && <div className="mt-1 text-sm text-gold">淘汰賽要等前面的結果（或同分的名次）確定。</div>}
         </Card>
       )}
       <ErrorText>{error}</ErrorText>
 
       {pending.length > 0 && (
         <Card>
-          <h3 className="mb-2 text-sm font-bold text-slate-600">接下來（{pending.length}）</h3>
+          <h3 className="mb-2 text-sm font-bold text-ink-muted">接下來（{pending.length}）</h3>
           <div className="space-y-1.5">
             {pending.slice(0, 8).map((m) => (
-              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-200/60 px-2 py-1.5 text-sm">
-                <span className="w-16 shrink-0 text-xs text-slate-500">{matchLabel(m.id)}</span>
+              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-raised/60 px-2 py-1.5 text-sm">
+                <span className="w-16 shrink-0 text-xs text-ink-muted">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
                   {m.p1 ? displayName(entryById.get(m.p1 ?? '')) : describeSource(m.p1Source)} vs {m.p2 ? displayName(entryById.get(m.p2 ?? '')) : describeSource(m.p2Source)}
                 </span>
@@ -79,7 +79,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
                   <button
                     type="button"
                     disabled={busy}
-                    className="shrink-0 rounded-md bg-slate-300 px-2 py-1 text-xs"
+                    className="shrink-0 rounded-md bg-line px-2 py-1 text-xs"
                     onClick={() => {
                       const blocked = live.some((x) => x.battles.length > 0 || x.manualScore);
                       if (blocked && live.length >= ev.rules.arenaCount)
@@ -98,19 +98,19 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
 
       {done.length > 0 && (
         <Card>
-          <h3 className="mb-2 text-sm font-bold text-slate-600">已完成（{done.length}）</h3>
+          <h3 className="mb-2 text-sm font-bold text-ink-muted">已完成（{done.length}）</h3>
           <div className="space-y-1.5">
             {done.map((m) => (
-              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-slate-200/60 px-2 py-1.5 text-sm">
-                <span className="w-16 shrink-0 text-xs text-slate-500">{matchLabel(m.id)}</span>
+              <div key={m.id} className="flex items-center gap-2 rounded-lg bg-raised/60 px-2 py-1.5 text-sm">
+                <span className="w-16 shrink-0 text-xs text-ink-muted">{matchLabel(m.id)}</span>
                 <span className="min-w-0 flex-1 truncate">
-                  <b className={m.winner === m.p1 ? 'text-cyan-700' : ''}>{displayName(entryById.get(m.p1 ?? ''))}</b> {m.p1Score}:{m.p2Score}{' '}
-                  <b className={m.winner === m.p2 ? 'text-cyan-700' : ''}>{displayName(entryById.get(m.p2 ?? ''))}</b>
+                  <b className={m.winner === m.p1 ? 'text-primary' : ''}>{displayName(entryById.get(m.p1 ?? ''))}</b> {m.p1Score}:{m.p2Score}{' '}
+                  <b className={m.winner === m.p2 ? 'text-primary' : ''}>{displayName(entryById.get(m.p2 ?? ''))}</b>
                 </span>
                 <button
                   type="button"
                   disabled={busy}
-                  className="shrink-0 rounded-md bg-slate-300 px-2 py-1 text-xs"
+                  className="shrink-0 rounded-md bg-line px-2 py-1 text-xs"
                   onClick={() => {
                     const warn = downstreamStarted(bracket, m.id)
                       ? '⚠️ 後續已開打的場次可能會受影響：如果勝負改變，相關淘汰賽的比分會被清空。\n\n'
@@ -155,8 +155,8 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
   const canSetOrder = deckSizeOf(ev) > 1 && hasAnyDeck && match.battles.length === 0 && !match.manualScore;
 
   return (
-    <Card className="space-y-4 border-fuchsia-500/50">
-      <div className="flex items-center justify-between text-xs text-slate-600">
+    <Card className="space-y-4 border-accent/50">
+      <div className="flex items-center justify-between text-xs text-ink-muted">
         <span>
           {matchLabel(match.id)}
           {match.arena ? `・${match.arena} 號盤` : ''}
@@ -168,17 +168,17 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         <div className="min-w-0">
           <div className="text-3xl">{p1?.emoji ?? '🌀'}</div>
           <div className="truncate text-lg font-black">{p1?.nickname}</div>
-          <div className="font-display text-5xl text-cyan-600">{match.p1Score}</div>
-          {errs.p1 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p1}</div>}
-          {beys.p1 && !winnerSide && <div className="mt-1 truncate rounded bg-cyan-50 px-1 text-xs font-bold text-cyan-800">🌀 {comboLabel(beys.p1)}</div>}
+          <div className="font-display text-5xl text-primary">{match.p1Score}</div>
+          {errs.p1 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p1}</div>}
+          {beys.p1 && !winnerSide && <div className="mt-1 truncate rounded bg-primary/10 px-1 text-xs font-bold text-primary">🌀 {comboLabel(beys.p1)}</div>}
         </div>
-        <div className="font-display text-xl text-amber-500">VS</div>
+        <div className="font-display text-xl text-gold">VS</div>
         <div className="min-w-0">
           <div className="text-3xl">{p2?.emoji ?? '🌀'}</div>
           <div className="truncate text-lg font-black">{p2?.nickname}</div>
-          <div className="font-display text-5xl text-fuchsia-600">{match.p2Score}</div>
-          {errs.p2 > 0 && <div className="text-xs text-amber-600">發射失誤 ×{errs.p2}</div>}
-          {beys.p2 && !winnerSide && <div className="mt-1 truncate rounded bg-fuchsia-50 px-1 text-xs font-bold text-fuchsia-800">🌀 {comboLabel(beys.p2)}</div>}
+          <div className="font-display text-5xl text-accent">{match.p2Score}</div>
+          {errs.p2 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p2}</div>}
+          {beys.p2 && !winnerSide && <div className="mt-1 truncate rounded bg-accent/10 px-1 text-xs font-bold text-accent">🌀 {comboLabel(beys.p2)}</div>}
         </div>
       </div>
 
@@ -210,9 +210,9 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       </Button>
 
       {winnerSide ? (
-        <div className="space-y-2 rounded-2xl bg-cyan-500/10 p-3 text-center">
+        <div className="space-y-2 rounded-2xl bg-primary/10 p-3 text-center">
           <div className="text-lg font-black">勝者確認？</div>
-          <div className="text-2xl font-black text-cyan-700">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
+          <div className="text-2xl font-black text-primary">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
           <Button variant="neon" className="w-full py-3 text-lg" disabled={busy} onClick={() => void update((m) => finalizeMatch(m, rules))}>
             ✓ 確認，下一場
           </Button>
@@ -238,7 +238,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
       ) : pendingSide ? (
         <div className="space-y-2">
           <div className="text-center text-sm">
-            <b className={pendingSide === 'p1' ? 'text-cyan-600' : 'text-fuchsia-600'}>{displayName(pendingSide === 'p1' ? p1 : p2)}</b> 贏了，終結方式是？
+            <b className={pendingSide === 'p1' ? 'text-primary' : 'text-accent'}>{displayName(pendingSide === 'p1' ? p1 : p2)}</b> 贏了，終結方式是？
           </div>
           <div className="grid grid-cols-2 gap-2">
             {FINISH_TYPES.map((f) => (
@@ -247,7 +247,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
                 type="button"
                 disabled={busy}
                 onClick={() => battle(pendingSide, f)}
-                className={`rounded-xl py-4 text-white ${FINISH_LABELS[f].color} disabled:opacity-50`}
+                className={`rounded-xl py-4 text-on ${FINISH_LABELS[f].color} disabled:opacity-50`}
               >
                 <div className="text-lg font-black">{FINISH_LABELS[f].name}</div>
                 <div className="text-xs opacity-90">+{rules.finishPoints[f]} 分</div>
@@ -267,15 +267,15 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
             <Button variant="secondary" className="py-5" disabled={busy} onClick={() => battle('draw')}>
               平手
             </Button>
-            <Button className="bg-fuchsia-500 py-5 text-lg hover:bg-fuchsia-600" disabled={busy} onClick={() => setPendingSide('p2')}>
+            <Button className="bg-accent py-5 text-lg hover:brightness-110" disabled={busy} onClick={() => setPendingSide('p2')}>
               右邊贏
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="ghost" className="border border-slate-300 text-xs" disabled={busy} onClick={() => battle('p2', 'launchError')}>
+            <Button variant="ghost" className="border border-line-strong text-xs" disabled={busy} onClick={() => battle('p2', 'launchError')}>
               左邊發射失誤
             </Button>
-            <Button variant="ghost" className="border border-slate-300 text-xs" disabled={busy} onClick={() => battle('p1', 'launchError')}>
+            <Button variant="ghost" className="border border-line-strong text-xs" disabled={busy} onClick={() => battle('p1', 'launchError')}>
               右邊發射失誤
             </Button>
           </div>
@@ -303,7 +303,7 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           {match.battles.map((b, i) => (
             <span
               key={i}
-              className={`rounded px-1.5 py-0.5 ${b.winner === 'p1' ? 'bg-cyan-100 text-cyan-800' : b.winner === 'p2' ? 'bg-fuchsia-100 text-fuchsia-800' : 'bg-slate-200 text-slate-600'}`}
+              className={`rounded px-1.5 py-0.5 ${b.winner === 'p1' ? 'bg-primary/10 text-primary' : b.winner === 'p2' ? 'bg-accent/10 text-accent' : 'bg-raised text-ink-muted'}`}
             >
               {i + 1}. {b.winner === 'draw' ? '平手' : b.finish === 'launchError' ? `${b.winner === 'p1' ? '右' : '左'}失誤` : `${b.winner === 'p1' ? '左' : '右'} ${b.finish ? FINISH_LABELS[b.finish].name : ''}`}
             </span>
@@ -336,17 +336,17 @@ function OrderSetup({
 
   if (!open) {
     return (
-      <button type="button" className="w-full rounded-xl bg-emerald-50 px-3 py-2 text-left text-sm text-emerald-800" onClick={() => setOpen(true)}>
-        ✓ 本場出場順序已確定 <span className="float-right text-cyan-700">改順序</span>
+      <button type="button" className="w-full rounded-xl bg-success/10 px-3 py-2 text-left text-sm text-success" onClick={() => setOpen(true)}>
+        ✓ 本場出場順序已確定 <span className="float-right text-primary">改順序</span>
       </button>
     );
   }
   return (
-    <div className="space-y-2 rounded-xl border border-amber-300 bg-amber-50/60 p-2">
-      <div className="text-sm font-bold text-amber-900">🔀 本場出場順序（請雙方小聲告訴你）</div>
+    <div className="space-y-2 rounded-xl border border-gold/40 bg-gold/10 p-2">
+      <div className="text-sm font-bold text-gold">🔀 本場出場順序（請雙方小聲告訴你）</div>
       <div className="grid grid-cols-2 gap-2">
-        <OrderList entry={p1} deck={d1} onChange={setD1} color="text-cyan-700" />
-        <OrderList entry={p2} deck={d2} onChange={setD2} color="text-fuchsia-700" />
+        <OrderList entry={p1} deck={d1} onChange={setD1} color="text-primary" />
+        <OrderList entry={p2} deck={d2} onChange={setD2} color="text-accent" />
       </div>
       <Button
         className="w-full"
@@ -366,16 +366,16 @@ function OrderList({ entry, deck, onChange, color }: { entry?: EntryDoc; deck: C
   return (
     <div className="min-w-0">
       <div className={`truncate text-xs font-bold ${color}`}>{displayName(entry)}</div>
-      {deck.length === 0 && <div className="text-xs text-slate-500">沒有登錄 Deck</div>}
+      {deck.length === 0 && <div className="text-xs text-ink-muted">沒有登錄 Deck</div>}
       <ol className="mt-1 space-y-1">
         {deck.map((c, i) => (
-          <li key={i} className="flex items-center gap-1 rounded bg-white px-1.5 py-1 text-xs">
-            <span className="font-mono text-slate-500">{i + 1}</span>
+          <li key={i} className="flex items-center gap-1 rounded bg-surface px-1.5 py-1 text-xs">
+            <span className="font-mono text-ink-muted">{i + 1}</span>
             <span className="min-w-0 flex-1 truncate">{comboLabel(c)}</span>
             {i > 0 && (
               <button
                 type="button"
-                className="shrink-0 rounded bg-slate-200 px-1.5"
+                className="shrink-0 rounded bg-raised px-1.5"
                 aria-label="往前"
                 onClick={() => onChange(reorder(deck, deck.map((_, j) => (j === i - 1 ? i : j === i ? i - 1 : j))))}
               >
@@ -397,13 +397,13 @@ function MissingDeck({ entry }: { entry?: EntryDoc }) {
   if (!entry || entry.deck?.length) return null;
   if (!open) {
     return (
-      <button type="button" className="w-full rounded-xl bg-amber-50 px-3 py-2 text-left text-xs text-amber-900" onClick={() => setOpen(true)}>
-        ⚠️ {entry.nickname} 還沒登錄 Deck（可以照常比賽，只是不列入 Meta 統計）<span className="float-right font-bold text-cyan-700">現在補</span>
+      <button type="button" className="w-full rounded-xl bg-gold/10 px-3 py-2 text-left text-xs text-gold" onClick={() => setOpen(true)}>
+        ⚠️ {entry.nickname} 還沒登錄 Deck（可以照常比賽，只是不列入 Meta 統計）<span className="float-right font-bold text-primary">現在補</span>
       </button>
     );
   }
   return (
-    <div className="rounded-xl border border-amber-300 bg-white p-2">
+    <div className="rounded-xl border border-gold/40 bg-surface p-2">
       <div className="mb-2 text-sm font-bold">{displayName(entry)} 的 Deck</div>
       <DeckEditor
         size={deckSizeOf(ev)}

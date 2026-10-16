@@ -30,7 +30,7 @@ export default function Predict() {
       <div className="pt-10 text-center">
         <div className="text-5xl">🔮</div>
         <h1 className="mt-3 text-2xl font-black">猜猜誰是冠軍？</h1>
-        <p className="mt-2 text-slate-700">比賽當天主辦開放投票後，參賽選手就可以猜冠軍。</p>
+        <p className="mt-2 text-ink">比賽當天主辦開放投票後，參賽選手就可以猜冠軍。</p>
       </div>
     );
   }
@@ -40,20 +40,20 @@ export default function Predict() {
       <div className="text-center">
         <div className="text-5xl">🔮</div>
         <h1 className="mt-1 text-2xl font-black">猜猜誰是冠軍？</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <p className="mt-1 text-sm text-ink-muted">
           {open ? '投票開放中！每位選手一票，截止前都可以改。' : champion ? '比賽結束，答案揭曉！' : '投票已截止，等比賽結果揭曉！'}
         </p>
       </div>
 
       {champion && (
         <Card className="text-center">
-          <div className="text-sm font-bold text-amber-700">🏆 冠軍</div>
+          <div className="text-sm font-bold text-gold">🏆 冠軍</div>
           <div className="text-2xl font-black">{displayName(entryById.get(champion))}</div>
-          <div className="mt-3 text-sm font-bold text-fuchsia-700">🔮 猜中的小預言家（{prophets.length} 位）</div>
+          <div className="mt-3 text-sm font-bold text-accent">🔮 猜中的小預言家（{prophets.length} 位）</div>
           <div className="mt-1 flex flex-wrap justify-center gap-1.5">
-            {prophets.length === 0 && <span className="text-sm text-slate-500">沒有人猜中，冠軍是大黑馬！</span>}
+            {prophets.length === 0 && <span className="text-sm text-ink-muted">沒有人猜中，冠軍是大黑馬！</span>}
             {prophets.map((id) => (
-              <span key={id} className="rounded-full bg-fuchsia-100 px-3 py-1 text-sm font-bold text-fuchsia-900">
+              <span key={id} className="rounded-full bg-accent/10 px-3 py-1 text-sm font-bold text-accent">
                 {displayName(entryById.get(id))}
               </span>
             ))}
@@ -64,14 +64,14 @@ export default function Predict() {
       {open && (
         <Card className="space-y-3">
           {voters.length === 0 ? (
-            <p className="text-center text-sm text-slate-600">
+            <p className="text-center text-sm text-ink-muted">
               只有參賽選手可以投票：請用<b>報名時的同一個瀏覽器</b>打開這一頁，或請主辦幫忙代投。
             </p>
           ) : (
             <>
               {voters.length > 1 && (
                 <div>
-                  <div className="mb-1.5 text-sm font-bold text-slate-700">誰要投票？</div>
+                  <div className="mb-1.5 text-sm font-bold text-ink">誰要投票？</div>
                   <div className="flex flex-wrap gap-1.5">
                     {voters.map((id) => {
                       const voted = valid.some((p) => p.voterId === id);
@@ -80,7 +80,7 @@ export default function Predict() {
                           key={id}
                           type="button"
                           onClick={() => setVoterSel(id)}
-                          className={`rounded-full px-3 py-1.5 text-sm font-bold ${id === voterId ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
+                          className={`rounded-full px-3 py-1.5 text-sm font-bold ${id === voterId ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
                         >
                           {displayName(entryById.get(id))}
                           {voted && ' ✓'}
@@ -92,7 +92,7 @@ export default function Predict() {
               )}
               {voterId ? (
                 <div>
-                  <div className="mb-1.5 text-sm font-bold text-slate-700">
+                  <div className="mb-1.5 text-sm font-bold text-ink">
                     {entryById.get(voterId)?.nickname}，你覺得誰會拿冠軍？
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -105,12 +105,12 @@ export default function Predict() {
                           type="button"
                           disabled={busy}
                           onClick={() => void run(() => store.savePrediction(voterId, id, user?.uid ?? ''))}
-                          className={`flex items-center gap-2 rounded-xl border-2 px-2 py-2 text-left transition disabled:opacity-60 ${picked ? 'border-fuchsia-500 bg-fuchsia-50' : 'border-slate-200 bg-white'}`}
+                          className={`flex items-center gap-2 rounded-xl border-2 px-2 py-2 text-left transition disabled:opacity-60 ${picked ? 'border-accent bg-accent/10' : 'border-line bg-surface'}`}
                         >
                           <span className="text-2xl">{e?.emoji ?? '🌀'}</span>
                           <span className="min-w-0 flex-1">
                             <span className="block truncate font-bold">{e?.nickname ?? '？'}</span>
-                            {picked && <span className="block text-xs font-bold text-fuchsia-700">✓ 你猜的</span>}
+                            {picked && <span className="block text-xs font-bold text-accent">✓ 你猜的</span>}
                           </span>
                         </button>
                       );
@@ -118,7 +118,7 @@ export default function Predict() {
                   </div>
                 </div>
               ) : (
-                <p className="text-center text-sm text-slate-600">先選是誰要投票 👆</p>
+                <p className="text-center text-sm text-ink-muted">先選是誰要投票 👆</p>
               )}
             </>
           )}
@@ -134,7 +134,7 @@ export default function Predict() {
       )}
 
       <div className="text-center">
-        <Link to="/bracket" className="text-sm text-cyan-700 underline">
+        <Link to="/bracket" className="text-sm text-primary underline">
           看對戰表 →
         </Link>
       </div>

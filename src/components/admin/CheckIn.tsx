@@ -26,21 +26,21 @@ export function CheckIn() {
   return (
     <div className="space-y-4">
       <Card className="text-center">
-        <div className="text-sm text-slate-600">已報到</div>
-        <div className="font-mono text-4xl font-black text-cyan-700">
+        <div className="text-sm text-ink-muted">已報到</div>
+        <div className="font-mono text-4xl font-black text-primary">
           {checked}
-          <span className="text-lg text-slate-400"> / {c.confirmed.length}</span>
+          <span className="text-lg text-ink-subtle"> / {c.confirmed.length}</span>
         </div>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-ink-muted">
           只有已報到的選手會排入賽程。報到時請小朋友拿出{size === 3 ? ' 3 顆陀螺' : '陀螺'}對一下 Deck。
         </p>
         {(noDeck > 0 || toConfirm > 0) && (
-          <p className="mt-1 text-xs text-amber-700">
+          <p className="mt-1 text-xs text-gold">
             {toConfirm > 0 && `Deck 待確認 ${toConfirm} 位　`}
             {noDeck > 0 && `沒有 Deck ${noDeck} 位（可以照常比賽，只是不列入 Meta 統計）`}
           </p>
         )}
-        {bracket && <p className="mt-2 text-xs text-amber-700">已產生賽程；報到變動後要到「賽程」重新產生才會套用。</p>}
+        {bracket && <p className="mt-2 text-xs text-gold">已產生賽程；報到變動後要到「賽程」重新產生才會套用。</p>}
       </Card>
       <input className={inputClass} placeholder="🔍 搜尋暱稱" value={q} onChange={(e) => setQ(e.target.value)} />
       <List title="正取" list={filter(c.confirmed)} {...listProps} />
@@ -57,8 +57,8 @@ interface ListProps {
 function List({ title, list, ...rest }: { title: string; list: EntryDoc[] } & ListProps) {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-bold text-slate-600">{title}</h3>
-      {list.length === 0 && <p className="text-sm text-slate-500">沒有符合的選手</p>}
+      <h3 className="text-sm font-bold text-ink-muted">{title}</h3>
+      {list.length === 0 && <p className="text-sm text-ink-muted">沒有符合的選手</p>}
       {list.map((e) => (
         <CheckRow key={e.id} entry={e} {...rest} />
       ))}
@@ -67,9 +67,9 @@ function List({ title, list, ...rest }: { title: string; list: EntryDoc[] } & Li
 }
 
 const STATUS_BADGE = {
-  none: { text: '⚠️ 未登錄', cls: 'bg-slate-200 text-slate-600' },
-  unconfirmed: { text: '📝 待確認', cls: 'bg-amber-100 text-amber-800' },
-  confirmed: { text: '✓ 已確認', cls: 'bg-cyan-100 text-cyan-800' },
+  none: { text: '⚠️ 未登錄', cls: 'bg-raised text-ink-muted' },
+  unconfirmed: { text: '📝 待確認', cls: 'bg-gold/10 text-gold' },
+  confirmed: { text: '✓ 已確認', cls: 'bg-primary/10 text-primary' },
 };
 
 function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & ListProps) {
@@ -90,7 +90,7 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
     });
 
   return (
-    <div className={`rounded-xl border ${entry.checkedIn ? 'border-emerald-500/60 bg-emerald-500/10' : 'border-slate-200 bg-white'}`}>
+    <div className={`rounded-xl border ${entry.checkedIn ? 'border-success/60 bg-success/10' : 'border-line bg-surface'}`}>
       <button
         type="button"
         disabled={busy}
@@ -100,18 +100,18 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
         <span className="text-2xl">{entry.emoji ?? '🌀'}</span>
         <span className="min-w-0 flex-1 truncate font-bold">{entry.nickname}</span>
         <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold ${badge.cls}`}>{badge.text}</span>
-        <span className={`shrink-0 rounded-lg px-3 py-1 text-sm font-bold ${entry.checkedIn ? 'bg-emerald-500 text-slate-50' : 'bg-slate-300 text-slate-700'}`}>
+        <span className={`shrink-0 rounded-lg px-3 py-1 text-sm font-bold ${entry.checkedIn ? 'bg-success text-on' : 'bg-line text-ink'}`}>
           {busy ? '…' : entry.checkedIn ? '✓ 已到' : '未到'}
         </span>
       </button>
       <div className="px-3 pb-2">
         {editing ? (
-          <div className="rounded-xl bg-white p-2">
+          <div className="rounded-xl bg-surface p-2">
             <DeckEditor initial={entry.deck} size={size} busy={busy} error={error} onCancel={() => setEditingDeck(undefined)} onSave={saveDeck} />
           </div>
         ) : showConfirm ? (
-          <div className="space-y-2 rounded-xl bg-white p-2">
-            <div className="text-xs font-bold text-amber-800">請小朋友拿出陀螺對一下：</div>
+          <div className="space-y-2 rounded-xl bg-surface p-2">
+            <div className="text-xs font-bold text-gold">請小朋友拿出陀螺對一下：</div>
             <DeckView deck={entry.deck} className="text-sm" />
             <div className="flex gap-2">
               <Button variant="secondary" className="flex-1" disabled={busy} onClick={() => setEditingDeck(entry.id)}>
@@ -124,11 +124,11 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
           </div>
         ) : (
           <button type="button" className="flex w-full items-center gap-2 text-left text-xs" onClick={() => setEditingDeck(entry.id)}>
-            <span className={`shrink-0 font-bold ${(entry.deck?.length ?? 0) >= size ? 'text-cyan-700' : 'text-amber-700'}`}>
+            <span className={`shrink-0 font-bold ${(entry.deck?.length ?? 0) >= size ? 'text-primary' : 'text-gold'}`}>
               🌀 {entry.deck?.length ?? 0}/{size}
             </span>
-            <span className="min-w-0 flex-1 truncate text-slate-600">{entry.deck?.length ? entry.deck.map(comboLabel).join('、') : '還沒登錄 Deck'}</span>
-            <span className="shrink-0 font-bold text-cyan-700">{entry.deck?.length ? '修改' : '登錄'}</span>
+            <span className="min-w-0 flex-1 truncate text-ink-muted">{entry.deck?.length ? entry.deck.map(comboLabel).join('、') : '還沒登錄 Deck'}</span>
+            <span className="shrink-0 font-bold text-primary">{entry.deck?.length ? '修改' : '登錄'}</span>
           </button>
         )}
       </div>

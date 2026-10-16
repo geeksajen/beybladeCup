@@ -3,6 +3,25 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      // 語意化顏色，數值在 src/index.css 的 :root
+      colors: {
+        canvas: 'rgb(var(--canvas) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        raised: 'rgb(var(--raised) / <alpha-value>)',
+        line: { DEFAULT: 'rgb(var(--line) / <alpha-value>)', strong: 'rgb(var(--line-strong) / <alpha-value>)' },
+        ink: {
+          DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+          muted: 'rgb(var(--ink-muted) / <alpha-value>)',
+          subtle: 'rgb(var(--ink-subtle) / <alpha-value>)',
+        },
+        on: 'rgb(var(--on) / <alpha-value>)',
+        primary: 'rgb(var(--primary) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        gold: 'rgb(var(--gold) / <alpha-value>)',
+        xtreme: 'rgb(var(--xtreme) / <alpha-value>)',
+        success: 'rgb(var(--success) / <alpha-value>)',
+        danger: 'rgb(var(--danger) / <alpha-value>)',
+      },
       fontFamily: {
         display: ['"Black Ops One"', 'system-ui', 'sans-serif'],
       },

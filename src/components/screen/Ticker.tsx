@@ -66,8 +66,8 @@ export function Ticker({ items }: { items: string[] }) {
   // 依長度決定速度，取整到 10 秒，避免每次內容小變動就改速度造成跳動
   const seconds = Math.max(30, Math.round((text.length * 0.35) / 10) * 10);
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 overflow-hidden border-t-2 border-fuchsia-300 bg-white/95 py-3">
-      <div className="animate-marquee flex w-max whitespace-nowrap text-3xl font-bold text-slate-700" style={{ animationDuration: `${seconds}s` }}>
+    <div className="fixed inset-x-0 bottom-0 z-30 overflow-hidden border-t-2 border-accent/40 bg-surface/95 py-3">
+      <div className="animate-marquee flex w-max whitespace-nowrap text-3xl font-bold text-ink" style={{ animationDuration: `${seconds}s` }}>
         <span className="pr-24">{text}</span>
         <span className="pr-24" aria-hidden>
           {text}

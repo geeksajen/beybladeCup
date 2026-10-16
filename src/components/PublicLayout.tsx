@@ -15,13 +15,13 @@ export function PublicLayout() {
     <div className="arena-bg min-h-dvh pb-24">
       <main className="mx-auto max-w-2xl px-4 pt-4">
         {isFamily && (
-          <NavLink to="/admin" className="mb-3 block rounded-lg bg-amber-500/15 px-3 py-2 text-center text-sm font-bold text-amber-700">
+          <NavLink to="/admin" className="mb-3 block rounded-lg bg-gold/15 px-3 py-2 text-center text-sm font-bold text-gold">
             你是主辦 → 進入後台
           </NavLink>
         )}
         <Outlet />
       </main>
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-slate-50/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
+      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
         <div className="mx-auto flex max-w-2xl">
           {NAV.map((n) => (
             <NavLink
@@ -29,7 +29,7 @@ export function PublicLayout() {
               to={n.to}
               end={n.to === '/'}
               className={({ isActive }) =>
-                `flex flex-1 flex-col items-center py-2 text-[11px] font-semibold ${isActive ? 'text-cyan-700' : 'text-slate-600'}`
+                `flex flex-1 flex-col items-center py-2 text-[11px] font-semibold ${isActive ? 'text-primary' : 'text-ink-muted'}`
               }
             >
               <span className="text-lg leading-tight">{n.icon}</span>

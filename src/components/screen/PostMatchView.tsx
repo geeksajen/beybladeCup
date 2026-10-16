@@ -22,7 +22,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
       <div className="space-y-8">
         <div className="text-center">
           <div className="neon-text text-7xl font-black">{headline}</div>
-          <div className="font-display mt-3 text-5xl text-slate-600">
+          <div className="font-display mt-3 text-5xl text-ink-muted">
             {ws} : {ls}
           </div>
         </div>
@@ -41,7 +41,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="text-center">
-        <div className="text-4xl font-bold text-slate-600">
+        <div className="text-4xl font-bold text-ink-muted">
           🎉 {winner} 獲勝 <span className="font-display">{ws} : {ls}</span>
         </div>
         <h2 className="neon-text mt-3 text-7xl font-black">
@@ -50,7 +50,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
       </div>
       <table className="w-full text-4xl">
         <thead>
-          <tr className="text-left text-2xl text-slate-500">
+          <tr className="text-left text-2xl text-ink-muted">
             <th className="w-20 pb-2 font-normal">名次</th>
             <th className="pb-2 font-normal">選手</th>
             <th className="w-28 pb-2 text-center font-normal">勝</th>
@@ -64,17 +64,17 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
             const inZone = adv > 0 && r.rank <= adv;
             const isPlayer = r.id === m.winner || r.id === loser;
             return (
-              <tr key={r.id} className={`border-t-2 border-slate-200 ${inZone ? 'bg-cyan-50' : ''} ${isPlayer ? 'font-black' : ''}`}>
-                <td className="py-3 font-mono text-slate-600">{complete && r.tied ? '=' : r.rank}</td>
+              <tr key={r.id} className={`border-t-2 border-line ${inZone ? 'bg-primary/10' : ''} ${isPlayer ? 'font-black' : ''}`}>
+                <td className="py-3 font-mono text-ink-muted">{complete && r.tied ? '=' : r.rank}</td>
                 <td className="truncate py-3">
                   {displayName(entryById.get(r.id))}
-                  {r.id === m.winner && <span className="ml-3 rounded-full bg-amber-400 px-3 text-2xl text-amber-950">勝</span>}
-                  {inZone && decided && <span className="ml-3 rounded-full bg-cyan-600 px-3 text-2xl text-white">✓ 晉級</span>}
+                  {r.id === m.winner && <span className="ml-3 rounded-full bg-gold px-3 text-2xl text-on">勝</span>}
+                  {inZone && decided && <span className="ml-3 rounded-full bg-primary px-3 text-2xl text-on">✓ 晉級</span>}
                 </td>
                 <td className="py-3 text-center font-mono">{r.wins}</td>
                 <td className="py-3 text-center font-mono">{r.losses}</td>
                 <td className="py-3 text-center font-mono">{r.diff > 0 ? `+${r.diff}` : r.diff}</td>
-                <td className={`py-3 text-center font-black ${r.delta > 0 ? 'text-emerald-600' : r.delta < 0 ? 'text-rose-500' : 'text-slate-300'}`}>
+                <td className={`py-3 text-center font-black ${r.delta > 0 ? 'text-success' : r.delta < 0 ? 'text-danger' : 'text-ink-subtle'}`}>
                   {r.delta > 0 ? `▲${r.delta}` : r.delta < 0 ? `▼${-r.delta}` : '—'}
                 </td>
               </tr>
@@ -82,8 +82,8 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
           })}
         </tbody>
       </table>
-      {adv > 0 && !decided && <p className="text-center text-2xl text-cyan-700">藍色底 = 目前在晉級區（前 {adv} 名進淘汰賽）</p>}
-      {complete && !decided && <p className="text-center text-2xl text-amber-700">有同分，由主辦現場加賽決定名次</p>}
+      {adv > 0 && !decided && <p className="text-center text-2xl text-primary">藍色底 = 目前在晉級區（前 {adv} 名進淘汰賽）</p>}
+      {complete && !decided && <p className="text-center text-2xl text-gold">有同分，由主辦現場加賽決定名次</p>}
     </div>
   );
 }

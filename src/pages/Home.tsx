@@ -27,26 +27,26 @@ export default function Home() {
       <section className="pt-6 text-center">
         <div className="animate-spin-slow inline-block text-6xl">🌀</div>
         <h1 className="neon-text mt-3 text-3xl font-black leading-tight">{ev.title}</h1>
-        {ev.subtitle && <p className="mt-1 text-slate-700">{ev.subtitle}</p>}
-        <div className="mt-2 inline-block rounded-full bg-fuchsia-500/20 px-3 py-1 text-xs font-bold text-fuchsia-800">{STATUS_LABELS[ev.status]}</div>
+        {ev.subtitle && <p className="mt-1 text-ink">{ev.subtitle}</p>}
+        <div className="mt-2 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">{STATUS_LABELS[ev.status]}</div>
       </section>
 
       {ev.announcement && (
-        <Card className="border-amber-500/50 bg-amber-50/40">
-          <div className="text-xs font-bold text-amber-700">📢 公告</div>
-          <p className="mt-1 whitespace-pre-wrap text-amber-950">{ev.announcement}</p>
+        <Card className="border-gold/50 bg-gold/10">
+          <div className="text-xs font-bold text-gold">📢 公告</div>
+          <p className="mt-1 whitespace-pre-wrap text-ink">{ev.announcement}</p>
         </Card>
       )}
 
       {ev.predictionsOpen && (
         <Link to="/predict" className="block">
-          <Card className="flex items-center gap-3 border-fuchsia-400 bg-fuchsia-50/60">
+          <Card className="flex items-center gap-3 border-accent bg-accent/10">
             <span className="text-4xl">🔮</span>
             <div className="flex-1">
-              <div className="font-black text-fuchsia-800">猜猜誰是冠軍？投票開放中！</div>
-              <div className="text-xs text-fuchsia-900">每位參賽選手一票，猜中有「小預言家」稱號</div>
+              <div className="font-black text-accent">猜猜誰是冠軍？投票開放中！</div>
+              <div className="text-xs text-accent">每位參賽選手一票，猜中有「小預言家」稱號</div>
             </div>
-            <span className="text-fuchsia-500">›</span>
+            <span className="text-accent">›</span>
           </Card>
         </Link>
       )}
@@ -73,12 +73,12 @@ export default function Home() {
         <Card className="text-center">
           {regOpen ? (
             <>
-              <div className="text-sm text-slate-600">報名截止倒數</div>
-              <div className="font-display neon-text mt-1 text-2xl text-cyan-800">{formatCountdown(ev.registerDeadline - now)}</div>
-              <div className="mt-1 text-xs text-slate-500">截止：{formatDateTime(ev.registerDeadline)}</div>
+              <div className="text-sm text-ink-muted">報名截止倒數</div>
+              <div className="font-display neon-text mt-1 text-2xl text-primary">{formatCountdown(ev.registerDeadline - now)}</div>
+              <div className="mt-1 text-xs text-ink-muted">截止：{formatDateTime(ev.registerDeadline)}</div>
             </>
           ) : (
-            <div className="text-slate-700">{ev.status === 'draft' ? '即將開放報名，敬請期待！' : '報名已截止'}</div>
+            <div className="text-ink">{ev.status === 'draft' ? '即將開放報名，敬請期待！' : '報名已截止'}</div>
           )}
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Stat label="正取" value={`${c.confirmed.length} / ${ev.capacity}`} />
@@ -97,14 +97,14 @@ export default function Home() {
       {ev.status === 'closed' && (
         <Card className="text-center">
           <div className="text-lg font-bold">報名已截止，比賽當天見！</div>
-          <div className="mt-1 text-sm text-slate-600">正取 {c.confirmed.length} 位選手</div>
-          <div className="font-display neon-text mt-2 text-xl text-cyan-800">開賽倒數 {formatCountdown(ev.startAt - now)}</div>
+          <div className="mt-1 text-sm text-ink-muted">正取 {c.confirmed.length} 位選手</div>
+          <div className="font-display neon-text mt-2 text-xl text-primary">開賽倒數 {formatCountdown(ev.startAt - now)}</div>
         </Card>
       )}
 
       <Card>
         <h2 className="mb-2 font-bold">比賽規則摘要（Beyblade X）</h2>
-        <ul className="space-y-1 text-sm text-slate-700">
+        <ul className="space-y-1 text-sm text-ink">
           <li>• 先得 {ev.rules.pointsToWin} 分的人獲勝</li>
           {FINISH_TYPES.map((f) => (
             <li key={f}>
@@ -112,7 +112,7 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <Link to="/rules" className="mt-2 inline-block text-sm text-cyan-700 underline">
+        <Link to="/rules" className="mt-2 inline-block text-sm text-primary underline">
           完整規則 →
         </Link>
       </Card>
@@ -125,7 +125,7 @@ function InfoRow({ icon, label, value }: { icon: string; label: string; value: s
     <div className="flex gap-3">
       <span className="text-xl">{icon}</span>
       <div>
-        <div className="text-xs text-slate-600">{label}</div>
+        <div className="text-xs text-ink-muted">{label}</div>
         <div className="font-semibold">{value}</div>
       </div>
     </div>
@@ -134,8 +134,8 @@ function InfoRow({ icon, label, value }: { icon: string; label: string; value: s
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl bg-slate-200/80 py-2">
-      <div className="text-xs text-slate-600">{label}</div>
+    <div className="rounded-xl bg-raised/80 py-2">
+      <div className="text-xs text-ink-muted">{label}</div>
       <div className="font-mono text-xl font-black">{value}</div>
     </div>
   );

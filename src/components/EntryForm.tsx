@@ -69,7 +69,7 @@ export function EntryForm({
   return (
     <form onSubmit={submit} className="space-y-4" noValidate>
       <div className="space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-700">選手資料（公開顯示）</h3>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-primary">選手資料（公開顯示）</h3>
         <Field label="比賽暱稱" required hint="請用綽號，不要用真實全名。例：閃電小明" error={errors.nickname}>
           <input
             className={inputClass}
@@ -86,7 +86,7 @@ export function EntryForm({
                 key={em}
                 type="button"
                 onClick={() => setEntry({ ...entry, emoji: em })}
-                className={`h-10 w-10 rounded-lg text-2xl ${entry.emoji === em ? 'bg-cyan-500/30 ring-2 ring-cyan-600' : 'bg-slate-200'}`}
+                className={`h-10 w-10 rounded-lg text-2xl ${entry.emoji === em ? 'bg-primary/30 ring-2 ring-primary' : 'bg-raised'}`}
               >
                 {em}
               </button>
@@ -104,13 +104,13 @@ export function EntryForm({
       </div>
 
       {deckSize && (
-        <div className="space-y-2 border-t border-slate-200 pt-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-700">🌀 {deckSize === 3 ? '3on3 Deck' : '陀螺組合'}（選填）</h3>
-          <p className="text-xs text-slate-600">
+        <div className="space-y-2 border-t border-line pt-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-primary">🌀 {deckSize === 3 ? '3on3 Deck' : '陀螺組合'}（選填）</h3>
+          <p className="text-xs text-ink-muted">
             可以現在登錄{deckSize === 3 ? ' 3 顆陀螺' : ''}，也可以之後在「我的報名」再填或修改。不登錄也能比賽，只是不會列入 Meta 強勢榜統計。比賽開始前只有你和主辦看得到。
           </p>
           {editingDeck ? (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-2">
+            <div className="rounded-xl border border-line bg-canvas p-2">
               <DeckEditor
                 initial={entry.deck}
                 size={deckSize}
@@ -134,8 +134,8 @@ export function EntryForm({
         </div>
       )}
 
-      <div className="space-y-4 border-t border-slate-200 pt-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-fuchsia-700">聯絡資料（只有主辦看得到）</h3>
+      <div className="space-y-4 border-t border-line pt-4">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-accent">聯絡資料（只有主辦看得到）</h3>
         <Field label="家長稱呼" required error={errors.parentName}>
           <input className={inputClass} value={contact.parentName} maxLength={20} placeholder="小明媽媽" onChange={(e) => setContact({ ...contact, parentName: e.target.value })} />
         </Field>

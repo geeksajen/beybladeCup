@@ -23,8 +23,8 @@ export function PopularityBars({
       {rows.map((r) => (
         <div key={r.id} className={`flex items-center gap-3 ${big ? 'text-3xl' : 'text-sm'}`}>
           <span className={`shrink-0 truncate font-bold ${big ? 'w-80' : 'w-28'}`}>{displayName(entryById.get(r.id))}</span>
-          <div className={`flex-1 overflow-hidden rounded-full bg-slate-100 ${big ? 'h-10' : 'h-4'}`}>
-            <div className="h-full rounded-full bg-gradient-to-r from-fuchsia-500 to-cyan-400 transition-all duration-700" style={{ width: `${(r.votes / max) * 100}%` }} />
+          <div className={`flex-1 overflow-hidden rounded-full bg-raised ${big ? 'h-10' : 'h-4'}`}>
+            <div className="h-full rounded-full bg-gradient-to-r from-accent to-primary transition-all duration-700" style={{ width: `${(r.votes / max) * 100}%` }} />
           </div>
           <span className={`shrink-0 text-right font-mono font-black ${big ? 'w-24' : 'w-10'}`}>{r.votes} 票</span>
         </div>

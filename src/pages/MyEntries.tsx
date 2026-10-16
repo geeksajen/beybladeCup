@@ -23,16 +23,16 @@ export default function MyEntries() {
   return (
     <div className="space-y-4 pt-2">
       <h1 className="text-2xl font-black">我的報名</h1>
-      <p className="text-sm text-slate-600">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
+      <p className="text-sm text-ink-muted">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
       {deckEditableByOwner(ev) && active.some((e) => !e.deck?.length) && (
-        <Card className="border-amber-400 bg-amber-50/60 text-sm text-amber-900">
+        <Card className="border-gold bg-gold/10 text-sm text-gold">
           ⚠️ 還沒登錄 Deck：<b>{active.filter((e) => !e.deck?.length).map((e) => e.nickname).join('、')}</b>
           <div className="mt-1 text-xs">比賽前先登錄，當天報到會快很多！不登錄也能比賽，只是不會列入 Meta 強勢榜。</div>
         </Card>
       )}
       {active.length === 0 && (
         <Card className="text-center">
-          <p className="text-slate-700">這個瀏覽器還沒有報名紀錄。</p>
+          <p className="text-ink">這個瀏覽器還沒有報名紀錄。</p>
           {editable && (
             <Link to="/register">
               <Button variant="neon" className="mt-3">
@@ -45,9 +45,9 @@ export default function MyEntries() {
       {active.map((e) => (
         <MyEntryCard key={e.id} entry={e} editable={editable} />
       ))}
-      {!editable && active.length > 0 && <p className="text-center text-sm text-slate-600">報名已截止，如需修改請聯絡主辦。</p>}
+      {!editable && active.length > 0 && <p className="text-center text-sm text-ink-muted">報名已截止，如需修改請聯絡主辦。</p>}
       {cancelled.length > 0 && (
-        <div className="space-y-1 pt-2 text-sm text-slate-500">
+        <div className="space-y-1 pt-2 text-sm text-ink-muted">
           <div>已取消：</div>
           {cancelled.map((e) => (
             <div key={e.id}>
@@ -108,16 +108,16 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
           <div className="text-xl font-black">
             {entry.emoji} {entry.nickname}
           </div>
-          <div className="text-sm text-slate-600">{[entry.grade, entry.beyName].filter(Boolean).join('・')}</div>
+          <div className="text-sm text-ink-muted">{[entry.grade, entry.beyName].filter(Boolean).join('・')}</div>
         </div>
-        {pos.kind === 'confirmed' && <Badge className="bg-cyan-500/20 text-cyan-800">正取 #{pos.index}</Badge>}
-        {pos.kind === 'waitlist' && <Badge className="bg-amber-500/20 text-amber-800">候補 #{pos.index}</Badge>}
-        {pos.kind === 'overflow' && <Badge className="bg-rose-500/20 text-rose-800">超過名額</Badge>}
+        {pos.kind === 'confirmed' && <Badge className="bg-primary/20 text-primary">正取 #{pos.index}</Badge>}
+        {pos.kind === 'waitlist' && <Badge className="bg-gold/20 text-gold">候補 #{pos.index}</Badge>}
+        {pos.kind === 'overflow' && <Badge className="bg-danger/20 text-danger">超過名額</Badge>}
       </div>
       <div className="mt-3 space-y-2">
         <NextUpBanner entryId={entry.id} />
         <MyDeck entry={entry} />
-        <Link to={`/player/${entry.id}`} className="block text-sm font-bold text-cyan-700">
+        <Link to={`/player/${entry.id}`} className="block text-sm font-bold text-primary">
           🪪 看選手卡 →
         </Link>
       </div>
@@ -151,11 +151,11 @@ function MyDeck({ entry }: { entry: EntryDoc }) {
   const editable = deckEditableByOwner(ev) || isFamily;
 
   return (
-    <div className="rounded-xl border border-slate-200 p-2">
+    <div className="rounded-xl border border-line p-2">
       <div className="mb-1.5 flex items-center justify-between">
         <span className="text-sm font-bold">🌀 {size === 3 ? '3on3 Deck' : '我的陀螺'}</span>
         {editable && !editing && (
-          <button type="button" className="text-sm font-bold text-cyan-700" onClick={() => setEditing(true)}>
+          <button type="button" className="text-sm font-bold text-primary" onClick={() => setEditing(true)}>
             {entry.deck?.length ? '修改' : '登錄'}
           </button>
         )}
@@ -177,7 +177,7 @@ function MyDeck({ entry }: { entry: EntryDoc }) {
       ) : (
         <>
           <DeckView deck={entry.deck} className="text-sm" />
-          <p className="mt-1.5 text-[11px] text-slate-500">
+          <p className="mt-1.5 text-[11px] text-ink-muted">
             {editable ? '比賽開始前只有你和主辦看得到。比賽開始後 Deck 就固定了。' : '比賽已開始，Deck 已固定；需要修改請找主辦。'}
           </p>
         </>

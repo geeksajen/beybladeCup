@@ -2,10 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Arena Night 配色（深色）。數值是 RGB 三個數字，讓 Tailwind 的 /透明度（bg-primary/20）可以用。
+ * 對比度（WCAG）：ink 對 base 17.6、ink-muted 8.9、ink-subtle 4.5（卡片上 4.1，只用於大字或次要資訊）。
+ * 主色／強調色／金色等實心底上的文字一律用 text-on（深色）：白字在 primary 上只有 2.6、accent 上 3.1，不及格。
+ */
+:root {
+  --canvas: 11 15 23; /* #0B0F17 主背景 */
+  --surface: 21 27 38; /* #151B26 卡片 */
+  --raised: 31 39 51; /* #1F2733 浮起層、次要按鈕、標籤 */
+  --line: 42 51 66; /* #2A3342 邊框 */
+  --line-strong: 58 69 85; /* #3A4555 較明顯的邊框、空的進度格 */
+
+  --ink: 242 245 250; /* #F2F5FA 主文字 */
+  --ink-muted: 167 177 194; /* #A7B1C2 次要文字 */
+  --ink-subtle: 113 124 142; /* #717C8E 輔助文字 */
+  --on: 11 15 23; /* #0B0F17 實心彩色底上的文字 */
+
+  --primary: 61 165 255; /* #3DA5FF 電光藍：主色、藍方（P1）、Spin */
+  --accent: 255 90 31; /* #FF5A1F 爆裂橘：強調、紅方（P2）、進行中、Burst */
+  --gold: 255 194 51; /* #FFC233 冠軍金：名次、獎項、Over */
+  --xtreme: 181 123 255; /* #B57BFF Xtreme 紫 */
+  --success: 43 214 123; /* #2BD67B 勝利、完成 */
+  --danger: 255 77 94; /* #FF4D5E 失敗、錯誤 */
+
+  color-scheme: dark;
+}
+
 html,
 body {
-  background: #f8fafc;
-  color: #0f172a;
+  background: rgb(var(--canvas));
+  color: rgb(var(--ink));
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -14,17 +41,16 @@ body {
   min-height: 100dvh;
 }
 
-/* 淺色背景上的標題：保留一點彩色光暈，但不刺眼 */
+/* 深色背景上的標題：藍／橘光暈 */
 .neon-text {
   text-shadow:
-    0 0 1px rgba(255, 255, 255, 0.9),
-    0 2px 10px rgba(217, 70, 239, 0.25),
-    0 0 18px rgba(34, 211, 238, 0.25);
+    0 0 12px rgb(var(--primary) / 0.45),
+    0 0 28px rgb(var(--accent) / 0.25);
 }
 
 .arena-bg {
   background:
-    radial-gradient(ellipse at top, rgba(217, 70, 239, 0.1), transparent 60%),
-    radial-gradient(ellipse at bottom, rgba(34, 211, 238, 0.12), transparent 60%),
-    #f8fafc;
+    radial-gradient(ellipse at top, rgb(var(--accent) / 0.12), transparent 60%),
+    radial-gradient(ellipse at bottom, rgb(var(--primary) / 0.14), transparent 60%),
+    rgb(var(--canvas));
 }

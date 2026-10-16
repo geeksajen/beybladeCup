@@ -17,7 +17,7 @@ export function AwardsPanel() {
   const { busy, error, run } = useAction();
   const preds = usePredictions();
 
-  if (!bracket) return <Card className="text-center text-slate-700">還沒有賽程。</Card>;
+  if (!bracket) return <Card className="text-center text-ink">還沒有賽程。</Card>;
 
   const auto = [...autoAwards(bracket), ...predictionAwards(bracket, preds)];
   const ranking = computeFinalRanking(bracket);
@@ -47,33 +47,33 @@ export function AwardsPanel() {
 
   return (
     <div className="space-y-4">
-      {remaining > 0 && <Card className="border-amber-500/50 text-sm text-amber-800">還有 {remaining} 場未完成，名次確定後才能公布結果。</Card>}
+      {remaining > 0 && <Card className="border-gold/50 text-sm text-gold">還有 {remaining} 場未完成，名次確定後才能公布結果。</Card>}
 
       <Card>
         <h2 className="mb-2 font-bold">系統計算的獎項</h2>
-        {auto.length === 0 && <p className="text-sm text-slate-500">比賽完成後會自動計算。</p>}
+        {auto.length === 0 && <p className="text-sm text-ink-muted">比賽完成後會自動計算。</p>}
         <div className="space-y-1.5">
           {auto.map((a) => (
-            <div key={a.key} className="flex items-center justify-between rounded-lg bg-slate-200/60 px-3 py-2">
+            <div key={a.key} className="flex items-center justify-between rounded-lg bg-raised/60 px-3 py-2">
               <span className="font-bold">{a.label}</span>
               <span className="text-right">{a.entryIds.map((id) => displayName(entryById.get(id))).join('、')}</span>
             </div>
           ))}
         </div>
-        <p className="mt-2 text-xs text-slate-500">只頒發榮譽稱號，不設實體獎品。Xtreme 王／爆裂王依逐局紀錄統計（快速輸入比分的場次不計）。小預言家／人氣王來自猜冠軍投票。</p>
+        <p className="mt-2 text-xs text-ink-muted">只頒發榮譽稱號，不設實體獎品。Xtreme 王／爆裂王依逐局紀錄統計（快速輸入比分的場次不計）。小預言家／人氣王來自猜冠軍投票。</p>
       </Card>
 
       <Card className="space-y-4">
         <h2 className="font-bold">手動指定的獎項</h2>
         {manual.map((a) => (
-          <div key={a.key} className="rounded-xl bg-slate-200/40 p-2">
+          <div key={a.key} className="rounded-xl bg-raised/40 p-2">
             <div className="mb-2 flex items-center gap-2">
               <input
                 className={`${inputClass} py-1.5`}
                 value={a.label}
                 onChange={(e) => setManual((list) => list.map((x) => (x.key === a.key ? { ...x, label: e.target.value } : x)))}
               />
-              <button type="button" className="px-2 text-rose-600" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
+              <button type="button" className="px-2 text-danger" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
                 ✕
               </button>
             </div>
@@ -83,7 +83,7 @@ export function AwardsPanel() {
                   key={id}
                   type="button"
                   onClick={() => toggle(a.key, id)}
-                  className={`rounded-full px-2.5 py-1 text-sm ${a.entryIds.includes(id) ? 'bg-fuchsia-500 text-white' : 'bg-slate-200 text-slate-700'}`}
+                  className={`rounded-full px-2.5 py-1 text-sm ${a.entryIds.includes(id) ? 'bg-accent text-on' : 'bg-raised text-ink'}`}
                 >
                   {displayName(entryById.get(id))}
                 </button>
@@ -104,7 +104,7 @@ export function AwardsPanel() {
             新增
           </Button>
         </div>
-        <p className="text-xs text-slate-500">🎖️ 全員參加獎會自動列出所有參賽者。</p>
+        <p className="text-xs text-ink-muted">🎖️ 全員參加獎會自動列出所有參賽者。</p>
       </Card>
 
       <ErrorText>{error}</ErrorText>

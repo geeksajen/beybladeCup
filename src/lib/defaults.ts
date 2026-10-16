@@ -21,10 +21,10 @@ export const DEFAULT_RULES: RuleConfig = {
 export const FINISH_TYPES: FinishType[] = ['spin', 'over', 'burst', 'xtreme'];
 
 export const FINISH_LABELS: Record<FinishType, { name: string; desc: string; color: string }> = {
-  spin: { name: 'Spin', desc: '對方先停止旋轉', color: 'bg-sky-600' },
-  over: { name: 'Over', desc: '把對方打出場外', color: 'bg-amber-600' },
-  burst: { name: 'Burst', desc: '把對方陀螺打到解體', color: 'bg-rose-600' },
-  xtreme: { name: 'Xtreme', desc: '把對方打進 Xtreme Zone', color: 'bg-fuchsia-600' },
+  spin: { name: 'Spin', desc: '對方先停止旋轉', color: 'bg-primary' },
+  over: { name: 'Over', desc: '把對方打出場外', color: 'bg-gold' },
+  burst: { name: 'Burst', desc: '把對方陀螺打到解體', color: 'bg-accent' },
+  xtreme: { name: 'Xtreme', desc: '把對方打進 Xtreme Zone', color: 'bg-xtreme' },
 };
 
 export const STATUS_LABELS: Record<EventStatus, string> = {

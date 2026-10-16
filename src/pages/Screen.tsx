@@ -103,11 +103,11 @@ export default function Screen() {
       <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
         <div className="animate-spin-slow text-9xl">🌀</div>
         <h1 className="neon-text mt-6 text-7xl font-black">{ev.title}</h1>
-        <p className="mt-4 text-3xl text-slate-700">{formatDateTime(ev.startAt)}</p>
-        {ev.startAt > now && <p className="font-display mt-6 text-5xl text-cyan-700">{formatCountdown(ev.startAt - now)}</p>}
+        <p className="mt-4 text-3xl text-ink">{formatDateTime(ev.startAt)}</p>
+        {ev.startAt > now && <p className="font-display mt-6 text-5xl text-primary">{formatCountdown(ev.startAt - now)}</p>}
         <div className="mt-10 flex max-w-6xl flex-wrap justify-center gap-3">
           {c.confirmed.map((e) => (
-            <span key={e.id} className={`rounded-full px-4 py-2 text-2xl font-bold ${e.checkedIn ? 'bg-cyan-500/30 text-cyan-900' : 'bg-slate-200 text-slate-600'}`}>
+            <span key={e.id} className={`rounded-full px-4 py-2 text-2xl font-bold ${e.checkedIn ? 'bg-primary/30 text-primary' : 'bg-raised text-ink-muted'}`}>
               {displayName(e)}
             </span>
           ))}
@@ -132,7 +132,7 @@ export default function Screen() {
       <div className="mx-auto max-w-6xl">
         <ScreenTitle>📊 Meta 強勢榜</ScreenTitle>
         <MetaHighlights meta={meta} entryById={entryById} big />
-        <p className="mt-6 text-center text-2xl text-slate-500">共 {meta.battles} 局的統計・手機打開「對戰表 → Meta 強勢榜」看完整排行</p>
+        <p className="mt-6 text-center text-2xl text-ink-muted">共 {meta.battles} 局的統計・手機打開「對戰表 → Meta 強勢榜」看完整排行</p>
       </div>
     );
   } else if (page === 'predict') {
@@ -142,10 +142,10 @@ export default function Screen() {
         {preds.length > 0 ? (
           <PopularityBars preds={preds} playerIds={bracket.playerIds} entryById={entryById} limit={8} big />
         ) : (
-          <p className="text-center text-4xl text-slate-600">還沒有人投票，快用手機投一票！</p>
+          <p className="text-center text-4xl text-ink-muted">還沒有人投票，快用手機投一票！</p>
         )}
-        <p className="mt-10 text-center text-3xl text-slate-600">
-          手機打開比賽網站 → <b className="text-fuchsia-700">🔮 猜冠軍</b>，每位選手一票，猜中有「小預言家」稱號
+        <p className="mt-10 text-center text-3xl text-ink-muted">
+          手機打開比賽網站 → <b className="text-accent">🔮 猜冠軍</b>，每位選手一票，猜中有「小預言家」稱號
         </p>
       </div>
     );
@@ -171,7 +171,7 @@ export default function Screen() {
       {/* 控制鈕放右上角，不擋跑馬燈 */}
       <div className="fixed right-3 top-3 z-40 flex gap-2 opacity-60 hover:opacity-100">
         {soundPref === 'on' && !audioReady ? (
-          <button type="button" onClick={enableAudio} className="animate-pulse rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-amber-950">
+          <button type="button" onClick={enableAudio} className="animate-pulse rounded-full bg-gold px-4 py-2 text-sm font-bold text-on">
             🔇 點一下開啟音效
           </button>
         ) : (
@@ -182,7 +182,7 @@ export default function Screen() {
               setSoundPref('on');
               enableAudio();
             }}
-            className="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs text-slate-700"
+            className="rounded-full bg-raised/80 px-3 py-1.5 text-xs text-ink"
           >
             {soundPref === 'on' ? '🔊' : '🔈 音效關'}
           </button>
@@ -194,7 +194,7 @@ export default function Screen() {
               if (soundPref === 'on') enableAudio();
               void document.documentElement.requestFullscreen?.().catch(() => undefined);
             }}
-            className="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs text-slate-700"
+            className="rounded-full bg-raised/80 px-3 py-1.5 text-xs text-ink"
           >
             ⛶ 全螢幕
           </button>
@@ -204,7 +204,7 @@ export default function Screen() {
       {mode === 'intermission' && pages.length > 1 && (
         <div className={`fixed left-1/2 flex -translate-x-1/2 gap-2 ${showTicker ? 'bottom-20' : 'bottom-4'}`}>
           {pages.map((_, i) => (
-            <span key={i} className={`h-2 rounded-full ${i === rot.idx % pages.length ? 'w-8 bg-cyan-600' : 'w-4 bg-slate-300'}`} />
+            <span key={i} className={`h-2 rounded-full ${i === rot.idx % pages.length ? 'w-8 bg-primary' : 'w-4 bg-line'}`} />
           ))}
         </div>
       )}
