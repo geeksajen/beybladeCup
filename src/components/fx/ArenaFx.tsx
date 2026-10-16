@@ -6,6 +6,7 @@ import { displayName } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import { playSound } from '../../lib/sound';
 import type { BracketDoc, EntryDoc, FinishType } from '../../types';
+import { Avatar, Icon } from '../icons';
 import { Confetti } from './Confetti';
 
 /** 排隊中的特效最多保留幾個（斷線重連一次收到很多變化時，只播最後幾個）。 */
@@ -93,13 +94,15 @@ export function ArenaFxOverlay({
     const s = FINISH_STYLE[event.finish];
     return (
       <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${s.bg} ${s.text} ${event.finish === 'xtreme' ? 'animate-flash' : ''}`}>
+        <Icon name={event.finish} className={`${s.anim} mb-4 text-8xl md:text-[10rem]`} />
         <div className={`${s.anim} font-display text-center text-7xl leading-tight drop-shadow-[0_6px_0_rgba(0,0,0,0.25)] md:text-[9rem]`}>{s.title}</div>
         <div className="animate-pop mt-8 text-center text-5xl font-black drop-shadow md:text-7xl" style={{ animationDelay: '0.3s' }}>
           {displayName(entryById.get(event.winnerId))}
         </div>
         {event.combo && (
           <div className="animate-pop mt-3 rounded-full bg-black/25 px-6 py-1 text-3xl font-bold text-white md:text-5xl" style={{ animationDelay: '0.4s' }}>
-            🌀 {comboLabel(event.combo)}
+            <Icon name="bey" className="mr-2" />
+            {comboLabel(event.combo)}
           </div>
         )}
         <div className="font-display animate-pop mt-4 text-6xl md:text-8xl" style={{ animationDelay: '0.5s' }}>
@@ -115,7 +118,7 @@ export function ArenaFxOverlay({
         <Confetti count={120} />
         <div className="font-display neon-text animate-pop text-7xl text-gold md:text-[9rem]">WINNER</div>
         <div className="animate-pop mt-6 text-8xl md:text-[10rem]" style={{ animationDelay: '0.2s' }}>
-          {entryById.get(event.winnerId)?.emoji ?? '🌀'}
+          <Avatar emoji={entryById.get(event.winnerId)?.emoji} />
         </div>
         <div className="animate-pop mt-2 text-5xl font-black md:text-7xl" style={{ animationDelay: '0.35s' }}>
           {entryById.get(event.winnerId)?.nickname ?? '？'}
@@ -132,9 +135,12 @@ export function ArenaFxOverlay({
   return (
     <div className="pointer-events-none fixed inset-x-0 top-8 z-50 flex justify-center px-4">
       <div className="animate-slide-down flex items-center gap-5 rounded-3xl border-4 border-gold bg-surface px-8 py-5 shadow-[0_8px_40px_rgb(var(--gold)/0.45)]">
-        <div className="text-7xl">{a?.icon}</div>
+        {a && <Icon name={a.icon} className="text-7xl text-gold" />}
         <div>
-          <div className="text-xl font-bold text-gold md:text-2xl">🔓 解鎖成就</div>
+          <div className="text-xl font-bold text-gold md:text-2xl">
+            <Icon name="unlock" className="mr-1.5" />
+            解鎖成就
+          </div>
           <div className="text-4xl font-black md:text-5xl">{a?.name}</div>
           <div className="mt-1 text-2xl font-bold text-ink md:text-3xl">{displayName(entryById.get(event.entryId))}</div>
         </div>

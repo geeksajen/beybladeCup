@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EntryForm } from '../components/EntryForm';
 import { Confetti } from '../components/fx/Confetti';
+import { Icon } from '../components/icons';
 import { Button, Card, useAction } from '../components/ui';
 import { deckSizeOf } from '../engine/deck';
 import { entryPosition, registrationState } from '../engine/registration';
@@ -23,7 +24,7 @@ export default function Register() {
     return (
       <div className="space-y-4 pt-6 text-center">
         {pos.kind === 'confirmed' && <Confetti count={60} />}
-        <div className="text-6xl">{pos.kind === 'confirmed' ? '🎉' : '⏳'}</div>
+        {pos.kind === 'confirmed' ? <Icon name="party" className="text-6xl text-accent" /> : <Icon name="hourglass" className="text-6xl text-gold" />}
         <h1 className="neon-text text-2xl font-black">報名成功！</h1>
         {entry && (
           <p className="text-lg">
@@ -38,10 +39,11 @@ export default function Register() {
           {pos.kind === 'unknown' && <p className="text-ink">資料同步中…</p>}
         </Card>
         {entry && !entry.deck?.length && (
-          <Card className="text-left text-sm text-ink">🌀 還沒登錄 Deck 沒關係，比賽前到「我的報名」補上就好，當天報到會比較快。</Card>
+          <Card className="text-left text-sm text-ink"><Icon name="bey" className="mr-1 text-primary" />還沒登錄 Deck 沒關係，比賽前到「我的報名」補上就好，當天報到會比較快。</Card>
         )}
         <Card className="border-gold/40 text-left text-sm text-gold">
-          ⚠️ 之後要修改或取消，請用<b>同一支手機、同一個瀏覽器</b>打開「我的報名」。換裝置的話請直接聯絡主辦。
+          <Icon name="alert" className="mr-1" />
+          之後要修改或取消，請用<b>同一支手機、同一個瀏覽器</b>打開「我的報名」。換裝置的話請直接聯絡主辦。
         </Card>
         <div className="flex gap-2">
           <Link to="/my" className="flex-1">
@@ -70,7 +72,8 @@ export default function Register() {
       <h1 className="text-2xl font-black">我要報名</h1>
       {isInAppBrowser() && (
         <Card className="border-gold/60 bg-gold/10 text-sm text-gold">
-          📱 你正在用 LINE / FB 的內建瀏覽器。之後要修改報名必須用同一個瀏覽器，建議點右上角「⋯」選擇<b>用 Safari／Chrome 開啟</b>後再報名。
+          <Icon name="phone" className="mr-1" />
+          你正在用 LINE / FB 的內建瀏覽器。之後要修改報名必須用同一個瀏覽器，建議點右上角「⋯」選擇<b>用 Safari／Chrome 開啟</b>後再報名。
         </Card>
       )}
       {!state.canRegister ? (

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BadgeIcons, useAchievements } from '../components/Achievements';
+import { Avatar } from '../components/icons';
 import { Badge, Card, Spinner } from '../components/ui';
 import { classifyEntries } from '../engine/registration';
 import { useReadyEvent } from '../providers/EventProvider';
@@ -40,7 +41,7 @@ function PlayerList({ list, showCheckIn }: { list: EntryDoc[]; showCheckIn: bool
         <li key={e.id}>
           <Link to={`/player/${e.id}`} className="flex items-center gap-3 rounded-xl bg-raised/60 px-3 py-2 active:bg-line/60">
             <span className="w-6 text-right font-mono text-sm text-ink-muted">{i + 1}</span>
-            <span className="text-2xl">{e.emoji ?? '🌀'}</span>
+            <Avatar emoji={e.emoji} className="text-2xl" />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <span className="truncate font-bold">{e.nickname}</span>

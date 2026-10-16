@@ -5,6 +5,7 @@ import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { EntryDoc } from '../../types';
 import { DeckEditor, DeckView } from '../Deck';
+import { Avatar, Icon, type IconName } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 
 /** 還沒到的排前面（報到時要找的人在上面），同狀態維持報名順序。 */
@@ -42,7 +43,7 @@ export function CheckIn() {
         )}
         {bracket && <p className="mt-2 text-xs text-gold">已產生賽程；報到變動後要到「賽程」重新產生才會套用。</p>}
       </Card>
-      <input className={inputClass} placeholder="🔍 搜尋暱稱" value={q} onChange={(e) => setQ(e.target.value)} />
+      <input className={inputClass} placeholder="搜尋暱稱" value={q} onChange={(e) => setQ(e.target.value)} />
       <List title="正取" list={filter(c.confirmed)} {...listProps} />
       {c.waitlist.length > 0 && <List title="候補（有空位時也可以讓他們上場）" list={filter(c.waitlist)} {...listProps} />}
     </div>
@@ -66,10 +67,10 @@ function List({ title, list, ...rest }: { title: string; list: EntryDoc[] } & Li
   );
 }
 
-const STATUS_BADGE = {
-  none: { text: '⚠️ 未登錄', cls: 'bg-raised text-ink-muted' },
-  unconfirmed: { text: '📝 待確認', cls: 'bg-gold/10 text-gold' },
-  confirmed: { text: '✓ 已確認', cls: 'bg-primary/10 text-primary' },
+const STATUS_BADGE: Record<string, { icon: IconName; text: string; cls: string }> = {
+  none: { icon: 'alert', text: '未登錄', cls: 'bg-raised text-ink-muted' },
+  unconfirmed: { icon: 'clipboard', text: '待確認', cls: 'bg-gold/10 text-gold' },
+  confirmed: { icon: 'check', text: '已確認', cls: 'bg-primary/10 text-primary' },
 };
 
 function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & ListProps) {
@@ -97,11 +98,21 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
         onClick={() => void run(() => store.updateEntry(entry.id, { checkedIn: !entry.checkedIn }))}
         className="flex w-full items-center gap-3 px-3 py-3 text-left"
       >
-        <span className="text-2xl">{entry.emoji ?? '🌀'}</span>
+        <Avatar emoji={entry.emoji} className="text-2xl" />
         <span className="min-w-0 flex-1 truncate font-bold">{entry.nickname}</span>
-        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold ${badge.cls}`}>{badge.text}</span>
+        <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${badge.cls}`}>
+          <Icon name={badge.icon} />
+          {badge.text}
+        </span>
         <span className={`shrink-0 rounded-lg px-3 py-1 text-sm font-bold ${entry.checkedIn ? 'bg-success text-on' : 'bg-line text-ink'}`}>
-          {busy ? '…' : entry.checkedIn ? '✓ 已到' : '未到'}
+          {busy ? '…' : entry.checkedIn ? (
+            <>
+              <Icon name="check" className="mr-0.5" />
+              已到
+            </>
+          ) : (
+            '未到'
+          )}
         </span>
       </button>
       <div className="px-3 pb-2">
@@ -118,14 +129,15 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
                 修改
               </Button>
               <Button className="flex-1" disabled={busy} onClick={() => void run(() => store.updateEntry(entry.id, { deckCheckedKey: deckSignature(entry.deck) }))}>
-                正確 ✓
+                <Icon name="check" className="mr-1" />
+                正確
               </Button>
             </div>
           </div>
         ) : (
           <button type="button" className="flex w-full items-center gap-2 text-left text-xs" onClick={() => setEditingDeck(entry.id)}>
             <span className={`shrink-0 font-bold ${(entry.deck?.length ?? 0) >= size ? 'text-primary' : 'text-gold'}`}>
-              🌀 {entry.deck?.length ?? 0}/{size}
+              <Icon name="bey" className="mr-0.5" /> {entry.deck?.length ?? 0}/{size}
             </span>
             <span className="min-w-0 flex-1 truncate text-ink-muted">{entry.deck?.length ? entry.deck.map(comboLabel).join('、') : '還沒登錄 Deck'}</span>
             <span className="shrink-0 font-bold text-primary">{entry.deck?.length ? '修改' : '登錄'}</span>

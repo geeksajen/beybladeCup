@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { GroupTable } from '../components/bracket/GroupTable';
 import { KnockoutTree } from '../components/bracket/KnockoutTree';
 import { ArenaFxOverlay, useArenaEvents } from '../components/fx/ArenaFx';
 import { Confetti } from '../components/fx/Confetti';
 import { Countdown } from '../components/fx/Countdown';
 import { DrawAnimation } from '../components/fx/DrawAnimation';
+import { Icon } from '../components/icons';
 import { MetaHighlights } from '../components/MetaHighlights';
 import { PopularityBars } from '../components/Popularity';
 import { FocusView } from '../components/screen/FocusView';
@@ -101,7 +102,7 @@ export default function Screen() {
     const c = classifyEntries(entries, ev.capacity, ev.waitlistCapacity);
     content = (
       <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
-        <div className="animate-spin-slow text-9xl">🌀</div>
+        <Icon name="bey" className="animate-spin-slow text-9xl text-primary" />
         <h1 className="neon-text mt-6 text-7xl font-black">{ev.title}</h1>
         <p className="mt-4 text-3xl text-ink">{formatDateTime(ev.startAt)}</p>
         {ev.startAt > now && <p className="font-display mt-6 text-5xl text-primary">{formatCountdown(ev.startAt - now)}</p>}
@@ -130,7 +131,10 @@ export default function Screen() {
   } else if (page === 'meta' && meta) {
     content = (
       <div className="mx-auto max-w-6xl">
-        <ScreenTitle>📊 Meta 強勢榜</ScreenTitle>
+        <ScreenTitle>
+          <Icon name="chart" className="mr-3 text-primary" />
+          Meta 強勢榜
+        </ScreenTitle>
         <MetaHighlights meta={meta} entryById={entryById} big />
         <p className="mt-6 text-center text-2xl text-ink-muted">共 {meta.battles} 局的統計・手機打開「對戰表 → Meta 強勢榜」看完整排行</p>
       </div>
@@ -138,14 +142,17 @@ export default function Screen() {
   } else if (page === 'predict') {
     content = (
       <div className="mx-auto max-w-5xl">
-        <ScreenTitle>🔮 猜冠軍人氣榜</ScreenTitle>
+        <ScreenTitle>
+          <Icon name="crystal" className="mr-3 text-xtreme" />
+          猜冠軍人氣榜
+        </ScreenTitle>
         {preds.length > 0 ? (
           <PopularityBars preds={preds} playerIds={bracket.playerIds} entryById={entryById} limit={8} big />
         ) : (
           <p className="text-center text-4xl text-ink-muted">還沒有人投票，快用手機投一票！</p>
         )}
         <p className="mt-10 text-center text-3xl text-ink-muted">
-          手機打開比賽網站 → <b className="text-accent">🔮 猜冠軍</b>，每位選手一票，猜中有「小預言家」稱號
+          手機打開比賽網站 → <b className="text-accent"><Icon name="crystal" className="mr-1" />猜冠軍</b>，每位選手一票，猜中有「小預言家」稱號
         </p>
       </div>
     );
@@ -172,7 +179,8 @@ export default function Screen() {
       <div className="fixed right-3 top-3 z-40 flex gap-2 opacity-60 hover:opacity-100">
         {soundPref === 'on' && !audioReady ? (
           <button type="button" onClick={enableAudio} className="animate-pulse rounded-full bg-gold px-4 py-2 text-sm font-bold text-on">
-            🔇 點一下開啟音效
+            <Icon name="soundOff" className="mr-1" />
+            點一下開啟音效
           </button>
         ) : (
           <button
@@ -184,7 +192,14 @@ export default function Screen() {
             }}
             className="rounded-full bg-raised/80 px-3 py-1.5 text-xs text-ink"
           >
-            {soundPref === 'on' ? '🔊' : '🔈 音效關'}
+            {soundPref === 'on' ? (
+              <Icon name="soundOn" className="text-base" title="音效開" />
+            ) : (
+              <>
+                <Icon name="soundOff" className="mr-1" />
+                音效關
+              </>
+            )}
           </button>
         )}
         {!isFull && (
@@ -196,7 +211,8 @@ export default function Screen() {
             }}
             className="rounded-full bg-raised/80 px-3 py-1.5 text-xs text-ink"
           >
-            ⛶ 全螢幕
+            <Icon name="fullscreen" className="mr-1" />
+            全螢幕
           </button>
         )}
       </div>
@@ -234,6 +250,6 @@ export default function Screen() {
   );
 }
 
-function ScreenTitle({ children }: { children: string }) {
+function ScreenTitle({ children }: { children: ReactNode }) {
   return <h2 className="neon-text mb-6 text-center text-5xl font-black">{children}</h2>;
 }

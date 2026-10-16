@@ -1,5 +1,6 @@
 import { Link, Navigate } from 'react-router-dom';
 import { LiveMatches } from '../components/bracket/LiveMatch';
+import { Icon, type IconName } from '../components/icons';
 import { Button, Card } from '../components/ui';
 import { classifyEntries, isRegistrationOpen } from '../engine/registration';
 import { estimateMatchCount } from '../engine/scheduler';
@@ -25,7 +26,7 @@ export default function Home() {
   return (
     <div className="space-y-4">
       <section className="pt-6 text-center">
-        <div className="animate-spin-slow inline-block text-6xl">🌀</div>
+        <Icon name="bey" className="animate-spin-slow text-6xl text-primary" />
         <h1 className="neon-text mt-3 text-3xl font-black leading-tight">{ev.title}</h1>
         {ev.subtitle && <p className="mt-1 text-ink">{ev.subtitle}</p>}
         <div className="mt-2 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent">{STATUS_LABELS[ev.status]}</div>
@@ -33,7 +34,10 @@ export default function Home() {
 
       {ev.announcement && (
         <Card className="border-gold/50 bg-gold/10">
-          <div className="text-xs font-bold text-gold">📢 公告</div>
+          <div className="text-xs font-bold text-gold">
+            <Icon name="megaphone" className="mr-1" />
+            公告
+          </div>
           <p className="mt-1 whitespace-pre-wrap text-ink">{ev.announcement}</p>
         </Card>
       )}
@@ -41,7 +45,7 @@ export default function Home() {
       {ev.predictionsOpen && (
         <Link to="/predict" className="block">
           <Card className="flex items-center gap-3 border-accent bg-accent/10">
-            <span className="text-4xl">🔮</span>
+            <Icon name="crystal" className="text-4xl text-xtreme" />
             <div className="flex-1">
               <div className="font-black text-accent">猜猜誰是冠軍？投票開放中！</div>
               <div className="text-xs text-accent">每位參賽選手一票，猜中有「小預言家」稱號</div>
@@ -56,17 +60,18 @@ export default function Home() {
           <LiveMatches bracket={bracket} entryById={entryById} />
           <Link to="/bracket">
             <Button variant="neon" className="mt-2 w-full">
-              看完整對戰表 ⚔️
+              <Icon name="bracket" className="mr-1.5" />
+              看完整對戰表
             </Button>
           </Link>
         </div>
       )}
 
       <Card className="space-y-2">
-        <InfoRow icon="📅" label="比賽時間" value={formatDateTime(ev.startAt)} />
-        <InfoRow icon="⏱️" label="預計結束" value={`約 ${formatTime(endAt)}`} />
-        <InfoRow icon="📍" label="地點" value={ev.locationHint} />
-        <InfoRow icon="🧒" label="報名資格" value="不限同學、不限年級，兄弟姊妹也歡迎" />
+        <InfoRow icon="calendar" label="比賽時間" value={formatDateTime(ev.startAt)} />
+        <InfoRow icon="hourglass" label="預計結束" value={`約 ${formatTime(endAt)}`} />
+        <InfoRow icon="pin" label="地點" value={ev.locationHint} />
+        <InfoRow icon="users" label="報名資格" value="不限同學、不限年級，兄弟姊妹也歡迎" />
       </Card>
 
       {(ev.status === 'open' || ev.status === 'draft') && (
@@ -87,7 +92,8 @@ export default function Home() {
           {regOpen && (
             <Link to="/register">
               <Button variant="neon" className="mt-4 w-full py-4 text-lg" disabled={full}>
-                {full ? '名額已滿' : c.confirmed.length >= ev.capacity ? '我要報名（候補）' : '我要報名 🚀'}
+                {!full && <Icon name="rocket" className="mr-1.5" />}
+                {full ? '名額已滿' : c.confirmed.length >= ev.capacity ? '我要報名（候補）' : '我要報名'}
               </Button>
             </Link>
           )}
@@ -108,7 +114,7 @@ export default function Home() {
           <li>• 先得 {ev.rules.pointsToWin} 分的人獲勝</li>
           {FINISH_TYPES.map((f) => (
             <li key={f}>
-              • {FINISH_LABELS[f].name} Finish（{FINISH_LABELS[f].desc}）：{ev.rules.finishPoints[f]} 分
+              <Icon name={f} className={`mr-1 ${FINISH_LABELS[f].text}`} /> {FINISH_LABELS[f].name} Finish（{FINISH_LABELS[f].desc}）：{ev.rules.finishPoints[f]} 分
             </li>
           ))}
         </ul>
@@ -120,10 +126,10 @@ export default function Home() {
   );
 }
 
-function InfoRow({ icon, label, value }: { icon: string; label: string; value: string }) {
+function InfoRow({ icon, label, value }: { icon: IconName; label: string; value: string }) {
   return (
     <div className="flex gap-3">
-      <span className="text-xl">{icon}</span>
+      <Icon name={icon} className="mt-1 text-2xl text-primary" />
       <div>
         <div className="text-xs text-ink-muted">{label}</div>
         <div className="font-semibold">{value}</div>

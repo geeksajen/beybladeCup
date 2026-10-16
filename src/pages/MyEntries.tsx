@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DeckEditor, DeckView } from '../components/Deck';
 import { EntryForm } from '../components/EntryForm';
+import { Icon } from '../components/icons';
 import { NextUpBanner } from '../components/NextUp';
 import { Badge, Button, Card, ErrorText, Spinner, useAction } from '../components/ui';
 import { deckEditableByOwner, deckSizeOf } from '../engine/deck';
@@ -26,7 +27,8 @@ export default function MyEntries() {
       <p className="text-sm text-ink-muted">這裡只會顯示用<b>這個瀏覽器</b>送出的報名。換了手機或瀏覽器的話，請聯絡主辦幫忙修改。</p>
       {deckEditableByOwner(ev) && active.some((e) => !e.deck?.length) && (
         <Card className="border-gold bg-gold/10 text-sm text-gold">
-          ⚠️ 還沒登錄 Deck：<b>{active.filter((e) => !e.deck?.length).map((e) => e.nickname).join('、')}</b>
+          <Icon name="alert" className="mr-1" />
+          還沒登錄 Deck：<b>{active.filter((e) => !e.deck?.length).map((e) => e.nickname).join('、')}</b>
           <div className="mt-1 text-xs">比賽前先登錄，當天報到會快很多！不登錄也能比賽，只是不會列入 Meta 強勢榜。</div>
         </Card>
       )}
@@ -118,7 +120,8 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
         <NextUpBanner entryId={entry.id} />
         <MyDeck entry={entry} />
         <Link to={`/player/${entry.id}`} className="block text-sm font-bold text-primary">
-          🪪 看選手卡 →
+          <Icon name="idcard" className="mr-1" />
+          看選手卡 →
         </Link>
       </div>
       <ErrorText>{error}</ErrorText>
@@ -153,7 +156,7 @@ function MyDeck({ entry }: { entry: EntryDoc }) {
   return (
     <div className="rounded-xl border border-line p-2">
       <div className="mb-1.5 flex items-center justify-between">
-        <span className="text-sm font-bold">🌀 {size === 3 ? '3on3 Deck' : '我的陀螺'}</span>
+        <span className="text-sm font-bold"><Icon name="bey" className="mr-1 text-primary" />{size === 3 ? '3on3 Deck' : '我的陀螺'}</span>
         {editable && !editing && (
           <button type="button" className="text-sm font-bold text-primary" onClick={() => setEditing(true)}>
             {entry.deck?.length ? '修改' : '登錄'}

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Icon } from '../components/icons';
 import { MetaHighlights } from '../components/MetaHighlights';
 import { Card } from '../components/ui';
 import { deckPublic } from '../engine/deck';
@@ -23,7 +24,7 @@ export default function MetaPage() {
   if (!deckPublic(ev) || !meta) {
     return (
       <div className="pt-10 text-center">
-        <div className="text-5xl">📊</div>
+        <Icon name="chart" className="text-5xl text-primary" />
         <h1 className="mt-3 text-2xl font-black">Meta 強勢榜</h1>
         <p className="mt-2 text-ink">比賽開始後，這裡會統計大家的 Deck 與零件勝率。</p>
       </div>
@@ -36,9 +37,12 @@ export default function MetaPage() {
   return (
     <div className="space-y-4 pt-2">
       <div>
-        <h1 className="text-2xl font-black">📊 Meta 強勢榜</h1>
+        <h1 className="text-2xl font-black">
+          <Icon name="chart" className="mr-1.5 text-primary" />
+          Meta 強勢榜
+        </h1>
         <p className="mt-1 text-xs text-ink-muted">
-          本次大賽的趣味統計，共 {meta.battles} 局有 Deck 紀錄（以局計算，快速輸入比分的場次不計）。人數少、樣本小，看看就好 😄
+          本次大賽的趣味統計，共 {meta.battles} 局有 Deck 紀錄（以局計算，快速輸入比分的場次不計）。人數少、樣本小，看看就好。
         </p>
       </div>
 
@@ -86,7 +90,10 @@ export default function MetaPage() {
                 <th className="pb-1 text-right font-semibold">人數</th>
                 <th className="pb-1 text-right font-semibold">局數</th>
                 <th className="pb-1 text-right font-semibold">勝率</th>
-                <th className="pb-1 text-right font-semibold" title="Xtreme／Burst">🔥💥</th>
+                <th className="pb-1 text-right font-semibold" title="Xtreme／Burst">
+                  <Icon name="xtreme" className="text-xtreme" />
+                  <Icon name="burst" className="text-accent" />
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { EMOJIS } from '../lib/defaults';
 import { DeckEditor, DeckView } from './Deck';
 import type { ContactInput, EntryInput } from '../types';
+import { Icon } from './icons';
 import { Button, ErrorText, Field, inputClass, Toggle } from './ui';
 
 export const EMPTY_ENTRY: EntryInput = { nickname: '', grade: '', beyName: '', emoji: EMOJIS[0] };
@@ -105,7 +106,7 @@ export function EntryForm({
 
       {deckSize && (
         <div className="space-y-2 border-t border-line pt-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-primary">🌀 {deckSize === 3 ? '3on3 Deck' : '陀螺組合'}（選填）</h3>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-primary"><Icon name="bey" className="mr-1" />{deckSize === 3 ? '3on3 Deck' : '陀螺組合'}（選填）</h3>
           <p className="text-xs text-ink-muted">
             可以現在登錄{deckSize === 3 ? ' 3 顆陀螺' : ''}，也可以之後在「我的報名」再填或修改。不登錄也能比賽，只是不會列入 Meta 強勢榜統計。比賽開始前只有你和主辦看得到。
           </p>

@@ -6,6 +6,7 @@ import { simulateAll } from '../../lib/devSim';
 import { CATALOG, CATALOG_SOURCE, STOCK_BEYS } from '../../lib/parts';
 import { clearLocalEntries, resetLocalData, seedLocalEntries } from '../../store/localAdapter';
 import type { EventDoc, EventStatus, RuleConfig } from '../../types';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
 import { EventSetupForm } from './EventSetupForm';
 
@@ -81,7 +82,8 @@ export function EventSettings() {
         <p className="mt-2 text-xs text-ink-muted">{STATUS_HELP[ev.status]}</p>
         {ev.status === 'draft' && (
           <Button variant="neon" className="mt-3 w-full" disabled={status.busy} onClick={() => changeStatus('open')}>
-            開放報名 🚀
+            <Icon name="rocket" className="mr-1.5" />
+            開放報名
           </Button>
         )}
         <ErrorText>{status.error}</ErrorText>
@@ -189,7 +191,8 @@ function DevTools() {
             void store.mutateBracket((cur) => (cur ? simulateAll(cur, entryById, ev.rules) : cur));
         }}
       >
-        🎲 模擬打完所有比賽{bracket ? '' : '（先到「賽程」抽籤）'}
+        <Icon name="dice" className="mr-1.5" />
+        模擬打完所有比賽{bracket ? '' : '（先到「賽程」抽籤）'}
       </Button>
       <Button
         variant="danger"

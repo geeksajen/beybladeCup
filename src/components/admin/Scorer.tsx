@@ -8,6 +8,7 @@ import { describeSource, displayName, matchLabel } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { BracketDoc, Combo, EntryDoc, FinishType, Match } from '../../types';
+import { Avatar, Icon } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 import { PredictionsControl } from './PredictionsControl';
 import { useBracketMutation } from './useBracket';
@@ -51,10 +52,11 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
         <MatchScorer key={current.id} match={current} busy={busy} mutate={mutate} />
       ) : allDone ? (
         <Card className="text-center">
-          <div className="text-4xl">🏁</div>
+          <Icon name="flag" className="text-4xl text-success" />
           <p className="mt-2 font-bold">所有場次都完成了！</p>
           <Button variant="neon" className="mt-3" onClick={onGoAwards}>
-            前往頒獎 🏆
+            <Icon name="trophy" className="mr-1.5" />
+            前往頒獎
           </Button>
         </Card>
       ) : (
@@ -113,7 +115,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
                   className="shrink-0 rounded-md bg-line px-2 py-1 text-xs"
                   onClick={() => {
                     const warn = downstreamStarted(bracket, m.id)
-                      ? '⚠️ 後續已開打的場次可能會受影響：如果勝負改變，相關淘汰賽的比分會被清空。\n\n'
+                      ? '注意：後續已開打的場次可能會受影響：如果勝負改變，相關淘汰賽的比分會被清空。\n\n'
                       : '';
                     if (confirm(`${warn}重新開啟「${matchLabel(m.id)}」來修改比分？`)) {
                       setSelected(m.id);
@@ -166,19 +168,19 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-center">
         <div className="min-w-0">
-          <div className="text-3xl">{p1?.emoji ?? '🌀'}</div>
+          <Avatar emoji={p1?.emoji} className="text-3xl" />
           <div className="truncate text-lg font-black">{p1?.nickname}</div>
           <div className="font-display text-5xl text-primary">{match.p1Score}</div>
           {errs.p1 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p1}</div>}
-          {beys.p1 && !winnerSide && <div className="mt-1 truncate rounded bg-primary/10 px-1 text-xs font-bold text-primary">🌀 {comboLabel(beys.p1)}</div>}
+          {beys.p1 && !winnerSide && <div className="mt-1 truncate rounded bg-primary/10 px-1 text-xs font-bold text-primary"><Icon name="bey" className="mr-0.5" /> {comboLabel(beys.p1)}</div>}
         </div>
         <div className="font-display text-xl text-gold">VS</div>
         <div className="min-w-0">
-          <div className="text-3xl">{p2?.emoji ?? '🌀'}</div>
+          <Avatar emoji={p2?.emoji} className="text-3xl" />
           <div className="truncate text-lg font-black">{p2?.nickname}</div>
           <div className="font-display text-5xl text-accent">{match.p2Score}</div>
           {errs.p2 > 0 && <div className="text-xs text-gold">發射失誤 ×{errs.p2}</div>}
-          {beys.p2 && !winnerSide && <div className="mt-1 truncate rounded bg-accent/10 px-1 text-xs font-bold text-accent">🌀 {comboLabel(beys.p2)}</div>}
+          {beys.p2 && !winnerSide && <div className="mt-1 truncate rounded bg-accent/10 px-1 text-xs font-bold text-accent"><Icon name="bey" className="mr-0.5" /> {comboLabel(beys.p2)}</div>}
         </div>
       </div>
 
@@ -206,7 +208,8 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
         disabled={busy}
         onClick={() => void mutate((b) => ({ ...b, countdownAt: Date.now() }))}
       >
-        📺 大螢幕倒數「3, 2, 1, Go Shoot!」
+        <Icon name="tv" className="mr-1.5" />
+        大螢幕倒數「3, 2, 1, Go Shoot!」
       </Button>
 
       {winnerSide ? (
@@ -214,7 +217,8 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           <div className="text-lg font-black">勝者確認？</div>
           <div className="text-2xl font-black text-primary">{displayName(winnerSide === 'p1' ? p1 : p2)} 獲勝</div>
           <Button variant="neon" className="w-full py-3 text-lg" disabled={busy} onClick={() => void update((m) => finalizeMatch(m, rules))}>
-            ✓ 確認，下一場
+            <Icon name="check" className="mr-1.5" />
+            確認，下一場
           </Button>
         </div>
       ) : quick ? (
@@ -249,7 +253,10 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
                 onClick={() => battle(pendingSide, f)}
                 className={`rounded-xl py-4 text-on ${FINISH_LABELS[f].color} disabled:opacity-50`}
               >
-                <div className="text-lg font-black">{FINISH_LABELS[f].name}</div>
+                <div className="flex items-center justify-center gap-1.5 text-lg font-black">
+                  <Icon name={f} className="text-xl" />
+                  {FINISH_LABELS[f].name}
+                </div>
                 <div className="text-xs opacity-90">+{rules.finishPoints[f]} 分</div>
               </button>
             ))}
@@ -289,7 +296,8 @@ function MatchScorer({ match, busy, mutate }: { match: Match; busy: boolean; mut
           disabled={busy || (match.battles.length === 0 && !match.manualScore)}
           onClick={() => void update((m) => undoBattle(m, rules))}
         >
-          ↶ 撤銷最後一局
+          <Icon name="undo" className="mr-1" />
+          撤銷最後一局
         </Button>
         {!winnerSide && (
           <Button variant="ghost" className="flex-1 text-sm" onClick={() => setQuick(!quick)}>
@@ -337,13 +345,14 @@ function OrderSetup({
   if (!open) {
     return (
       <button type="button" className="w-full rounded-xl bg-success/10 px-3 py-2 text-left text-sm text-success" onClick={() => setOpen(true)}>
-        ✓ 本場出場順序已確定 <span className="float-right text-primary">改順序</span>
+        <Icon name="check" className="mr-1" />
+        本場出場順序已確定 <span className="float-right text-primary">改順序</span>
       </button>
     );
   }
   return (
     <div className="space-y-2 rounded-xl border border-gold/40 bg-gold/10 p-2">
-      <div className="text-sm font-bold text-gold">🔀 本場出場順序（請雙方小聲告訴你）</div>
+      <div className="text-sm font-bold text-gold"><Icon name="shuffle" className="mr-1" />本場出場順序（請雙方小聲告訴你）</div>
       <div className="grid grid-cols-2 gap-2">
         <OrderList entry={p1} deck={d1} onChange={setD1} color="text-primary" />
         <OrderList entry={p2} deck={d2} onChange={setD2} color="text-accent" />
@@ -398,7 +407,8 @@ function MissingDeck({ entry }: { entry?: EntryDoc }) {
   if (!open) {
     return (
       <button type="button" className="w-full rounded-xl bg-gold/10 px-3 py-2 text-left text-xs text-gold" onClick={() => setOpen(true)}>
-        ⚠️ {entry.nickname} 還沒登錄 Deck（可以照常比賽，只是不列入 Meta 統計）<span className="float-right font-bold text-primary">現在補</span>
+        <Icon name="alert" className="mr-1" />
+        {entry.nickname} 還沒登錄 Deck（可以照常比賽，只是不列入 Meta 統計）<span className="float-right font-bold text-primary">現在補</span>
       </button>
     );
   }

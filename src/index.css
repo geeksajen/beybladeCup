@@ -25,6 +25,8 @@
   --xtreme: 181 123 255; /* #B57BFF Xtreme 紫 */
   --success: 43 214 123; /* #2BD67B 勝利、完成 */
   --danger: 255 77 94; /* #FF4D5E 失敗、錯誤 */
+  --silver: 201 211 224; /* #C9D3E0 亞軍 */
+  --bronze: 222 140 82; /* #DE8C52 季軍 */
 
   color-scheme: dark;
 }

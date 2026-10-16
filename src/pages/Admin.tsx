@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Icon, type IconName } from '../components/icons';
 import { AwardsPanel } from '../components/admin/AwardsPanel';
 import { BracketGenerator } from '../components/admin/BracketGenerator';
 import { CheckIn } from '../components/admin/CheckIn';
@@ -10,13 +11,13 @@ import { usePersistentState } from '../lib/hooks';
 import { useReadyEvent } from '../providers/EventProvider';
 
 const TABS = [
-  { key: 'settings', label: '活動設定', icon: '⚙️' },
-  { key: 'entries', label: '報名', icon: '📋' },
-  { key: 'checkin', label: '報到', icon: '✅' },
-  { key: 'bracket', label: '賽程', icon: '🎲' },
-  { key: 'score', label: '計分', icon: '🎯' },
-  { key: 'awards', label: '頒獎', icon: '🏆' },
-] as const;
+  { key: 'settings', label: '活動設定', icon: 'settings' },
+  { key: 'entries', label: '報名', icon: 'clipboard' },
+  { key: 'checkin', label: '報到', icon: 'checkin' },
+  { key: 'bracket', label: '賽程', icon: 'dice' },
+  { key: 'score', label: '計分', icon: 'scoreboard' },
+  { key: 'awards', label: '頒獎', icon: 'trophy' },
+] as const satisfies readonly { key: string; label: string; icon: IconName }[];
 
 type TabKey = (typeof TABS)[number]['key'];
 
@@ -58,7 +59,8 @@ export default function Admin() {
       <main className="mx-auto max-w-2xl px-4 pt-4">
         {ev.status === 'draft' && tab === 'settings' && (
           <div className="mb-4 rounded-xl border border-primary/50 bg-primary/10 p-3 text-sm text-primary">
-            ✅ 比賽已建立（目前是「準備中」，訪客還不能報名）。確認下面的設定無誤後，按「<b>開放報名</b>」。
+            <Icon name="checkin" className="mr-1" />
+            比賽已建立（目前是「準備中」，訪客還不能報名）。確認下面的設定無誤後，按「<b>開放報名</b>」。
           </div>
         )}
         {tab === 'settings' && <EventSettings />}
@@ -81,7 +83,7 @@ export default function Admin() {
               }}
               className={`flex flex-1 flex-col items-center py-2 text-[11px] font-semibold ${tab === t.key ? 'text-primary' : 'text-ink-muted'}`}
             >
-              <span className="text-lg leading-tight">{t.icon}</span>
+              <Icon name={t.icon} className="mb-0.5 text-[22px]" />
               {t.label}
             </button>
           ))}

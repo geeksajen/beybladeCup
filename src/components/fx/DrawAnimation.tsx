@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { displayName } from '../../lib/format';
 import type { EntryDoc, Group } from '../../types';
+import { Icon } from '../icons';
 
 /**
  * 抽籤動畫：名字快速輪轉後，逐一揭曉每位選手的組別。
@@ -42,7 +43,10 @@ export function DrawAnimation({
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-canvas/95 p-4 backdrop-blur">
       <div className="mx-auto max-w-6xl">
-        <h2 className={`neon-text text-center font-black ${big ? 'text-5xl' : 'text-3xl'}`}>🎲 抽籤分組</h2>
+        <h2 className={`neon-text text-center font-black ${big ? 'text-5xl' : 'text-3xl'}`}>
+          <Icon name="dice" className="mr-2 text-accent" />
+          抽籤分組
+        </h2>
         <div className={`my-6 text-center font-black text-gold ${big ? 'h-20 text-6xl' : 'h-12 text-3xl'}`}>
           {current ? spinName : '分組完成！'}
         </div>

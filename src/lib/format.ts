@@ -42,7 +42,7 @@ export function formatCountdown(ms: number): string {
 
 export function displayName(e: EntryDoc | undefined): string {
   if (!e) return '？';
-  return `${e.emoji ?? '🌀'} ${e.nickname}`;
+  return e.emoji ? `${e.emoji} ${e.nickname}` : e.nickname;
 }
 
 /** 尚未決定的淘汰賽位置：顯示來源說明。 */

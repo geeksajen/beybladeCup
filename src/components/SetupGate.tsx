@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useEvent } from '../providers/EventProvider';
 import { LoginForm } from './LoginForm';
+import { Icon } from './icons';
 import { ErrorText, Spinner } from './ui';
 
 /**
@@ -42,9 +43,9 @@ export function SetupGate({ kind, children }: { kind: 'public' | 'setup' | 'admi
 function Preparing() {
   return (
     <div className="arena-bg flex min-h-dvh flex-col items-center justify-center px-4 text-center">
-      <div className="animate-spin-slow text-7xl">🌀</div>
+      <Icon name="bey" className="animate-spin-slow text-7xl text-primary" />
       <h1 className="neon-text mt-6 text-2xl font-black">比賽準備中</h1>
-      <p className="mt-2 text-ink-muted">請稍後再來 🌀</p>
+      <p className="mt-2 text-ink-muted">請稍後再來</p>
       <Link to="/admin" className="mt-16 text-xs text-ink-subtle underline">
         主辦登入
       </Link>

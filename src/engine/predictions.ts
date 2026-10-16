@@ -18,17 +18,17 @@ export function tallyPredictions(preds: PredictionDoc[], playerIds: string[]): {
     .sort((a, b) => b.votes - a.votes);
 }
 
-/** 🔮 小預言家（猜中冠軍的人）、🌟 人氣王（被猜最多次的人）。冠軍未確定時只算人氣王。 */
+/** 小預言家（猜中冠軍的人）、人氣王（被猜最多次的人）。冠軍未確定時只算人氣王。 */
 export function predictionAwards(b: BracketDoc, preds: PredictionDoc[]): Award[] {
   const valid = validPredictions(preds, b.playerIds);
   if (valid.length === 0) return [];
   const awards: Award[] = [];
   const champion = computePodium(b)?.first;
   const prophets = champion ? valid.filter((p) => p.pickId === champion).map((p) => p.voterId) : [];
-  if (prophets.length) awards.push({ key: 'prophet', label: '🔮 小預言家', entryIds: prophets });
+  if (prophets.length) awards.push({ key: 'prophet', label: '小預言家', entryIds: prophets });
   const counts: Record<string, number> = {};
   for (const p of valid) counts[p.pickId] = (counts[p.pickId] ?? 0) + 1;
   const popular = topIds(counts);
-  if (popular.length) awards.push({ key: 'popular', label: '🌟 人氣王', entryIds: popular });
+  if (popular.length) awards.push({ key: 'popular', label: '人氣王', entryIds: popular });
   return awards;
 }

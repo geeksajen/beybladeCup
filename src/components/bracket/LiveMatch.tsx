@@ -3,6 +3,7 @@ import { FINISH_LABELS } from '../../lib/defaults';
 import { matchLabel } from '../../lib/format';
 import { comboLabel } from '../../lib/parts';
 import type { BracketDoc, Combo, EntryDoc, Match } from '../../types';
+import { Avatar, Icon } from '../icons';
 
 /** sm = 手機；lg = 電視上兩場並列；xl = 電視上單場（75 吋、在戰鬥盤旁邊抬頭看）。 */
 export type CardSize = 'sm' | 'lg' | 'xl';
@@ -17,10 +18,13 @@ function Side({ entry, score, align, size, bey }: { entry?: EntryDoc; score: num
   const s = S[size];
   return (
     <div className={`flex flex-1 flex-col ${align === 'left' ? 'items-start text-left' : 'items-end text-right'} min-w-0`}>
-      <div className={s.emoji}>{entry?.emoji ?? '🌀'}</div>
+      <Avatar emoji={entry?.emoji} className={s.emoji} />
       <div className={`mt-1 w-full truncate font-black ${s.name}`}>{entry?.nickname ?? '？'}</div>
       {bey ? (
-        <div className={`mt-1 max-w-full truncate rounded-lg bg-gold/10 px-2 font-bold text-gold ${s.bey}`}>🌀 {comboLabel(bey)}</div>
+        <div className={`mt-1 max-w-full truncate rounded-lg bg-gold/10 px-2 font-bold text-gold ${s.bey}`}>
+          <Icon name="bey" className="mr-1" />
+          {comboLabel(bey)}
+        </div>
       ) : (
         entry?.beyName && <div className={`w-full truncate text-ink-muted ${s.bey}`}>{entry.beyName}</div>
       )}
@@ -41,6 +45,7 @@ function BattleLog({ match, size }: { match: Match; size: CardSize }) {
           className={`rounded-lg px-3 py-0.5 font-bold text-on ${FINISH_LABELS[b.finish].color} ${b.winner === 'p1' ? 'ring-4 ring-primary/40' : 'ring-4 ring-accent/40'}`}
         >
           {b.winner === 'p1' ? '◀ ' : ''}
+          <Icon name={b.finish} className="mr-1" />
           {FINISH_LABELS[b.finish].name}
           {b.winner === 'p2' ? ' ▶' : ''}
         </span>

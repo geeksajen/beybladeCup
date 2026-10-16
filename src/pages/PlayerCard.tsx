@@ -2,6 +2,8 @@ import { Link, useParams } from 'react-router-dom';
 import { BadgeGrid, useAchievements } from '../components/Achievements';
 import { MatchCard } from '../components/bracket/MatchCard';
 import { DeckView, useCanSeeDeck } from '../components/Deck';
+import { AwardTitle } from '../components/AwardTitle';
+import { Avatar, Icon } from '../components/icons';
 import { NextUpBanner } from '../components/NextUp';
 import { Card } from '../components/ui';
 import { ACHIEVEMENTS } from '../engine/achievements';
@@ -20,7 +22,7 @@ export default function PlayerCard() {
   if (entriesLoaded && (!entry || entry.status === 'cancelled')) {
     return (
       <div className="pt-10 text-center">
-        <div className="text-5xl">🌀</div>
+        <Icon name="bey" className="text-5xl text-primary" />
         <p className="mt-3 text-ink">找不到這位選手。</p>
         <Link to="/players" className="mt-3 inline-block text-primary underline">
           回參賽名單
@@ -45,9 +47,14 @@ export default function PlayerCard() {
             <span className="truncate pl-2">{ev.title}</span>
           </div>
           <div className="mt-2 text-center">
-            <div className="text-8xl leading-none">{entry.emoji ?? '🌀'}</div>
+            <Avatar emoji={entry.emoji} className="text-8xl leading-none" />
             <h1 className="neon-text mt-2 text-3xl font-black">{entry.nickname}</h1>
-            {entry.beyName && <div className="mt-1 font-bold text-accent">🌀 {entry.beyName}</div>}
+            {entry.beyName && (
+              <div className="mt-1 font-bold text-accent">
+                <Icon name="bey" className="mr-1" />
+                {entry.beyName}
+              </div>
+            )}
             {entry.grade && <div className="text-sm text-ink-muted">{entry.grade}</div>}
           </div>
 
@@ -63,7 +70,7 @@ export default function PlayerCard() {
               {rankIdx >= 0 && <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-black text-primary">第 {rankIdx + 1} 名</span>}
               {awards.map((a) => (
                 <span key={a.key} className="rounded-full bg-gold/10 px-3 py-1 text-sm font-black text-gold">
-                  {a.label}
+                  <AwardTitle award={a} />
                 </span>
               ))}
             </div>
@@ -80,7 +87,10 @@ export default function PlayerCard() {
                 {FINISH_TYPES.map((f) => (
                   <div key={f} className={`rounded-lg py-1.5 text-on ${FINISH_LABELS[f].color}`}>
                     <div className="font-display text-xl">{s.finishes[f]}</div>
-                    <div className="text-[10px] font-bold">{FINISH_LABELS[f].name}</div>
+                    <div className="text-[10px] font-bold">
+                      <Icon name={f} className="mr-0.5" />
+                      {FINISH_LABELS[f].name}
+                    </div>
                   </div>
                 ))}
               </div>

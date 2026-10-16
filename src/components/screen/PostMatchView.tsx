@@ -4,6 +4,7 @@ import { displayName, matchLabel } from '../../lib/format';
 import type { BracketDoc, EntryDoc } from '../../types';
 import { advanceCount } from '../bracket/GroupTable';
 import { KnockoutTree } from '../bracket/KnockoutTree';
+import { Icon } from '../icons';
 
 /** 一場剛結束：顯示這場造成的變化（分組名次升降／淘汰賽晉級到哪裡）。 */
 export function PostMatchView({ bracket, matchId, entryById }: { bracket: BracketDoc; matchId: string; entryById: Map<string, EntryDoc> }) {
@@ -17,11 +18,15 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
   if (m.stage === 'knockout') {
     const next = nextMatchOf(bracket, m.id);
     const headline =
-      m.id === 'KO-F' ? `🏆 ${winner} 奪得冠軍！` : m.id === 'KO-3RD' ? `🥉 ${winner} 獲得季軍！` : `🎉 ${winner} 晉級${next ? ` ${matchLabel(next.id)}` : ''}！`;
+      m.id === 'KO-F' ? `${winner} 奪得冠軍！` : m.id === 'KO-3RD' ? `${winner} 獲得季軍！` : `${winner} 晉級${next ? ` ${matchLabel(next.id)}` : ''}！`;
+    const icon =
+      m.id === 'KO-F' ? <Icon name="trophy" className="text-gold" /> : m.id === 'KO-3RD' ? <Icon name="medal" className="text-bronze" /> : <Icon name="party" className="text-accent" />;
     return (
       <div className="space-y-8">
         <div className="text-center">
-          <div className="neon-text text-7xl font-black">{headline}</div>
+          <div className="neon-text text-7xl font-black">
+            {icon} {headline}
+          </div>
           <div className="font-display mt-3 text-5xl text-ink-muted">
             {ws} : {ls}
           </div>
@@ -42,7 +47,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="text-center">
         <div className="text-4xl font-bold text-ink-muted">
-          🎉 {winner} 獲勝 <span className="font-display">{ws} : {ls}</span>
+          <Icon name="party" className="text-accent" /> {winner} 獲勝 <span className="font-display">{ws} : {ls}</span>
         </div>
         <h2 className="neon-text mt-3 text-7xl font-black">
           {group.name} {complete ? '最終名次' : '積分更新'}
@@ -69,7 +74,7 @@ export function PostMatchView({ bracket, matchId, entryById }: { bracket: Bracke
                 <td className="truncate py-3">
                   {displayName(entryById.get(r.id))}
                   {r.id === m.winner && <span className="ml-3 rounded-full bg-gold px-3 text-2xl text-on">勝</span>}
-                  {inZone && decided && <span className="ml-3 rounded-full bg-primary px-3 text-2xl text-on">✓ 晉級</span>}
+                  {inZone && decided && <span className="ml-3 rounded-full bg-primary px-3 text-2xl text-on"><Icon name="check" className="mr-1" />晉級</span>}
                 </td>
                 <td className="py-3 text-center font-mono">{r.wins}</td>
                 <td className="py-3 text-center font-mono">{r.losses}</td>

@@ -569,13 +569,19 @@ Match.p1Deck?, p2Deck?: Combo[]  // 本場實際順序；開打時從報名資�
 - 需要驗證的規則情境：截止後（closed）能改自己的 Deck ✓／截止後改暱稱 ✗／比賽中改 Deck ✗／改別人的 Deck ✗。
 
 ### 14.3 零件清單（`lib/parts.ts`）
-- 內建 Takara Tomy 英文名的起始清單（Blade、Ratchet、Bit＋縮寫、CX 的 Assist Blade／Lock Chip），**清單沒有的可以自由輸入**。
-- 中文名稱（`zh`）目前是依英文意思的**暫譯**，不一定是台灣官方譯名；發現與小朋友認識的名字不同時直接改 `lib/parts.ts`。輸入時中文、英文、縮寫都能搜尋。
-- 顯示：Blade 用中文；Bit 用縮寫（`3-60F`），Meta 表格寫成「LF 低平」；Ratchet 是印在零件上的數字，不翻譯。
-- 儲存前正規化：忽略大小寫／空白／連字號比對英文名、縮寫（`LF` → Low Flat）、別名（Hasbro `Soar Phoenix` → Phoenix Wing）；Ratchet 統一成 `3-60`。
-- 顯示寫法：`Dran Sword 3-60F`（Bit 用縮寫）。
-
-
+- **來源：[Beydex](https://github.com/catgamer109/Beydex-Public-Resources) 社群資料**（`beyblade-data.ts`，社群維護、更新頻繁；沒有正式授權條款，README 表示公開給社群使用 → 規則頁與後台註明來源）。
+- **同步：`npm run sync-parts`**（`scripts/sync-parts.mjs`，手動執行，例如每次比賽前）：
+  - 下載來源檔，**只當文字解析**（括號配對＋去掉函式呼叫與註解後 `JSON.parse`），絕不 import／執行。
+  - 只取 Takara Tomy、非 coming soon 的零件：Blade（含 CX Main Blade、CXE Metal Blade，標 `cx`）、Ratchet（`Turbo`／`Operate` 等融合型標 `fusion`）、Bit、Lock Chip、Assist Blade、Over Blade；縮寫、類型、**Hasbro 名稱（依 `identicalId`）當別名**。
+  - **原廠組合**：完整陀螺（含 CX Full Blade 展開）→ `beys`。
+  - 寫入 `src/data/parts.generated.json`（記錄來源 commit 與日期），並列出還沒有中文名稱的零件。用 git diff 檢查後再部署。
+- **中文名稱**在 `src/data/parts-zh.ts`（暫譯，自己維護，同步不會覆蓋；同類零件中文不可重複）。
+- 來源沒有、但需要認得的寫法放 `EXTRA_ALIASES`（例如舊拼法 `Disc Ball` → `Disk Ball`）。
+- 儲存前正規化：忽略大小寫／空白／連字號比對英文名、中文、縮寫、別名；Ratchet 統一成 `3-60`。舊資料（例如 `Dran Sword`）讀取時自動對應到 `DranSword`，不需要搬資料。
+- 顯示（官方寫法）：一般 `龍之劍 3-60F`；CX `龍勇者 S6-60V`（Lock Chip＋Main Blade，Over／Assist 縮寫直接接 Ratchet）；CXE `巴哈姆特閃擊 BK1-50I`；融合型 Ratchet 顯示縮寫（`Tr`）且沒有 Bit。
+- **融合型 Ratchet** 不需要（也不能）選 Bit；Deck 檢查與 Meta 統計都會略過。
+- **原廠組合一鍵帶入**：登錄精靈選好 Blade（CX 再加 Lock Chip）後，每一步上方列出相符的原廠組合（最多 3 個），點一下就填好其餘零件並跳到下一顆。
+- 圖片：Beydex 的圖片多為原廠渲染圖，版權屬原廠，**不使用**。
 ### 14.4 公開時機
 - Deck 在 `running` 之前只有自己與主辦看得到（`#/my`、選手卡）；每場的出場順序要等那一場在計分畫面確定後，才出現在大螢幕。
 - **只是畫面上隱藏**：報名文件本身是公開讀，懂技術的人仍可直接讀資料庫。家庭比賽可接受；要真正保密需要另存私密 collection。
@@ -615,9 +621,9 @@ Match.p1Deck?, p2Deck?: Combo[]  // 本場實際順序；開打時從報名資�
 - 「🎲 模擬打完所有比賽」：隨機打完所有能開打的場次（`lib/devSim.ts`），用來測試 Meta 與頒獎畫面；分組同分需要手動決定名次時會停下來。
 
 ### 14.9 之後可以做
-- 後台「合併同義詞」（例如把小孩打的「蒼龍」併到 Dran Sword）。
 - 報到平板自助站（小朋友點自己的名字登錄 Deck）。
-- 「原廠組合一鍵帶入」（選 Blade 自動帶入原廠 Ratchet／Bit，需要原廠組合清單）。
+- 後台編輯零件清單（不用改程式）與「未知零件」審核／合併同義詞。
+- Meta 加上陀螺類型（Attack／Defense／Stamina／Balance）統計（來源資料已有）。
 - 賽後 Meta 總結圖卡（方便截圖分享到 LINE 群組）。
 
 ---

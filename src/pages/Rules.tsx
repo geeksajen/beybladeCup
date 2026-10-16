@@ -1,3 +1,5 @@
+import { awardIcon } from '../components/AwardTitle';
+import { Icon } from '../components/icons';
 import { Card } from '../components/ui';
 import { FINISH_LABELS, FINISH_TYPES } from '../lib/defaults';
 import { CATALOG_SOURCE } from '../lib/parts';
@@ -17,7 +19,10 @@ export default function Rules() {
           <tbody>
             {FINISH_TYPES.map((f) => (
               <tr key={f} className="border-t border-line first:border-0">
-                <td className="py-2 font-bold">{FINISH_LABELS[f].name} Finish</td>
+                <td className="py-2 font-bold">
+                  <Icon name={f} className={`mr-1.5 ${FINISH_LABELS[f].text}`} />
+                  {FINISH_LABELS[f].name} Finish
+                </td>
                 <td className="py-2 text-ink">{FINISH_LABELS[f].desc}</td>
                 <td className="py-2 text-right font-mono text-lg font-black text-primary">{r.finishPoints[f]}</td>
               </tr>
@@ -69,12 +74,13 @@ export default function Rules() {
 
       <Card>
         <h2 className="mb-2 font-bold text-gold">獎項</h2>
-        <ul className="space-y-1 text-sm text-ink">
-          <li>🏆 冠軍、🥈 亞軍、🥉 季軍</li>
-          <li>🔥 Xtreme 王：Xtreme Finish 次數最多</li>
-          <li>💥 爆裂王：Burst Finish 次數最多</li>
-          <li>🌀 最佳陀螺命名</li>
-          <li>🎖️ 全員參加獎：每位參賽者都有！</li>
+        <ul className="space-y-1.5 text-sm text-ink">
+          {AWARD_LINES.map(([key, text]) => (
+            <li key={key}>
+              <Icon name={awardIcon(key).icon} className={`mr-1.5 ${awardIcon(key).color}`} />
+              {text}
+            </li>
+          ))}
         </ul>
       </Card>
 
@@ -83,7 +89,7 @@ export default function Rules() {
         <ul className="space-y-1 text-sm text-ink">
           <li>• 請準時報到，未報到的選手不會排入賽程。</li>
           <li>• 沒有陀螺或發射器的小朋友，報名時勾選「需要借」。</li>
-          <li>• 友誼第一、比賽第二，輸了也要跟對手握手 🤝</li>
+          <li>• 友誼第一、比賽第二，輸了也要跟對手握手 <Icon name="handshake" className="text-gold" /></li>
         </ul>
       </Card>
       <p className="pb-4 text-center text-[11px] text-ink-subtle">
@@ -92,6 +98,17 @@ export default function Rules() {
           Beydex
         </a>
         （{CATALOG_SOURCE.commitDate || CATALOG_SOURCE.syncedAt} 版）・中文名稱為暫譯
-      </p>    </div>
+      </p>
+    </div>
   );
 }
+
+const AWARD_LINES: [string, string][] = [
+  ['champion', '冠軍'],
+  ['runnerUp', '亞軍'],
+  ['third', '季軍'],
+  ['xtreme', 'Xtreme 王：Xtreme Finish 次數最多'],
+  ['burst', '爆裂王：Burst Finish 次數最多'],
+  ['bestName', '最佳陀螺命名'],
+  ['participation', '全員參加獎：每位參賽者都有！'],
+];

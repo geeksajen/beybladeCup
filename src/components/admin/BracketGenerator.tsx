@@ -8,6 +8,7 @@ import { useReadyEvent } from '../../providers/EventProvider';
 import type { BracketDoc, Format } from '../../types';
 import { advanceCount } from '../bracket/GroupTable';
 import { DrawAnimation } from '../fx/DrawAnimation';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
 import { useBracketMutation } from './useBracket';
 
@@ -128,7 +129,8 @@ export function BracketGenerator({ onGoScore }: { onGoScore: () => void }) {
         <p className="text-xs text-ink-muted">戰鬥盤：{ev.rules.arenaCount} 個（在「活動設定」修改）</p>
         <ErrorText>{error}</ErrorText>
         <Button variant="neon" className="w-full py-3 text-lg" disabled={busy || n < 2} onClick={onGenerate}>
-          {busy ? '產生中…' : bracket ? '🎲 重新抽籤' : '🎲 抽籤產生賽程'}
+          {!busy && <Icon name="dice" className="mr-1.5" />}
+          {busy ? '產生中…' : bracket ? '重新抽籤' : '抽籤產生賽程'}
         </Button>
         <p className="text-xs text-ink-muted">抽籤動畫會同步在大螢幕播放。</p>
       </Card>
@@ -209,7 +211,10 @@ function TieResolver({ bracket }: { bracket: BracketDoc }) {
   if (groupIds.length === 0) return null;
   return (
     <Card className="border-gold/60">
-      <h3 className="font-bold text-gold">⚠️ 有同分需要決定名次</h3>
+      <h3 className="font-bold text-gold">
+        <Icon name="alert" className="mr-1" />
+        有同分需要決定名次
+      </h3>
       <p className="mb-3 text-xs text-ink-muted">請現場加賽一局，再用箭頭排出名次後儲存。淘汰賽會等名次確定後才排入。</p>
       {groupIds.map((gid) => (
         <TieGroup

@@ -1,12 +1,13 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useEvent } from '../providers/EventProvider';
+import { Icon, type IconName } from './icons';
 
-const NAV = [
-  { to: '/', label: '首頁', icon: '🏠' },
-  { to: '/players', label: '名單', icon: '👥' },
-  { to: '/bracket', label: '對戰表', icon: '⚔️' },
-  { to: '/rules', label: '規則', icon: '📜' },
-  { to: '/my', label: '我的報名', icon: '📝' },
+const NAV: { to: string; label: string; icon: IconName }[] = [
+  { to: '/', label: '首頁', icon: 'home' },
+  { to: '/players', label: '名單', icon: 'users' },
+  { to: '/bracket', label: '對戰表', icon: 'bracket' },
+  { to: '/rules', label: '規則', icon: 'rules' },
+  { to: '/my', label: '我的報名', icon: 'clipboard' },
 ];
 
 export function PublicLayout() {
@@ -32,7 +33,7 @@ export function PublicLayout() {
                 `flex flex-1 flex-col items-center py-2 text-[11px] font-semibold ${isActive ? 'text-primary' : 'text-ink-muted'}`
               }
             >
-              <span className="text-lg leading-tight">{n.icon}</span>
+              <Icon name={n.icon} className="mb-0.5 text-[22px]" />
               {n.label}
             </NavLink>
           ))}

@@ -4,6 +4,7 @@ import { GroupTable } from '../components/bracket/GroupTable';
 import { KnockoutTree } from '../components/bracket/KnockoutTree';
 import { LiveMatches, upcomingMatches } from '../components/bracket/LiveMatch';
 import { MatchCard } from '../components/bracket/MatchCard';
+import { Icon } from '../components/icons';
 import { Card } from '../components/ui';
 import { useReadyEvent } from '../providers/EventProvider';
 
@@ -14,7 +15,7 @@ export default function BracketPage() {
   if (!bracket) {
     return (
       <div className="pt-10 text-center">
-        <div className="text-5xl">⚔️</div>
+        <Icon name="bracket" className="text-5xl text-primary" />
         <p className="mt-3 text-ink">比賽當天報到完成後，主辦會抽籤產生對戰表。</p>
       </div>
     );
@@ -28,11 +29,13 @@ export default function BracketPage() {
     <div className="space-y-5 pt-2">
       <h1 className="text-2xl font-black">對戰表</h1>
       <Link to="/meta" className="block rounded-xl bg-primary/10 px-3 py-2 text-center text-sm font-bold text-primary">
-        📊 Meta 強勢榜：大家都用什麼零件？ →
+        <Icon name="chart" className="mr-1" />
+        Meta 強勢榜：大家都用什麼零件？ →
       </Link>
       {ev.predictionsOpen && (
         <Link to="/predict" className="block rounded-xl bg-accent/10 px-3 py-2 text-center text-sm font-bold text-accent">
-          🔮 猜冠軍投票開放中 →
+          <Icon name="crystal" className="mr-1" />
+          猜冠軍投票開放中 →
         </Link>
       )}
       {bracket.currentMatchIds.length > 0 && (

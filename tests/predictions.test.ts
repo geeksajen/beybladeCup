@@ -33,8 +33,8 @@ describe('predictions', () => {
     const b = roundRobin([done('1', 1, 'a', 'b'), done('2', 2, 'a', 'c'), done('3', 3, 'b', 'c')]);
     const awards = predictionAwards(b, [vote('a', 'a'), vote('b', 'a'), vote('c', 'b')]);
     expect(awards).toEqual([
-      { key: 'prophet', label: '🔮 小預言家', entryIds: ['a', 'b'] },
-      { key: 'popular', label: '🌟 人氣王', entryIds: ['a'] },
+      { key: 'prophet', label: '小預言家', entryIds: ['a', 'b'] },
+      { key: 'popular', label: '人氣王', entryIds: ['a'] },
     ]);
   });
 

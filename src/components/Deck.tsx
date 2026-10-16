@@ -17,6 +17,7 @@ import {
 } from '../lib/parts';
 import { useReadyEvent } from '../providers/EventProvider';
 import type { Combo, EntryDoc } from '../types';
+import { Icon } from './icons';
 import { Button, ErrorText, inputClass } from './ui';
 
 const EMPTY: Combo = { blade: '', ratchet: '', bit: '' };
@@ -233,7 +234,7 @@ export function DeckEditor({
 
         {stocks.length > 0 && (
           <div className="space-y-1.5 rounded-xl border-2 border-primary/40 bg-primary/10 p-2">
-            <div className="text-xs font-bold text-primary">⚡ 沒有改裝？直接用原廠組合</div>
+            <div className="text-xs font-bold text-primary"><Icon name="bolt" className="mr-1" />沒有改裝？直接用原廠組合</div>
             {stocks.map((s) => (
               <button
                 key={s.code}
@@ -285,7 +286,7 @@ export function DeckEditor({
               setStep({ bey: i, kind: stepsFor(cx[i])[0] });
             }}
           >
-            {complete(c) ? comboLabel(c) : isEmpty(c) ? <span className="font-normal text-ink-subtle">＋ 點這裡登錄第 {i + 1} 顆</span> : <span className="text-gold">⚠️ 還沒填完，點這裡繼續</span>}
+            {complete(c) ? comboLabel(c) : isEmpty(c) ? <span className="font-normal text-ink-subtle">＋ 點這裡登錄第 {i + 1} 顆</span> : <span className="text-gold"><Icon name="alert" className="mr-1" />還沒填完，點這裡繼續</span>}
           </button>
           {i > 0 && (
             <button type="button" className="shrink-0 rounded bg-raised px-2 py-0.5 text-sm" onClick={() => move(i)} aria-label="往上移">
@@ -299,14 +300,15 @@ export function DeckEditor({
               aria-label="清除"
               onClick={() => setDeck((list) => list.map((x, j) => (j === i ? { ...EMPTY } : x)))}
             >
-              ✕
+              <Icon name="close" />
             </button>
           )}
         </div>
       ))}
       {check.warnings.map((w) => (
         <p key={w} className="rounded-lg bg-gold/10 px-3 py-1.5 text-xs text-gold">
-          ⚠️ {w}
+          <Icon name="alert" className="mr-1" />
+          {w}
         </p>
       ))}
       {tried && check.errors.map((e) => <ErrorText key={e}>{e}</ErrorText>)}
@@ -423,7 +425,7 @@ function PartPicker({
         <>
           {hot.length > 0 && (
             <div>
-              <div className="mb-1 text-xs font-bold text-gold">🔥 今天熱門</div>
+              <div className="mb-1 text-xs font-bold text-gold"><Icon name="fire" className="mr-1" />今天熱門</div>
               {grid(hot)}
             </div>
           )}
@@ -456,7 +458,7 @@ function RatchetPicker({ value, popular, onPick }: { value: string; popular: str
     <div className="space-y-3">
       {popular.length > 0 && (
         <div>
-          <div className="mb-1 text-xs font-bold text-gold">🔥 今天熱門</div>
+          <div className="mb-1 text-xs font-bold text-gold"><Icon name="fire" className="mr-1" />今天熱門</div>
           <div className="grid grid-cols-4 gap-1.5">
             {popular.slice(0, 4).map((r) => (
               <button key={r} type="button" className={btn(r === value)} onClick={() => onPick(r)}>

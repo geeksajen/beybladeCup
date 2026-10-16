@@ -21,6 +21,8 @@ export default {
         xtreme: 'rgb(var(--xtreme) / <alpha-value>)',
         success: 'rgb(var(--success) / <alpha-value>)',
         danger: 'rgb(var(--danger) / <alpha-value>)',
+        silver: 'rgb(var(--silver) / <alpha-value>)',
+        bronze: 'rgb(var(--bronze) / <alpha-value>)',
       },
       fontFamily: {
         display: ['"Black Ops One"', 'system-ui', 'sans-serif'],

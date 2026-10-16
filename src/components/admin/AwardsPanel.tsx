@@ -5,6 +5,8 @@ import { predictionAwards } from '../../engine/predictions';
 import { displayName } from '../../lib/format';
 import { usePredictions, useReadyEvent } from '../../providers/EventProvider';
 import type { Award } from '../../types';
+import { AwardTitle } from '../AwardTitle';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 
 export function AwardsPanel() {
@@ -55,7 +57,7 @@ export function AwardsPanel() {
         <div className="space-y-1.5">
           {auto.map((a) => (
             <div key={a.key} className="flex items-center justify-between rounded-lg bg-raised/60 px-3 py-2">
-              <span className="font-bold">{a.label}</span>
+              <AwardTitle award={a} className="font-bold" />
               <span className="text-right">{a.entryIds.map((id) => displayName(entryById.get(id))).join('、')}</span>
             </div>
           ))}
@@ -73,8 +75,8 @@ export function AwardsPanel() {
                 value={a.label}
                 onChange={(e) => setManual((list) => list.map((x) => (x.key === a.key ? { ...x, label: e.target.value } : x)))}
               />
-              <button type="button" className="px-2 text-danger" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
-                ✕
+              <button type="button" className="px-2 text-xl text-danger" aria-label="刪除獎項" onClick={() => setManual((list) => list.filter((x) => x.key !== a.key))}>
+                <Icon name="close" />
               </button>
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -92,7 +94,7 @@ export function AwardsPanel() {
           </div>
         ))}
         <div className="flex gap-2">
-          <input className={inputClass} placeholder="新增獎項，例如：😄 最佳運動精神" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} />
+          <input className={inputClass} placeholder="新增獎項，例如：最佳運動精神" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} />
           <Button
             variant="secondary"
             disabled={!newLabel.trim()}
@@ -104,7 +106,10 @@ export function AwardsPanel() {
             新增
           </Button>
         </div>
-        <p className="text-xs text-ink-muted">🎖️ 全員參加獎會自動列出所有參賽者。</p>
+        <p className="text-xs text-ink-muted">
+          <Icon name="rosette" className="mr-1 text-gold" />
+          全員參加獎會自動列出所有參賽者。
+        </p>
       </Card>
 
       <ErrorText>{error}</ErrorText>
@@ -119,7 +124,8 @@ export function AwardsPanel() {
         </div>
       ) : (
         <Button variant="neon" className="w-full py-4 text-lg" disabled={busy || !ranking} onClick={publish}>
-          🏆 公布結果
+          <Icon name="trophy" className="mr-1.5" />
+          公布結果
         </Button>
       )}
     </div>

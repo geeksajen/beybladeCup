@@ -1,3 +1,4 @@
+import type { IconName } from '../components/icons';
 import type { BracketDoc, FinishType, Match } from '../types';
 import { computeScore, type ScoreRules } from './scoring';
 
@@ -5,7 +6,7 @@ export type AchievementKey = 'firstPoint' | 'firstWin' | 'shutout' | 'comeback' 
 
 export interface AchievementDef {
   key: AchievementKey;
-  icon: string;
+  icon: IconName;
   name: string;
   desc: string;
   /** 大螢幕要不要跳出「解鎖成就」（太常見的不跳，避免洗版）。 */
@@ -14,13 +15,13 @@ export interface AchievementDef {
 
 /** 顯示順序 = 這個陣列的順序。 */
 export const ACHIEVEMENTS: AchievementDef[] = [
-  { key: 'firstPoint', icon: '⭐', name: '第一分', desc: '在比賽中拿到第一分', announce: false },
-  { key: 'firstWin', icon: '🎉', name: '首勝', desc: '贏得第一場對戰', announce: true },
-  { key: 'shutout', icon: '🧱', name: '完封', desc: '贏一場對戰，而且對手 0 分', announce: true },
-  { key: 'comeback', icon: '🔄', name: '絕地逆轉', desc: '對手只差 1 分就贏，還是被你逆轉', announce: true },
-  { key: 'streak3', icon: '⚡', name: '三連勝', desc: '連續贏 3 場對戰', announce: true },
-  { key: 'doubleXtreme', icon: '💎', name: '雙重 Xtreme', desc: '同一場打出 2 次 Xtreme Finish', announce: true },
-  { key: 'allFinishes', icon: '🎨', name: '招式大師', desc: 'Spin、Over、Burst、Xtreme 四種終結都用過', announce: true },
+  { key: 'firstPoint', icon: 'sparkle', name: '第一分', desc: '在比賽中拿到第一分', announce: false },
+  { key: 'firstWin', icon: 'party', name: '首勝', desc: '贏得第一場對戰', announce: true },
+  { key: 'shutout', icon: 'shield', name: '完封', desc: '贏一場對戰，而且對手 0 分', announce: true },
+  { key: 'comeback', icon: 'comeback', name: '絕地逆轉', desc: '對手只差 1 分就贏，還是被你逆轉', announce: true },
+  { key: 'streak3', icon: 'bolt', name: '三連勝', desc: '連續贏 3 場對戰', announce: true },
+  { key: 'doubleXtreme', icon: 'gem', name: '雙重 Xtreme', desc: '同一場打出 2 次 Xtreme Finish', announce: true },
+  { key: 'allFinishes', icon: 'master', name: '招式大師', desc: 'Spin、Over、Burst、Xtreme 四種終結都用過', announce: true },
 ];
 
 export const ACHIEVEMENT_BY_KEY = new Map(ACHIEVEMENTS.map((a) => [a.key, a]));

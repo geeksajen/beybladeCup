@@ -3,6 +3,7 @@ import { describeSource, displayName, matchLabel } from '../../lib/format';
 import type { BracketDoc, EntryDoc, Match } from '../../types';
 import { GroupTable } from '../bracket/GroupTable';
 import { LiveMatchCard, upcomingMatches } from '../bracket/LiveMatch';
+import { Icon } from '../icons';
 
 /**
  * 大螢幕主版面：左邊固定是目前場次（大字比分），右邊是跟這場有關的資訊
@@ -16,12 +17,12 @@ export function FocusView({ bracket, entryById, arenaCount }: { bracket: Bracket
       <div className="flex min-w-0 flex-col justify-center gap-6">
         {live.length === 0 ? (
           <div className="text-center">
-            <div className="animate-spin-slow inline-block text-9xl">🌀</div>
+            <Icon name="bey" className="animate-spin-slow text-9xl text-primary" />
             <p className="mt-6 text-5xl font-black text-ink-muted">等待下一場…</p>
           </div>
         ) : (
           <>
-            {notStarted && <div className="animate-pulse text-center text-5xl font-black text-gold">📣 請選手上場準備！</div>}
+            {notStarted && <div className="animate-pulse text-center text-5xl font-black text-gold"><Icon name="megaphone" className="mr-3" />請選手上場準備！</div>}
             {live.map((m) => (
               <LiveMatchCard key={m.id} match={m} entryById={entryById} size={live.length > 1 ? 'lg' : 'xl'} />
             ))}
@@ -44,8 +45,8 @@ function MatchContext({ bracket, match, entryById }: { bracket: BracketDoc; matc
   const next = nextMatchOf(bracket, match.id);
   let headline = '淘汰賽';
   let detail = '';
-  if (match.id === 'KO-F') headline = '🏆 冠軍戰！';
-  else if (match.id === 'KO-3RD') headline = '🥉 季軍戰';
+  if (match.id === 'KO-F') headline = '冠軍戰！';
+  else if (match.id === 'KO-3RD') headline = '季軍戰';
   else if (next) {
     headline = `勝者晉級 ${matchLabel(next.id)}`;
     const otherSrc = next.p1Source === `winner:${match.id}` ? next.p2Source : next.p1Source;
@@ -55,7 +56,11 @@ function MatchContext({ bracket, match, entryById }: { bracket: BracketDoc; matc
   return (
     <div className="rounded-2xl border border-line bg-surface p-6 shadow-sm">
       <div className="text-2xl font-bold text-ink-muted">{matchLabel(match.id)}</div>
-      <div className="mt-2 text-4xl font-black text-accent">{headline}</div>
+      <div className="mt-2 text-4xl font-black text-accent">
+        {match.id === 'KO-F' && <Icon name="trophy" className="mr-2 text-gold" />}
+        {match.id === 'KO-3RD' && <Icon name="medal" className="mr-2 text-bronze" />}
+        {headline}
+      </div>
       {detail && <div className="mt-3 truncate text-3xl text-ink">{detail}</div>}
     </div>
   );
@@ -72,7 +77,7 @@ function OnDeck({ bracket, entryById, arenaCount }: { bracket: BracketDoc; entry
     <div className="space-y-3">
       {ready.map((m) => (
         <div key={m.id} className="rounded-2xl border-4 border-gold bg-gold/10 p-4">
-          <div className="text-2xl font-black text-gold">📣 下一場請準備</div>
+          <div className="text-2xl font-black text-gold"><Icon name="megaphone" className="mr-2" />下一場請準備</div>
           <div className="mt-2 truncate text-4xl font-black">{name(m.p1, m.p1Source)}</div>
           <div className="text-2xl font-bold text-ink-muted">vs</div>
           <div className="truncate text-4xl font-black">{name(m.p2, m.p2Source)}</div>

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { ACHIEVEMENT_BY_KEY, ACHIEVEMENTS, computeAchievements, type AchievementKey } from '../engine/achievements';
 import { useReadyEvent } from '../providers/EventProvider';
+import { Icon } from './icons';
 
 /** 全部選手的成就（沒有賽程時是空的）。 */
 export function useAchievements(): Record<string, AchievementKey[]> {
@@ -12,14 +13,10 @@ export function useAchievements(): Record<string, AchievementKey[]> {
 export function BadgeIcons({ keys, className = '' }: { keys?: AchievementKey[]; className?: string }) {
   if (!keys?.length) return null;
   return (
-    <span className={`inline-flex gap-0.5 ${className}`}>
+    <span className={`inline-flex gap-0.5 text-gold ${className}`}>
       {keys.map((k) => {
         const a = ACHIEVEMENT_BY_KEY.get(k)!;
-        return (
-          <span key={k} title={`${a.name}：${a.desc}`} aria-label={a.name}>
-            {a.icon}
-          </span>
-        );
+        return <Icon key={k} name={a.icon} title={`${a.name}：${a.desc}`} />;
       })}
     </span>
   );
@@ -35,7 +32,7 @@ export function BadgeGrid({ keys }: { keys: AchievementKey[] }) {
           key={a.key}
           className={`flex items-center gap-2 rounded-xl px-2 py-1.5 ${got.has(a.key) ? 'bg-gold/10 text-gold' : 'bg-raised text-ink-subtle'}`}
         >
-          <span className={`text-2xl ${got.has(a.key) ? '' : 'opacity-40 grayscale'}`}>{a.icon}</span>
+          <Icon name={a.icon} className={`text-2xl ${got.has(a.key) ? '' : 'opacity-50'}`} />
           <div className="min-w-0">
             <div className="text-sm font-bold">{a.name}</div>
             <div className="text-[11px] leading-tight">{a.desc}</div>

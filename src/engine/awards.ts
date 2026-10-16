@@ -27,14 +27,14 @@ export const AUTO_AWARD_KEYS = ['champion', 'runnerUp', 'third', 'xtreme', 'burs
 export function autoAwards(b: BracketDoc): Award[] {
   const podium = computePodium(b);
   const awards: Award[] = [];
-  if (podium?.first) awards.push({ key: 'champion', label: '🏆 冠軍', entryIds: [podium.first] });
-  if (podium?.second) awards.push({ key: 'runnerUp', label: '🥈 亞軍', entryIds: [podium.second] });
-  if (podium && podium.third.length) awards.push({ key: 'third', label: '🥉 季軍', entryIds: podium.third });
+  if (podium?.first) awards.push({ key: 'champion', label: '冠軍', entryIds: [podium.first] });
+  if (podium?.second) awards.push({ key: 'runnerUp', label: '亞軍', entryIds: [podium.second] });
+  if (podium && podium.third.length) awards.push({ key: 'third', label: '季軍', entryIds: podium.third });
   const xtreme = topIds(finishCounts(b, 'xtreme'));
-  if (xtreme.length) awards.push({ key: 'xtreme', label: '🔥 Xtreme 王', entryIds: xtreme });
+  if (xtreme.length) awards.push({ key: 'xtreme', label: 'Xtreme 王', entryIds: xtreme });
   const burst = topIds(finishCounts(b, 'burst'));
-  if (burst.length) awards.push({ key: 'burst', label: '💥 爆裂王', entryIds: burst });
+  if (burst.length) awards.push({ key: 'burst', label: '爆裂王', entryIds: burst });
   return awards;
 }
 
-export const DEFAULT_MANUAL_AWARDS: Award[] = [{ key: 'bestName', label: '🌀 最佳陀螺命名', entryIds: [], manual: true }];
+export const DEFAULT_MANUAL_AWARDS: Award[] = [{ key: 'bestName', label: '最佳陀螺命名', entryIds: [], manual: true }];

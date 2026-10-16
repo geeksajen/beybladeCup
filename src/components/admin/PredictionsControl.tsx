@@ -1,5 +1,6 @@
 import { validPredictions } from '../../engine/predictions';
 import { usePredictions, useReadyEvent } from '../../providers/EventProvider';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, useAction } from '../ui';
 
 /** 計分分頁上方：開放／截止猜冠軍投票。 */
@@ -14,7 +15,7 @@ export function PredictionsControl() {
   return (
     <Card className={open ? 'border-accent' : ''}>
       <div className="flex items-center gap-3">
-        <span className="text-3xl">🔮</span>
+        <Icon name="crystal" className="text-3xl text-xtreme" />
         <div className="min-w-0 flex-1">
           <div className="font-bold">猜冠軍：{open ? <span className="text-accent">投票開放中</span> : '未開放'}</div>
           <div className="text-xs text-ink-muted">已有 {count} 票・建議抽籤後開放，淘汰賽開打前截止</div>

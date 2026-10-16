@@ -5,6 +5,7 @@ import { UpdateBanner } from './components/UpdateBanner';
 import Admin from './pages/Admin';
 import BracketPage from './pages/Bracket';
 import Home from './pages/Home';
+import IconGallery from './pages/IconGallery';
 import MetaPage from './pages/Meta';
 import MyEntries from './pages/MyEntries';
 import PlayerCard from './pages/PlayerCard';
@@ -28,6 +29,7 @@ export default function App() {
 function AppRoutes() {
   return (
     <Routes>
+      {import.meta.env.DEV && <Route path="/icons" element={<IconGallery />} />}
       <Route
         path="/setup"
         element={
