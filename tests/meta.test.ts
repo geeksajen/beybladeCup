@@ -48,13 +48,13 @@ describe('parts', () => {
   });
 
   it('組合寫法：Blade 用中文、Bit 用縮寫', () => {
-    expect(comboLabel(A)).toBe('龍之劍 3-60F');
+    expect(comboLabel(A)).toBe('蒼龍神劍 3-60F');
     expect(comboLabel(c('新陀螺', '3-60', 'Mystery'))).toBe('新陀螺 3-60 Mystery');
-    // CX：Lock Chip＋Main Blade，Assist 縮寫直接接 Ratchet（官方寫法 DranBrave S6-60V）
-    expect(comboLabel({ lockChip: 'Dran', blade: 'Brave', assistBlade: 'Slash', ratchet: '6-60', bit: 'Vortex' })).toBe('龍勇者 S6-60V');
+    // CX：Lock Chip＋Main Blade（台灣外盒名稱 CX-01 蒼龍勇氣），Assist 縮寫直接接 Ratchet（官方寫法 DranBrave S6-60V）
+    expect(comboLabel({ lockChip: 'Dran', blade: 'Brave', assistBlade: 'Slash', ratchet: '6-60', bit: 'Vortex' })).toBe('蒼龍勇氣 S6-60V');
     // CXE：Over Blade＋Assist（BahamutBlitz BK1-50I）
     expect(comboLabel({ lockChip: 'Bahamut', blade: 'Blitz', overBlade: 'Break', assistBlade: 'Knuckle', ratchet: '1-50', bit: 'Ignition' })).toBe(
-      '巴哈姆特閃擊 BK1-50I',
+      '龍王閃擊 BK1-50I',
     );
   });
 
@@ -68,7 +68,7 @@ describe('parts', () => {
 
   it('原廠組合', () => {
     const s = stockCombosFor({ blade: 'dran sword' });
-    expect(s.map((x) => comboLabel(x.combo))).toContain('龍之劍 3-60F');
+    expect(s.map((x) => comboLabel(x.combo))).toContain('蒼龍神劍 3-60F');
     expect(stockCombosFor({ blade: 'Brave', lockChip: 'Dran' }).every((x) => x.combo.lockChip === 'Dran')).toBe(true);
     expect(stockCombosFor({})).toEqual([]);
   });
@@ -118,9 +118,9 @@ describe('computeMeta', () => {
     const rat = s.rows.ratchet.find((r) => r.key === '360')!;
     // A(3-60) 贏 X(3-80)：+1 局 +1 勝；B(4-60) 輸 Y(3-60)：+1 局 +1 勝
     expect([rat.battles, rat.wins, rat.players]).toEqual([2, 2, 2]);
-    const dran = s.rows.blade.find((r) => r.label === '龍之劍')!;
+    const dran = s.rows.blade.find((r) => r.label === '蒼龍神劍')!;
     expect([dran.battles, dran.wins, dran.finishes.over]).toEqual([1, 1, 1]);
-    expect(topByFinish(s.rows.combo, 'xtreme')?.label).toBe('巫師之箭 4-80B');
+    expect(topByFinish(s.rows.combo, 'xtreme')?.label).toBe('魔導幻箭 4-80B');
   });
 
   it('同零件互打：該零件不計勝負', () => {

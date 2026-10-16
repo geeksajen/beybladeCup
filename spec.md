@@ -575,10 +575,20 @@ Match.p1Deck?, p2Deck?: Combo[]  // 本場實際順序；開打時從報名資�
   - 只取 Takara Tomy、非 coming soon 的零件：Blade（含 CX Main Blade、CXE Metal Blade，標 `cx`）、Ratchet（`Turbo`／`Operate` 等融合型標 `fusion`）、Bit、Lock Chip、Assist Blade、Over Blade；縮寫、類型、**Hasbro 名稱（依 `identicalId`）當別名**。
   - **原廠組合**：完整陀螺（含 CX Full Blade 展開）→ `beys`。
   - 寫入 `src/data/parts.generated.json`（記錄來源 commit 與日期），並列出還沒有中文名稱的零件。用 git diff 檢查後再部署。
-- **中文名稱**在 `src/data/parts-zh.ts`（暫譯，自己維護，同步不會覆蓋；同類零件中文不可重複）。
+- **中文名稱**在 `src/data/parts-zh.ts`（自己維護，同步不會覆蓋；同類零件的中文與別名不可重複，`tests/parts-zh.test.ts` 會檢查）。
+  - **以台灣代理版名稱為準**：台灣由**麗嬰國際**代理（直營通路 FUNBOX），外盒上的中文名就是官方名稱，例：BX-01 `DranSword` = **蒼龍神劍**、UX-03 `WizardRod` = **魔導神杖**、CX-01 `Dran`＋`Brave` = **蒼龍勇氣**。孩之寶美版（momo 上常見「美版」）的譯名不同，不採用。
+  - 每個名稱標記來源：`c()` 已核對（在 FUNBOX 官方商店或標明麗嬰代理的商品頁看到）／`h()` 依 BeybladeHub／`t()` 暫譯（查不到台灣名稱：尚未在台灣上市、外盒只印字母或縮寫）。`PartDef.zhSource` 帶著這個標記，之後要在畫面上區分可以用。
+  - **舊的暫譯與口語叫法當別名**（例：打「龍之劍」「榮耀女武神」也找得到），已存的資料是英文名，改中文名不需要搬資料。
+  - Assist Blade 台灣只用字母（S、R、B…）、Bit 多用縮寫（F、LF、T），這兩類的中文仍是暫譯；Ratchet 是數字不翻譯。
+- **中文名稱的參考資料：[BeybladeHub 上蓋圖鑑](https://beybladehub.app/parts/blades)**（台灣玩家整理的非官方資源站，2026-10 時收錄 174 款上蓋：BX／UX／CX 零件、BXG 聯名款、BXA 漫威／星際大戰等）。
+  - 每款有英文名、**台灣中文名**、型號；網站說明名稱「依台灣代理商麗嬰國際／FUNBOX 正貨包裝標示」，少數尚未在台灣上市的款式是網站自訂（例：`WyvernHover` 飛龍颶風），頁面會註明。
+  - 同一顆有不同叫法時頁面會說明，例：`GloryValkyrie` 外盒「榮耀武神」、日本官方 App「榮耀戰神」、口語「榮耀女武神」；`VictoryValkyrie` 台灣動畫譯「勝利武神」、站內統一「勝利戰神」。
+  - 網站另有：零件圖鑑 `/parts`（含 Ratchet、Bit）、單品頁 `/parts/combos/[型號]`、強度排行 `/tier`、賽場配置 `/combos`、新手指南 `/beginner`。
+  - **新零件的中文名稱**：先查 BeybladeHub 與 FUNBOX 官方商店（shop.funbox.com.tw，商品標題含型號與中文名），查不到再暫譯。
+  - 2026-10-16 依 BeybladeHub 全面改用台灣名稱，並抽查 FUNBOX／PChome／Yahoo 上標明麗嬰代理的商品標題 15 款，全部一致。
 - 來源沒有、但需要認得的寫法放 `EXTRA_ALIASES`（例如舊拼法 `Disc Ball` → `Disk Ball`）。
 - 儲存前正規化：忽略大小寫／空白／連字號比對英文名、中文、縮寫、別名；Ratchet 統一成 `3-60`。舊資料（例如 `Dran Sword`）讀取時自動對應到 `DranSword`，不需要搬資料。
-- 顯示（官方寫法）：一般 `龍之劍 3-60F`；CX `龍勇者 S6-60V`（Lock Chip＋Main Blade，Over／Assist 縮寫直接接 Ratchet）；CXE `巴哈姆特閃擊 BK1-50I`；融合型 Ratchet 顯示縮寫（`Tr`）且沒有 Bit。
+- 顯示（官方寫法）：一般 `蒼龍神劍 3-60F`；CX `蒼龍勇氣 S6-60V`（Lock Chip＋Main Blade，Over／Assist 縮寫直接接 Ratchet）；CXE `龍王閃擊 BK1-50I`；融合型 Ratchet 顯示縮寫（`Tr`）且沒有 Bit。
 - **融合型 Ratchet** 不需要（也不能）選 Bit；Deck 檢查與 Meta 統計都會略過。
 - **原廠組合一鍵帶入**：登錄精靈選好 Blade（CX 再加 Lock Chip）後，每一步上方列出相符的原廠組合（最多 3 個），點一下就填好其餘零件並跳到下一顆。
 - 圖片：Beydex 的圖片多為原廠渲染圖，版權屬原廠，**不使用**。

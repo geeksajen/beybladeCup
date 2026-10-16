@@ -38,7 +38,7 @@ export function useCanSeeDeck(): (entry: EntryDoc | undefined) => boolean {
   return (entry) => !!entry && (deckPublic(ev) || isFamily || entry.ownerUid === user?.uid);
 }
 
-/** Deck 列表：「1. 龍之劍 3-60F」。highlight = 目前上場的那顆。 */
+/** Deck 列表：「1. 蒼龍神劍 3-60F」。highlight = 目前上場的那顆。 */
 export function DeckView({ deck, highlight, className = '' }: { deck?: Combo[]; highlight?: number; className?: string }) {
   if (!deck?.length) return <p className={`text-sm text-ink-muted ${className}`}>還沒登錄 Deck</p>;
   return (

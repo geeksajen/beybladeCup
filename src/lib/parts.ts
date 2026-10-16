@@ -1,10 +1,10 @@
 import generated from '../data/parts.generated.json';
-import { PARTS_ZH } from '../data/parts-zh';
+import { PARTS_ZH, type ZhSource } from '../data/parts-zh';
 import type { Combo } from '../types';
 
 // Beyblade X 零件清單（Takara Tomy 英文名）。
 // 來源：Beydex 社群資料（scripts/sync-parts.mjs 產生 src/data/parts.generated.json，`npm run sync-parts` 更新）；
-// 中文名稱在 src/data/parts-zh.ts（暫譯，自己維護）。清單沒有的零件可以在登錄時自由輸入。
+// 中文名稱在 src/data/parts-zh.ts（台灣麗嬰代理版名稱，查不到的暫譯），舊名稱當別名。清單沒有的零件可以在登錄時自由輸入。
 // 正規化規則：比對 en／zh／abbr／aliases 時忽略大小寫、空白、連字號，對到就存成 en。
 
 export type PartKind = 'blade' | 'ratchet' | 'bit' | 'lockChip' | 'assistBlade' | 'overBlade';
@@ -12,9 +12,11 @@ export type PartKind = 'blade' | 'ratchet' | 'bit' | 'lockChip' | 'assistBlade' 
 export interface PartDef {
   en: string;
   zh?: string;
+  /** 中文名稱的可信度：checked 已核對台灣代理版／hub 依 BeybladeHub／temp 暫譯。 */
+  zhSource?: ZhSource;
   /** 縮寫：Bit 的 F（Flat）、Assist Blade 的 S（Slash）、Ratchet 的 Tr（Turbo）。 */
   abbr?: string;
-  /** Hasbro 名稱等別名。 */
+  /** Hasbro 名稱、舊的中文暫譯、口語叫法等別名。 */
   aliases?: string[];
   /** Blade：CX 的 Main Blade／CXE 的 Metal Blade。 */
   cx?: boolean;
@@ -36,8 +38,12 @@ export const CATALOG: Record<PartKind, PartDef[]> = Object.fromEntries(
     kind,
     (generated.parts[kind] as PartDef[]).map((d) => {
       const zh = PARTS_ZH[kind]?.[d.en];
-      const extra = EXTRA_ALIASES[kind]?.[d.en];
-      return { ...d, ...(zh ? { zh } : {}), ...(extra ? { aliases: [...(d.aliases ?? []), ...extra] } : {}) };
+      const extra = [...(EXTRA_ALIASES[kind]?.[d.en] ?? []), ...(zh?.alt ?? [])];
+      return {
+        ...d,
+        ...(zh ? { zh: zh.zh, zhSource: zh.src } : {}),
+        ...(extra.length ? { aliases: [...(d.aliases ?? []), ...extra] } : {}),
+      };
     }),
   ]),
 ) as Record<PartKind, PartDef[]>;
@@ -109,7 +115,7 @@ export function isCx(c: Combo): boolean {
   return !!(c.lockChip || c.assistBlade || c.overBlade || findPart('blade', c.blade)?.cx);
 }
 
-/** Blade 部分：一般「龍之劍」；CX「龍勇者 S」（Lock Chip＋Main Blade，再接 Over／Assist 縮寫）。 */
+/** Blade 部分：一般「蒼龍神劍」；CX「蒼龍勇氣 S」（Lock Chip＋Main Blade，再接 Over／Assist 縮寫）。 */
 export function bladeLabel(c: Combo): string {
   if (!isCx(c)) return partLabel('blade', c.blade);
   const name = [c.lockChip && partLabel('lockChip', c.lockChip), partLabel('blade', c.blade)].filter(Boolean).join('');
@@ -117,7 +123,7 @@ export function bladeLabel(c: Combo): string {
   return letters ? `${name} ${letters}` : name;
 }
 
-/** 官方寫法：「龍之劍 3-60F」、CX「龍勇者 S6-60V」（Blade 有中文用中文，Bit 用縮寫）。 */
+/** 官方寫法：「蒼龍神劍 3-60F」、CX「蒼龍勇氣 S6-60V」（Blade 有中文用中文，Bit 用縮寫）。 */
 export function comboLabel(c: Combo): string {
   const ratchet = isFusionRatchet(c.ratchet) ? abbrOf('ratchet', c.ratchet) : c.ratchet;
   const bit = c.bit ? abbrOf('bit', c.bit) : '';

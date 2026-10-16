@@ -97,7 +97,11 @@ export default function Rules() {
         <a href={CATALOG_SOURCE.url} target="_blank" rel="noreferrer" className="underline">
           Beydex
         </a>
-        （{CATALOG_SOURCE.commitDate || CATALOG_SOURCE.syncedAt} 版）・中文名稱為暫譯
+        （{CATALOG_SOURCE.commitDate || CATALOG_SOURCE.syncedAt} 版）・中文名稱依台灣代理版（參考
+        <a href="https://beybladehub.app/parts/blades" target="_blank" rel="noreferrer" className="underline">
+          BeybladeHub
+        </a>
+        ），少數為暫譯
       </p>
     </div>
   );
