@@ -215,7 +215,7 @@ function EntryRow({
             {contact?.childRealName && <span className="ml-1 text-xs font-normal text-ink-muted">（{contact.childRealName}）</span>}
           </div>
           <div className="truncate text-xs text-ink-muted">
-            {contact ? `${contact.parentName}${contact.phone ? `・${contact.phone}` : ''}` : '（無聯絡資料）'}
+            {[contact?.parentName, contact?.phone].filter(Boolean).join('・') || '（沒有填聯絡資料）'}
           </div>
           <div className="mt-0.5 flex items-center gap-1 text-xs">
             <span className={`shrink-0 font-bold ${deckLen >= size ? 'text-primary' : 'text-gold'}`}>

@@ -195,8 +195,6 @@ export function createLocalStore(): EventStore {
 }
 
 const SEED_NAMES = ['閃電小明', '火焰阿傑', '旋風小美', '鋼鐵阿翔', '疾風小宇', '雷霆阿凱', '冰龍小晴', '烈日阿豪', '神鷹小安', '黑豹阿哲', '星光小芸', '颶風阿睿'];
-const SEED_BEYS = ['Dran Sword', 'Hells Scythe', 'Wizard Arrow', 'Knight Shield', 'Leon Claw', 'Shark Edge', 'Phoenix Wing', 'Viper Tail'];
-const SEED_GRADES = ['一年級', '二年級', '三年級', '四年級', '五年級', '六年級'];
 const pick = <T>(list: readonly T[], i: number): T => list[i % list.length];
 /** 測試用 Deck：從原廠組合挑（Meta 統計才有東西看），集中在前 15 款常見陀螺。 */
 function seedDeck(i: number, size: number): Combo[] {
@@ -221,10 +219,9 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
     entries[id] = {
       id,
       ownerUid,
+      // 跟現在的報名表一樣只有暱稱＋頭像（年級、陀螺名稱已不再詢問）
       nickname: round === 0 ? pick(SEED_NAMES, i) : `${pick(SEED_NAMES, i)}${round + 1}`,
-      grade: pick(SEED_GRADES, i),
-      beyName: pick(SEED_BEYS, i),
-      emoji: pick(AVATAR_KEYS, i),
+      emoji: AVATAR_KEYS[Math.floor(Math.random() * AVATAR_KEYS.length)],
       status: 'active',
       checkedIn,
       // 每 5 人有 1 人沒登錄 Deck（測試報到補登錄、計分時的提醒）
@@ -233,7 +230,8 @@ export function seedLocalEntries(n: number, checkedIn: boolean): void {
       createdAt: now + k,
       updatedAt: now + k,
     };
-    contacts[id] = { ownerUid, parentName: `測試家長 ${i + 1}`, needsBorrowBey: i % 5 === 0 };
+    // 聯絡資料都是選填：每 3 人只有 1 人填家長稱呼（測試「沒有填聯絡資料」的顯示）
+    contacts[id] = { ownerUid, ...(i % 3 === 0 ? { parentName: `測試家長 ${i + 1}` } : {}), needsBorrowBey: i % 5 === 0 };
   }
   localStorage.setItem(K.contacts, JSON.stringify(contacts));
   write(K.entries, entries);

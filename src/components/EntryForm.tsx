@@ -6,21 +6,21 @@ import { Avatar, avatarKey, avatarName } from './avatars';
 import { Icon } from './icons';
 import { Button, ErrorText, Field, inputClass, Toggle } from './ui';
 
-export const EMPTY_ENTRY: EntryInput = { nickname: '', grade: '', beyName: '', emoji: AVATAR_KEYS[0] };
+// 報名只需要暱稱；年級、陀螺名稱不再詢問（舊資料保留，編輯時原樣存回）
+export const EMPTY_ENTRY: EntryInput = { nickname: '' };
 export const EMPTY_CONTACT: ContactInput = { parentName: '', phone: '', childRealName: '', note: '', needsBorrowBey: false };
 
-type Errors = Partial<Record<'nickname' | 'beyName' | 'grade' | 'parentName' | 'phone', string>>;
+type Errors = Partial<Record<'nickname' | 'phone', string>>;
 
 function validate(e: EntryInput, c: ContactInput): Errors {
   const errs: Errors = {};
   const nick = e.nickname.trim();
   if (nick.length < 1 || nick.length > 12) errs.nickname = '暱稱需要 1～12 字';
-  if ((e.beyName ?? '').trim().length > 20) errs.beyName = '陀螺名稱最多 20 字';
-  if ((e.grade ?? '').trim().length > 10) errs.grade = '最多 10 字';
-  if (c.parentName.trim().length < 1) errs.parentName = '請填寫家長稱呼';
   if (c.phone && !/^[0-9+\-\s()]{6,20}$/.test(c.phone.trim())) errs.phone = '電話格式不正確';
   return errs;
 }
+
+const randomAvatar = () => AVATAR_KEYS[Math.floor(Math.random() * AVATAR_KEYS.length)];
 
 /** 把空字串欄位拿掉（Firestore 規則與顯示都以「沒有這個欄位」表示未填）。 */
 function clean<T extends object>(obj: T): T {
@@ -54,11 +54,12 @@ export function EntryForm({
   busy?: boolean;
   error?: string;
 }) {
-  // 舊資料的頭像是 emoji，編輯時換成頭像代號，存檔後就是新格式
+  // 新報名隨機給一個頭像；舊資料的頭像是 emoji，編輯時換成頭像代號，存檔後就是新格式
   const [entry, setEntry] = useState<EntryInput>(() => {
     const e = { ...EMPTY_ENTRY, ...initialEntry };
-    return { ...e, emoji: avatarKey(e.emoji) };
+    return { ...e, emoji: e.emoji ? avatarKey(e.emoji) : randomAvatar() };
   });
+  const [pickingAvatar, setPickingAvatar] = useState(false);
   const [contact, setContact] = useState<ContactInput>({ ...EMPTY_CONTACT, ...initialContact });
   const [submitted, setSubmitted] = useState(false);
   const [editingDeck, setEditingDeck] = useState(false);
@@ -76,41 +77,43 @@ export function EntryForm({
     <form onSubmit={submit} className="space-y-4" noValidate>
       <div className="space-y-4">
         <h3 className="text-sm font-bold uppercase tracking-wider text-primary">選手資料（公開顯示）</h3>
-        <Field label="比賽暱稱" required hint="請用綽號，不要用真實全名。例：閃電小明" error={errors.nickname}>
-          <input
-            className={inputClass}
-            value={entry.nickname}
-            maxLength={12}
-            placeholder="閃電小明"
-            onChange={(e) => setEntry({ ...entry, nickname: e.target.value })}
-          />
-        </Field>
-        <Field label="頭像" group>
-          <div className="grid grid-cols-5 gap-1.5">
-            {AVATAR_KEYS.map((k) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => setEntry({ ...entry, emoji: k })}
-                aria-label={avatarName(k)}
-                aria-pressed={entry.emoji === k}
-                className={`flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-3xl ${entry.emoji === k ? 'bg-primary/20 ring-2 ring-primary' : 'bg-raised'}`}
-              >
-                <Avatar value={k} />
-                <span className="text-[10px] text-ink-muted">{avatarName(k)}</span>
-              </button>
-            ))}
+        <div className="flex items-end gap-3">
+          <button
+            type="button"
+            onClick={() => setPickingAvatar(true)}
+            className="relative mb-0.5 shrink-0 rounded-full text-5xl"
+            aria-label={`頭像：${avatarName(entry.emoji)}，點一下換頭像`}
+          >
+            <Avatar value={entry.emoji} />
+            <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-line-strong text-xs text-ink ring-2 ring-surface">
+              <Icon name="refresh" />
+            </span>
+          </button>
+          <div className="min-w-0 flex-1">
+            <Field label="比賽暱稱" required error={errors.nickname}>
+              <input
+                className={inputClass}
+                value={entry.nickname}
+                maxLength={12}
+                placeholder="閃電小明"
+                onChange={(e) => setEntry({ ...entry, nickname: e.target.value })}
+              />
+            </Field>
           </div>
-        </Field>
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="年級" hint="選填，不限年級" error={errors.grade}>
-            <input className={inputClass} value={entry.grade ?? ''} maxLength={10} placeholder="三年級" onChange={(e) => setEntry({ ...entry, grade: e.target.value })} />
-          </Field>
-          <Field label="陀螺名稱" hint="選填" error={errors.beyName}>
-            <input className={inputClass} value={entry.beyName ?? ''} maxLength={20} placeholder="Dran Sword" onChange={(e) => setEntry({ ...entry, beyName: e.target.value })} />
-          </Field>
         </div>
+        <p className="-mt-2 text-xs text-ink-muted">請用綽號，不要用真實全名。點頭像可以換一個。</p>
       </div>
+
+      {pickingAvatar && (
+        <AvatarPicker
+          value={entry.emoji}
+          onPick={(k) => {
+            setEntry({ ...entry, emoji: k });
+            setPickingAvatar(false);
+          }}
+          onClose={() => setPickingAvatar(false)}
+        />
+      )}
 
       {deckSize && (
         <div className="space-y-2 border-t border-line pt-4">
@@ -144,9 +147,9 @@ export function EntryForm({
       )}
 
       <div className="space-y-4 border-t border-line pt-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-accent">聯絡資料（只有主辦看得到）</h3>
-        <Field label="家長稱呼" required error={errors.parentName}>
-          <input className={inputClass} value={contact.parentName} maxLength={20} placeholder="小明媽媽" onChange={(e) => setContact({ ...contact, parentName: e.target.value })} />
+        <h3 className="text-sm font-bold uppercase tracking-wider text-accent">聯絡資料（選填，只有主辦看得到）</h3>
+        <Field label="家長稱呼">
+          <input className={inputClass} value={contact.parentName ?? ''} maxLength={20} placeholder="小明媽媽" onChange={(e) => setContact({ ...contact, parentName: e.target.value })} />
         </Field>
         <Field label="聯絡電話" hint="選填，比賽當天聯絡用" error={errors.phone}>
           <input className={inputClass} type="tel" value={contact.phone ?? ''} onChange={(e) => setContact({ ...contact, phone: e.target.value })} />
@@ -172,5 +175,41 @@ export function EntryForm({
         </Button>
       </div>
     </form>
+  );
+}
+
+/** 換頭像的彈出視窗：點一個就選定並關閉；點背景或「取消」關閉。 */
+function AvatarPicker({ value, onPick, onClose }: { value?: string; onPick: (key: string) => void; onClose: () => void }) {
+  const current = avatarKey(value);
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-canvas/80 p-4 backdrop-blur-sm sm:items-center" onClick={onClose}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="選擇頭像"
+        className="w-full max-w-md rounded-2xl border border-line bg-surface p-4 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="mb-3 text-center font-bold">選一個頭像</h3>
+        <div className="grid grid-cols-5 gap-1.5">
+          {AVATAR_KEYS.map((k) => (
+            <button
+              key={k}
+              type="button"
+              onClick={() => onPick(k)}
+              aria-label={avatarName(k)}
+              aria-pressed={current === k}
+              className={`flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-3xl ${current === k ? 'bg-primary/20 ring-2 ring-primary' : 'bg-raised'}`}
+            >
+              <Avatar value={k} />
+              <span className="text-[10px] text-ink-muted">{avatarName(k)}</span>
+            </button>
+          ))}
+        </div>
+        <Button variant="ghost" className="mt-3 w-full" onClick={onClose}>
+          取消
+        </Button>
+      </div>
+    </div>
   );
 }

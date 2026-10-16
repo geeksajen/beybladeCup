@@ -72,7 +72,7 @@ export interface EntryDoc extends EntryInput {
 }
 
 export interface ContactInput {
-  parentName: string;
+  parentName?: string;
   phone?: string;
   childRealName?: string;
   note?: string;

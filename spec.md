@@ -16,8 +16,8 @@
 ### 1.1 要做的（MVP）
 0. **初次設定頁**：第一次使用時，主辦必須先完成比賽基本設定（名稱、日期時間、報名截止、名額、戰鬥盤數）才能使用其他功能；之後可在後台修改（見 §7.1）。
 1. **活動首頁**：比賽名稱、日期時間、地點（只顯示「到了再說」等級的資訊，詳細地址不公開，見 §8）、規則說明、報名截止倒數、已報名人數／名額。
-2. **報名**：家長填表替小孩報名；可修改、取消；名額滿了進候補。
-3. **參賽名單**：公開顯示暱稱、年級／班級（可選）、陀螺名稱。
+2. **報名**：家長填表替小孩報名，**只有暱稱必填**（頭像隨機給一個，點一下可換）；可修改、取消；名額滿了進候補。
+3. **參賽名單**：公開顯示頭像、暱稱（舊資料的年級、陀螺名稱仍會顯示，報名表已不再詢問）。
 4. **主辦後台**：審核／編輯報名、當天報到、抽籤分組、產生賽程、輸入比分、修正錯誤、結束比賽。
 5. **對戰表（大螢幕模式）**：比賽當天電視／iPad 全螢幕顯示目前場次、下一場、分組積分、淘汰賽樹狀圖，即時更新。
 6. **最終排名**：冠亞季軍、各項榮譽稱號（見 §5.4，不設實體獎品），可截圖分享。
@@ -224,9 +224,9 @@ type FinishType = 'spin' | 'over' | 'burst' | 'xtreme';
 interface EntryDoc {                    // 公開
   ownerUid: string;                     // 建立者的 auth uid（匿名或家庭帳號）
   nickname: string;                     // 比賽暱稱，1～12 字，例：「閃電小明」
-  grade?: string;                       // 「三年級」——選填，不限年級，只用於顯示
-  beyName?: string;                     // 陀螺名稱，選填，最多 20 字
-  emoji?: string;                       // 頭像用 emoji，從固定清單選
+  grade?: string;                       // 「三年級」——報名表已不再詢問，只保留舊資料
+  beyName?: string;                     // 陀螺名稱——報名表已不再詢問，只保留舊資料
+  emoji?: string;                       // 頭像代號（components/avatars.tsx），報名時隨機；舊資料是 emoji，讀取時對應
   status: 'active' | 'cancelled';       // 正取／候補不存，依 createdAt 排序在顯示時推導（§6.3）
   checkedIn: boolean;                   // 當天報到（只有主辦能改）
   createdAt: Timestamp;
@@ -235,7 +235,7 @@ interface EntryDoc {                    // 公開
 
 interface ContactDoc {                  // 私密，只有主辦能讀
   ownerUid: string;
-  parentName: string;
+  parentName?: string;                  // 選填（同學群組大家都認識）
   phone?: string;                       // 選填，當天聯絡用
   childRealName?: string;               // 選填，主辦自己認人用，不公開
   note?: string;                        // 「會晚到」「需要借陀螺」等
