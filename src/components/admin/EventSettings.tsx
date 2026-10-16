@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { sortActive } from '../../engine/registration';
 import { FINISH_LABELS, FINISH_TYPES, STATUS_FLOW, STATUS_LABELS, type SetupValues } from '../../lib/defaults';
 import { useReadyEvent } from '../../providers/EventProvider';
-import { resetLocalData } from '../../store/localAdapter';
+import { clearLocalEntries, resetLocalData, seedLocalEntries } from '../../store/localAdapter';
 import type { EventDoc, EventStatus, RuleConfig } from '../../types';
 import { Button, Card, ErrorText, Field, inputClass, Toggle, useAction } from '../ui';
 import { EventSetupForm } from './EventSetupForm';
@@ -122,21 +122,66 @@ export function EventSettings() {
         <ErrorText>{privacy.error}</ErrorText>
       </Card>
 
-      {store.mode === 'local' && (
-        <Card className="border-amber-500/40">
-          <h2 className="mb-1 font-bold text-amber-700">開發工具（本機模式）</h2>
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={() => {
-              if (confirm('清空本機所有資料，回到初次設定？')) resetLocalData();
-            }}
-          >
-            清空本機資料
-          </Button>
-        </Card>
-      )}
+      {store.mode === 'local' && <DevTools />}
     </div>
+  );
+}
+
+/** 本機模式才有：模擬報名、清空報名、清空全部。 */
+function DevTools() {
+  const { event: ev, entries, bracket } = useReadyEvent();
+  const [count, setCount] = useState(10);
+  const [checkedIn, setCheckedIn] = useState(true);
+  const active = entries.filter((e) => e.status === 'active').length;
+  const room = ev.capacity + ev.waitlistCapacity - active;
+
+  const seed = () => {
+    if (!Number.isInteger(count) || count < 1 || count > 50) return alert('請輸入 1～50');
+    if (count > room && !confirm(`正取＋候補只剩 ${Math.max(0, room)} 個名額，多出的 ${count - Math.max(0, room)} 人會超過名額。還是要產生嗎？`)) return;
+    seedLocalEntries(count, checkedIn);
+  };
+
+  return (
+    <Card className="space-y-3 border-amber-500/40">
+      <h2 className="font-bold text-amber-700">開發工具（本機模式）</h2>
+      <div>
+        <div className="mb-1 text-sm font-semibold text-slate-800">模擬報名（目前有效報名 {active} 人）</div>
+        <div className="flex gap-2">
+          <input
+            className={`${inputClass} w-24 text-center`}
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={50}
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          />
+          <Button className="flex-1" onClick={seed}>
+            產生 {count || 0} 人報名
+          </Button>
+        </div>
+        <Toggle label="同時標記為已報到（方便直接測賽程）" checked={checkedIn} onChange={setCheckedIn} />
+      </div>
+      <Button
+        variant="danger"
+        className="w-full"
+        disabled={entries.length === 0 && !bracket}
+        onClick={() => {
+          if (confirm(`確定要清空全部 ${entries.length} 筆報名嗎？\n聯絡資料、賽程、猜冠軍投票也會一起刪除（活動設定保留）。無法復原。`)) clearLocalEntries();
+        }}
+      >
+        一鍵清空報名
+      </Button>
+      <Button
+        variant="secondary"
+        className="w-full"
+        onClick={() => {
+          if (confirm('清空本機所有資料，回到初次設定？')) resetLocalData();
+        }}
+      >
+        清空本機所有資料（含活動設定）
+      </Button>
+    </Card>
   );
 }
 

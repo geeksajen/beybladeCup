@@ -1,4 +1,4 @@
-import type { AuthUser, BracketDoc, ContactDoc, ContactInput, EntryDoc, EntryInput, EventDoc } from '../types';
+import type { AuthUser, BracketDoc, ContactDoc, ContactInput, EntryDoc, EntryInput, EventDoc, PredictionDoc } from '../types';
 
 export type Unsub = () => void;
 
@@ -31,6 +31,10 @@ export interface EventStore {
   /** 只有主辦能讀全部聯絡資料（一次性讀取，不建立監聽）。 */
   listContacts(): Promise<Record<string, ContactDoc>>;
   clearContacts(): Promise<number>;
+
+  /** 猜冠軍的票（只在需要的頁面監聽，不放在 EventProvider）。 */
+  subscribePredictions(cb: (list: PredictionDoc[]) => void, onError: (message: string) => void): Unsub;
+  savePrediction(voterId: string, pickId: string, ownerUid: string): Promise<void>;
 
   /** 讀最新版 → 套用純函式 → 寫回（firebase 模式用 transaction）。fn 回傳 null 代表刪除賽程。 */
   mutateBracket(fn: (cur: BracketDoc | null) => BracketDoc | null): Promise<BracketDoc | null>;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EntryForm } from '../components/EntryForm';
+import { NextUpBanner } from '../components/NextUp';
 import { Badge, Button, Card, ErrorText, Spinner, useAction } from '../components/ui';
 import { entryPosition, isRegistrationOpen, sortActive } from '../engine/registration';
 import { useNow } from '../lib/hooks';
@@ -104,6 +105,12 @@ function MyEntryCard({ entry, editable }: { entry: EntryDoc; editable: boolean }
         {pos.kind === 'confirmed' && <Badge className="bg-cyan-500/20 text-cyan-800">正取 #{pos.index}</Badge>}
         {pos.kind === 'waitlist' && <Badge className="bg-amber-500/20 text-amber-800">候補 #{pos.index}</Badge>}
         {pos.kind === 'overflow' && <Badge className="bg-rose-500/20 text-rose-800">超過名額</Badge>}
+      </div>
+      <div className="mt-3 space-y-2">
+        <NextUpBanner entryId={entry.id} />
+        <Link to={`/player/${entry.id}`} className="block text-sm font-bold text-cyan-700">
+          🪪 看選手卡 →
+        </Link>
       </div>
       <ErrorText>{error}</ErrorText>
       {editable && (

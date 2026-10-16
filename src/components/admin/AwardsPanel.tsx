@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { computeFinalRanking } from '../../engine/advance';
 import { autoAwards, DEFAULT_MANUAL_AWARDS } from '../../engine/awards';
+import { predictionAwards } from '../../engine/predictions';
 import { displayName } from '../../lib/format';
-import { useReadyEvent } from '../../providers/EventProvider';
+import { usePredictions, useReadyEvent } from '../../providers/EventProvider';
 import type { Award } from '../../types';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 
@@ -14,10 +15,11 @@ export function AwardsPanel() {
   });
   const [newLabel, setNewLabel] = useState('');
   const { busy, error, run } = useAction();
+  const preds = usePredictions();
 
   if (!bracket) return <Card className="text-center text-slate-700">還沒有賽程。</Card>;
 
-  const auto = autoAwards(bracket);
+  const auto = [...autoAwards(bracket), ...predictionAwards(bracket, preds)];
   const ranking = computeFinalRanking(bracket);
   const remaining = bracket.matches.filter((m) => m.status !== 'done').length;
   const finished = ev.status === 'finished';
@@ -34,12 +36,12 @@ export function AwardsPanel() {
         cur
           ? {
               ...cur,
-              awards: [...autoAwards(cur), ...manual.filter((a) => a.entryIds.length > 0)],
+              awards: [...autoAwards(cur), ...predictionAwards(cur, preds), ...manual.filter((a) => a.entryIds.length > 0)],
               finalRanking: computeFinalRanking(cur),
             }
           : cur,
       );
-      await store.updateEvent({ status: 'finished' });
+      await store.updateEvent({ status: 'finished', predictionsOpen: false });
     });
   };
 
@@ -58,7 +60,7 @@ export function AwardsPanel() {
             </div>
           ))}
         </div>
-        <p className="mt-2 text-xs text-slate-500">只頒發榮譽稱號，不設實體獎品。Xtreme 王／爆裂王依逐局紀錄統計（快速輸入比分的場次不計）。</p>
+        <p className="mt-2 text-xs text-slate-500">只頒發榮譽稱號，不設實體獎品。Xtreme 王／爆裂王依逐局紀錄統計（快速輸入比分的場次不計）。小預言家／人氣王來自猜冠軍投票。</p>
       </Card>
 
       <Card className="space-y-4">

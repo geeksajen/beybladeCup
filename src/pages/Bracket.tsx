@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GroupTable } from '../components/bracket/GroupTable';
 import { KnockoutTree } from '../components/bracket/KnockoutTree';
 import { LiveMatches, upcomingMatches } from '../components/bracket/LiveMatch';
@@ -7,7 +8,7 @@ import { Card } from '../components/ui';
 import { useReadyEvent } from '../providers/EventProvider';
 
 export default function BracketPage() {
-  const { bracket, entryById } = useReadyEvent();
+  const { bracket, entryById, event: ev } = useReadyEvent();
   const [showAll, setShowAll] = useState(false);
 
   if (!bracket) {
@@ -26,6 +27,11 @@ export default function BracketPage() {
   return (
     <div className="space-y-5 pt-2">
       <h1 className="text-2xl font-black">對戰表</h1>
+      {ev.predictionsOpen && (
+        <Link to="/predict" className="block rounded-xl bg-fuchsia-50 px-3 py-2 text-center text-sm font-bold text-fuchsia-800">
+          🔮 猜冠軍投票開放中 →
+        </Link>
+      )}
       {bracket.currentMatchIds.length > 0 && (
         <section>
           <h2 className="mb-2 text-sm font-bold text-fuchsia-700">● 目前場次</h2>

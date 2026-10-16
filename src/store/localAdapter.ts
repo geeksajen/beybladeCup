@@ -1,4 +1,5 @@
-import type { AuthUser, BracketDoc, ContactDoc, EntryDoc, EventDoc } from '../types';
+import { EMOJIS } from '../lib/defaults';
+import type { AuthUser, BracketDoc, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 import type { EventStore } from './types';
 
 // 同網域（geeksajen.github.io）的其他 app 共用 localStorage，key 一律加前綴
@@ -8,6 +9,7 @@ const K = {
   entries: `${PREFIX}entries`,
   contacts: `${PREFIX}contacts`,
   bracket: `${PREFIX}bracket`,
+  predictions: `${PREFIX}predictions`,
   uid: `${PREFIX}uid`,
   family: `${PREFIX}family`,
 };
@@ -167,6 +169,16 @@ export function createLocalStore(): EventStore {
       return n;
     },
 
+    subscribePredictions(cb) {
+      return listen(K.predictions, () => cb(Object.values(read<Record<string, PredictionDoc>>(K.predictions, {}))));
+    },
+    async savePrediction(voterId, pickId, ownerUid) {
+      await delay();
+      const list = read<Record<string, PredictionDoc>>(K.predictions, {});
+      list[voterId] = { voterId, pickId, ownerUid, updatedAt: Date.now() };
+      write(K.predictions, list);
+    },
+
     async mutateBracket(fn) {
       const cur = read<BracketDoc | null>(K.bracket, null);
       const next = fn(cur);
@@ -181,7 +193,50 @@ export function createLocalStore(): EventStore {
   };
 }
 
+const SEED_NAMES = ['閃電小明', '火焰阿傑', '旋風小美', '鋼鐵阿翔', '疾風小宇', '雷霆阿凱', '冰龍小晴', '烈日阿豪', '神鷹小安', '黑豹阿哲', '星光小芸', '颶風阿睿'];
+const SEED_BEYS = ['Dran Sword', 'Hells Scythe', 'Wizard Arrow', 'Knight Shield', 'Leon Claw', 'Shark Edge', 'Phoenix Wing', 'Viper Tail'];
+const SEED_GRADES = ['一年級', '二年級', '三年級', '四年級', '五年級', '六年級'];
+const pick = <T>(list: T[], i: number): T => list[i % list.length];
+
+/**
+ * 開發用：一次產生 n 筆測試報名（每筆不同的假 ownerUid，依序報名）。
+ * 暱稱接在現有報名之後編號，不會跟已有的重複。
+ */
+export function seedLocalEntries(n: number, checkedIn: boolean): void {
+  const entries = read<Record<string, EntryDoc>>(K.entries, {});
+  const contacts = read<Record<string, ContactDoc>>(K.contacts, {});
+  const offset = Object.keys(entries).length;
+  const now = Date.now();
+  for (let k = 0; k < n; k++) {
+    const i = offset + k;
+    const id = randomId();
+    const ownerUid = `seed-${randomId()}`;
+    const round = Math.floor(i / SEED_NAMES.length);
+    entries[id] = {
+      id,
+      ownerUid,
+      nickname: round === 0 ? pick(SEED_NAMES, i) : `${pick(SEED_NAMES, i)}${round + 1}`,
+      grade: pick(SEED_GRADES, i),
+      beyName: pick(SEED_BEYS, i),
+      emoji: pick(EMOJIS, i),
+      status: 'active',
+      checkedIn,
+      // 每筆差 1ms，維持報名順序（正取／候補依 createdAt 排序）
+      createdAt: now + k,
+      updatedAt: now + k,
+    };
+    contacts[id] = { ownerUid, parentName: `測試家長 ${i + 1}`, needsBorrowBey: i % 5 === 0 };
+  }
+  localStorage.setItem(K.contacts, JSON.stringify(contacts));
+  write(K.entries, entries);
+}
+
+/** 開發用：清空所有報名（連同聯絡資料、賽程、猜冠軍，因為它們都指向報名），保留活動設定。 */
+export function clearLocalEntries(): void {
+  for (const key of [K.entries, K.contacts, K.bracket, K.predictions]) write(key, null);
+}
+
 /** 開發用：清空本機所有資料。 */
 export function resetLocalData(): void {
-  for (const key of [K.event, K.entries, K.contacts, K.bracket]) write(key, null);
+  for (const key of [K.event, K.entries, K.contacts, K.bracket, K.predictions]) write(key, null);
 }

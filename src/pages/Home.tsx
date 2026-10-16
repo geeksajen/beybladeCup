@@ -38,6 +38,19 @@ export default function Home() {
         </Card>
       )}
 
+      {ev.predictionsOpen && (
+        <Link to="/predict" className="block">
+          <Card className="flex items-center gap-3 border-fuchsia-400 bg-fuchsia-50/60">
+            <span className="text-4xl">🔮</span>
+            <div className="flex-1">
+              <div className="font-black text-fuchsia-800">猜猜誰是冠軍？投票開放中！</div>
+              <div className="text-xs text-fuchsia-900">每位參賽選手一票，猜中有「小預言家」稱號</div>
+            </div>
+            <span className="text-fuchsia-500">›</span>
+          </Card>
+        </Link>
+      )}
+
       {ev.status === 'running' && bracket && (
         <div className="space-y-2">
           <LiveMatches bracket={bracket} entryById={entryById} />

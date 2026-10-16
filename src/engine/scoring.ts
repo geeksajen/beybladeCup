@@ -1,6 +1,6 @@
 import type { Battle, Match, RuleConfig } from '../types';
 
-type ScoreRules = Pick<RuleConfig, 'pointsToWin' | 'finishPoints' | 'launchErrorPenalty'>;
+export type ScoreRules = Pick<RuleConfig, 'pointsToWin' | 'finishPoints' | 'launchErrorPenalty'>;
 
 export interface ScoreResult {
   p1: number;

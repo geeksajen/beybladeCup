@@ -6,7 +6,9 @@ import Admin from './pages/Admin';
 import BracketPage from './pages/Bracket';
 import Home from './pages/Home';
 import MyEntries from './pages/MyEntries';
+import PlayerCard from './pages/PlayerCard';
 import Players from './pages/Players';
+import Predict from './pages/Predict';
 import Register from './pages/Register';
 import Results from './pages/Results';
 import Rules from './pages/Rules';
@@ -60,6 +62,8 @@ function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/my" element={<MyEntries />} />
         <Route path="/players" element={<Players />} />
+        <Route path="/player/:id" element={<PlayerCard />} />
+        <Route path="/predict" element={<Predict />} />
         <Route path="/bracket" element={<BracketPage />} />
         <Route path="/results" element={<Results />} />
         <Route path="/rules" element={<Rules />} />

@@ -6,6 +6,7 @@ import { describeSource, displayName, matchLabel } from '../../lib/format';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { BracketDoc, FinishType, Match } from '../../types';
 import { Button, Card, ErrorText, inputClass } from '../ui';
+import { PredictionsControl } from './PredictionsControl';
 import { useBracketMutation } from './useBracket';
 
 function replaceMatch(b: BracketDoc, id: string, fn: (m: Match) => Match): BracketDoc {
@@ -27,6 +28,7 @@ export function Scorer({ onGoAwards }: { onGoAwards: () => void }) {
 
   return (
     <div className="space-y-4">
+      <PredictionsControl />
       {live.length > 1 && (
         <div className="grid grid-cols-2 gap-2">
           {live.map((m) => (

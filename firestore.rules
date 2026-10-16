@@ -75,6 +75,22 @@ service cloud.firestore {
         allow delete: if isFamily();
       }
 
+      // 猜冠軍：一位參賽小孩（voterId = 報名 id）一票，只有該報名的家長能投／改票，主辦可以代投
+      match /predictions/{voterId} {
+        allow read: if true;
+        allow create, update: if isFamily()
+          || (isSignedIn()
+              && eventData(eventId).get('predictionsOpen', false) == true
+              && get(/databases/$(database)/documents/events/$(eventId)/entries/$(voterId)).data.ownerUid == request.auth.uid
+              && request.resource.data.keys().hasOnly(['voterId', 'pickId', 'ownerUid', 'updatedAt'])
+              && request.resource.data.voterId == voterId
+              && request.resource.data.ownerUid == request.auth.uid
+              && request.resource.data.pickId is string
+              && exists(/databases/$(database)/documents/events/$(eventId)/entries/$(request.resource.data.pickId))
+              && request.resource.data.updatedAt == request.time);
+        allow delete: if isFamily();
+      }
+
       match /state/{doc} {
         allow read: if true;
         allow write: if isFamily();

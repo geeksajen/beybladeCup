@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { BadgeIcons, useAchievements } from '../components/Achievements';
 import { Confetti } from '../components/fx/Confetti';
 import { Card } from '../components/ui';
 import { displayName } from '../lib/format';
@@ -15,6 +16,7 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
   ];
   const others = awards.filter((a) => !['champion', 'runnerUp', 'third'].includes(a.key) && a.entryIds.length > 0);
   const participants = bracket.playerIds;
+  const achievements = useAchievements();
 
   return (
     <div className="space-y-6">
@@ -46,13 +48,19 @@ export function ResultsView({ bracket, entryById, title, big }: { bracket: Brack
       <Card>
         <h2 className={`mb-2 font-bold text-amber-700 ${big ? 'text-3xl' : ''}`}>🎖️ 全員參加獎</h2>
         <div className={`flex flex-wrap gap-2 ${big ? 'text-2xl' : 'text-sm'}`}>
-          {participants.map((id) => (
-            <span key={id} className="rounded-full bg-slate-200 px-3 py-1 font-semibold">
-              {displayName(entryById.get(id))}
-            </span>
-          ))}
+          {participants.map((id) =>
+            big ? (
+              <span key={id} className="rounded-full bg-slate-200 px-3 py-1 font-semibold">
+                {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
+              </span>
+            ) : (
+              <Link key={id} to={`/player/${id}`} className="rounded-full bg-slate-200 px-3 py-1 font-semibold active:bg-slate-300">
+                {displayName(entryById.get(id))} <BadgeIcons keys={achievements[id]} />
+              </Link>
+            ),
+          )}
         </div>
-        <p className={`mt-3 text-slate-600 ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！</p>
+        <p className={`mt-3 text-slate-600 ${big ? 'text-xl' : 'text-xs'}`}>謝謝每一位勇敢上場的選手！{!big && '點名字可以看自己的選手卡。'}</p>
       </Card>
     </div>
   );

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { BadgeIcons, useAchievements } from '../components/Achievements';
 import { Badge, Card, Spinner } from '../components/ui';
 import { classifyEntries } from '../engine/registration';
 import { useReadyEvent } from '../providers/EventProvider';
@@ -31,17 +33,24 @@ export default function Players() {
 }
 
 function PlayerList({ list, showCheckIn }: { list: EntryDoc[]; showCheckIn: boolean }) {
+  const achievements = useAchievements();
   return (
     <ol className="space-y-1.5">
       {list.map((e, i) => (
-        <li key={e.id} className="flex items-center gap-3 rounded-xl bg-slate-200/60 px-3 py-2">
-          <span className="w-6 text-right font-mono text-sm text-slate-500">{i + 1}</span>
-          <span className="text-2xl">{e.emoji ?? '🌀'}</span>
-          <div className="min-w-0 flex-1">
-            <div className="truncate font-bold">{e.nickname}</div>
-            <div className="truncate text-xs text-slate-600">{[e.grade, e.beyName].filter(Boolean).join('・')}</div>
-          </div>
-          {showCheckIn && (e.checkedIn ? <Badge className="bg-emerald-500/20 text-emerald-700">已報到</Badge> : <Badge>未到</Badge>)}
+        <li key={e.id}>
+          <Link to={`/player/${e.id}`} className="flex items-center gap-3 rounded-xl bg-slate-200/60 px-3 py-2 active:bg-slate-300/60">
+            <span className="w-6 text-right font-mono text-sm text-slate-500">{i + 1}</span>
+            <span className="text-2xl">{e.emoji ?? '🌀'}</span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="truncate font-bold">{e.nickname}</span>
+                <BadgeIcons keys={achievements[e.id]} className="shrink-0 text-sm" />
+              </div>
+              <div className="truncate text-xs text-slate-600">{[e.grade, e.beyName].filter(Boolean).join('・')}</div>
+            </div>
+            {showCheckIn && (e.checkedIn ? <Badge className="bg-emerald-500/20 text-emerald-700">已報到</Badge> : <Badge>未到</Badge>)}
+            <span className="text-slate-400">›</span>
+          </Link>
         </li>
       ))}
     </ol>

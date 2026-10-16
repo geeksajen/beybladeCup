@@ -30,6 +30,8 @@ export interface EventDoc {
   status: EventStatus;
   rules: RuleConfig;
   announcement?: string;
+  /** 猜冠軍開放投票中（主辦在計分分頁開關）。 */
+  predictionsOpen?: boolean;
   updatedAt: number;
 }
 
@@ -114,6 +116,15 @@ export interface BracketDoc {
   countdownAt?: number;
   awards?: Award[];
   finalRanking?: string[];
+}
+
+/** 猜冠軍：每位參賽小孩（voterId = 報名 id）投一票。 */
+export interface PredictionDoc {
+  voterId: string;
+  pickId: string;
+  /** 寫入者的 auth uid（報名的家長，或主辦代投）。 */
+  ownerUid: string;
+  updatedAt: number;
 }
 
 export interface AuthUser {

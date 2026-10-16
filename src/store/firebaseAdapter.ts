@@ -19,7 +19,7 @@ import {
 } from 'firebase/firestore';
 import { EVENT_ID } from '../lib/defaults';
 import { firebaseApp, firebaseAuth, watchAuth } from '../lib/firebase';
-import type { BracketDoc, ContactDoc, EntryDoc, EventDoc } from '../types';
+import type { BracketDoc, ContactDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 import type { EventStore } from './types';
 
 function toMillis(v: unknown): number {
@@ -66,6 +66,7 @@ export function createFirebaseStore(): EventStore {
   const entriesCol = collection(db, 'events', EVENT_ID, 'entries');
   const contactsCol = collection(db, 'events', EVENT_ID, 'contacts');
   const bracketRef = doc(db, 'events', EVENT_ID, 'state', 'bracket');
+  const predictionsCol = collection(db, 'events', EVENT_ID, 'predictions');
 
   const wrap = async <T>(p: Promise<T>): Promise<T> => {
     try {
@@ -171,6 +172,23 @@ export function createFirebaseStore(): EventStore {
       s.docs.forEach((d) => batch.delete(d.ref));
       await wrap(batch.commit());
       return s.size;
+    },
+
+    subscribePredictions(cb, onError) {
+      return onSnapshot(
+        predictionsCol,
+        (s) =>
+          cb(
+            s.docs.map((d) => {
+              const data = d.data({ serverTimestamps: 'estimate' });
+              return { ...(data as PredictionDoc), updatedAt: toMillis(data.updatedAt) };
+            }),
+          ),
+        (err) => onError(message(err)),
+      );
+    },
+    savePrediction(voterId, pickId, ownerUid) {
+      return wrap(setDoc(doc(predictionsCol, voterId), { voterId, pickId, ownerUid, updatedAt: serverTimestamp() }));
     },
 
     mutateBracket(fn) {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { getStore, type EventStore } from '../store';
-import type { AuthUser, BracketDoc, EntryDoc, EventDoc } from '../types';
+import type { AuthUser, BracketDoc, EntryDoc, EventDoc, PredictionDoc } from '../types';
 
 interface EventContextValue {
   store: EventStore;
@@ -17,7 +17,7 @@ interface EventContextValue {
 
 const EventContext = createContext<EventContextValue | null>(null);
 
-/** ★ 全 app 只有這裡建立 3 個監聽：events/current、entries、state/bracket（spec §2.2）。 */
+/** ★ 全 app 常駐的 3 個監聽都在這裡：events/current、entries、state/bracket（spec §2.2）。猜冠軍另見 usePredictions。 */
 export function EventProvider({ children }: { children: ReactNode }) {
   const store = useMemo(() => getStore(), []);
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -56,6 +56,20 @@ export function useEvent(): EventContextValue {
   const ctx = useContext(EventContext);
   if (!ctx) throw new Error('useEvent must be used inside EventProvider');
   return ctx;
+}
+
+/**
+ * 猜冠軍的票。這是第 4 個監聽，只在需要的頁面（猜冠軍、大螢幕、後台）建立，
+ * 筆數 ≤ 參賽人數，讀取量很小。enabled = false 時不監聽。
+ */
+export function usePredictions(enabled = true): PredictionDoc[] {
+  const { store } = useEvent();
+  const [list, setList] = useState<PredictionDoc[]>([]);
+  useEffect(() => {
+    if (!enabled) return;
+    return store.subscribePredictions(setList, () => undefined);
+  }, [store, enabled]);
+  return enabled ? list : [];
 }
 
 /** 已完成設定的頁面使用（SetupGate 保證 event 存在）。 */
