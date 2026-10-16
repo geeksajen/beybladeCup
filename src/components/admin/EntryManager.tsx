@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { deckSignature, deckSizeOf } from '../../engine/deck';
 import { classifyEntries } from '../../engine/registration';
+import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { ContactDoc, EntryDoc } from '../../types';
+import { DeckEditor, DeckStatusBadge, DeckView } from '../Deck';
 import { EntryForm } from '../EntryForm';
 import { Avatar } from '../avatars';
 import { Icon } from '../icons';
@@ -12,6 +15,7 @@ export function EntryManager() {
   const [contacts, setContacts] = useState<Record<string, ContactDoc>>();
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string>();
+  const [onlyNoDeck, setOnlyNoDeck] = useState(false);
   const load = useAction();
   const save = useAction();
 
@@ -25,10 +29,12 @@ export function EntryManager() {
   const cancelled = entries.filter((e) => e.status === 'cancelled');
   const ownerCounts = new Map<string, number>();
   [...c.confirmed, ...c.waitlist, ...c.overflow].forEach((e) => ownerCounts.set(e.ownerUid, (ownerCounts.get(e.ownerUid) ?? 0) + 1));
-  const borrowCount = [...c.confirmed, ...c.waitlist].filter((e) => contacts?.[e.id]?.needsBorrowBey).length;
+  const active = [...c.confirmed, ...c.waitlist];
+  const borrowCount = active.filter((e) => contacts?.[e.id]?.needsBorrowBey).length;
+  const deckCount = active.filter((e) => e.deck?.length).length;
 
   const exportText = () => {
-    const line = (e: EntryDoc, i: number) => `${i + 1}. ${e.emoji ?? ''}${e.nickname}${e.grade ? `（${e.grade}）` : ''}`;
+    const line = (e: EntryDoc, i: number) => `${i + 1}. ${e.nickname}${e.grade ? `（${e.grade}）` : ''}`;
     const text = [
       `【${ev.title}】參賽名單`,
       `正取 ${c.confirmed.length}/${ev.capacity}`,
@@ -87,13 +93,16 @@ export function EntryManager() {
     );
   }
 
-  const section = (title: string, list: EntryDoc[], color: string) =>
-    list.length > 0 && (
+  const section = (title: string, all: EntryDoc[], color: string) => {
+    // 篩選時保留原本的序號（正取第幾位）
+    const list = all.map((e, i) => ({ e, i })).filter(({ e }) => !onlyNoDeck || !e.deck?.length);
+    if (list.length === 0) return null;
+    return (
       <div className="space-y-2">
         <h3 className={`text-sm font-bold ${color}`}>
-          {title}（{list.length}）
+          {title}（{onlyNoDeck ? `${list.length} / ${all.length}` : all.length}）
         </h3>
-        {list.map((e, i) => (
+        {list.map(({ e, i }) => (
           <EntryRow
             key={e.id}
             index={i + 1}
@@ -106,10 +115,11 @@ export function EntryManager() {
         ))}
       </div>
     );
+  };
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-2 text-center">
+      <div className="grid grid-cols-4 gap-2 text-center">
         <Card className="p-2">
           <div className="text-xs text-ink-muted">正取</div>
           <div className="font-mono text-xl font-black">
@@ -126,6 +136,12 @@ export function EntryManager() {
           <div className="text-xs text-ink-muted">要借陀螺</div>
           <div className="font-mono text-xl font-black">{borrowCount}</div>
         </Card>
+        <Card className="p-2">
+          <div className="text-xs text-ink-muted">已登錄 Deck</div>
+          <div className="font-mono text-xl font-black">
+            {deckCount}/{active.length}
+          </div>
+        </Card>
       </div>
       <div className="flex gap-2">
         <Button className="flex-1" onClick={() => setAdding(true)}>
@@ -138,13 +154,23 @@ export function EntryManager() {
           <Icon name="refresh" />
         </Button>
       </div>
+      {deckCount < active.length && (
+        <button
+          type="button"
+          onClick={() => setOnlyNoDeck(!onlyNoDeck)}
+          className={`w-full rounded-xl px-3 py-2 text-sm font-bold ${onlyNoDeck ? 'bg-gold text-on' : 'bg-gold/10 text-gold'}`}
+        >
+          <Icon name="alert" className="mr-1" />
+          {onlyNoDeck ? '顯示全部' : `只看還沒登錄 Deck 的 ${active.length - deckCount} 位`}
+        </button>
+      )}
       <ErrorText>{load.error}</ErrorText>
       {!contacts && load.busy && <Spinner label="讀取聯絡資料…" />}
       {entries.length === 0 && <p className="py-8 text-center text-ink-muted">還沒有人報名</p>}
       {section('正取', c.confirmed, 'text-primary')}
       {section('候補', c.waitlist, 'text-gold')}
       {section('超過名額（請處理）', c.overflow, 'text-danger')}
-      {section('已取消', cancelled, 'text-ink-muted')}
+      {!onlyNoDeck && section('已取消', cancelled, 'text-ink-muted')}
     </div>
   );
 }
@@ -164,10 +190,20 @@ function EntryRow({
   maxPerOwner: number;
   onEdit: () => void;
 }) {
-  const { store } = useReadyEvent();
+  const { store, event: ev } = useReadyEvent();
   const { busy, error, run } = useAction();
   const [open, setOpen] = useState(false);
+  const [editingDeck, setEditingDeck] = useState(false);
   const cancelled = entry.status === 'cancelled';
+  const size = deckSizeOf(ev);
+  const deckLen = entry.deck?.length ?? 0;
+
+  const saveDeck = (deck: EntryDoc['deck']) =>
+    void run(async () => {
+      // 主辦親自登錄／修改的 Deck 視為已確認（與報到頁相同）
+      await store.updateEntry(entry.id, { deck, deckCheckedKey: deckSignature(deck) });
+      setEditingDeck(false);
+    });
   return (
     <div className={`rounded-xl border border-line bg-surface p-3 ${cancelled ? 'opacity-60' : ''}`}>
       <button type="button" className="flex w-full items-center gap-2 text-left" onClick={() => setOpen(!open)}>
@@ -181,14 +217,42 @@ function EntryRow({
           <div className="truncate text-xs text-ink-muted">
             {contact ? `${contact.parentName}${contact.phone ? `・${contact.phone}` : ''}` : '（無聯絡資料）'}
           </div>
+          <div className="mt-0.5 flex items-center gap-1 text-xs">
+            <span className={`shrink-0 font-bold ${deckLen >= size ? 'text-primary' : 'text-gold'}`}>
+              <Icon name="bey" className="mr-0.5" />
+              {deckLen}/{size}
+            </span>
+            <span className="min-w-0 truncate text-ink-muted">{deckLen ? entry.deck!.map(comboLabel).join('、') : '還沒登錄 Deck'}</span>
+          </div>
         </div>
-        {contact?.needsBorrowBey && <Badge className="bg-gold/20 text-gold">借陀螺</Badge>}
-        {ownerCount > maxPerOwner && <Badge className="bg-danger/20 text-danger">同一人 {ownerCount} 筆</Badge>}
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          {contact?.needsBorrowBey && <Badge className="bg-gold/20 text-gold">借陀螺</Badge>}
+          {ownerCount > maxPerOwner && <Badge className="bg-danger/20 text-danger">同一人 {ownerCount} 筆</Badge>}
+          {!cancelled && <DeckStatusBadge entry={entry} />}
+        </div>
       </button>
       {open && (
         <div className="mt-2 space-y-2 border-t border-line pt-2 text-sm">
           {entry.grade && <div>年級：{entry.grade}</div>}
-          {entry.beyName && <div>陀螺：{entry.beyName}</div>}
+          {entry.beyName && <div>陀螺名稱：{entry.beyName}</div>}
+          <div className="space-y-1.5 rounded-xl bg-canvas/60 p-2">
+            {editingDeck ? (
+              <DeckEditor initial={entry.deck} size={size} busy={busy} error={error} onCancel={() => setEditingDeck(false)} onSave={saveDeck} />
+            ) : (
+              <>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-ink-muted">
+                    <Icon name="bey" className="mr-1 text-primary" />
+                    {size === 3 ? '3on3 Deck' : '陀螺組合'}
+                  </span>
+                  <button type="button" className="text-sm font-bold text-primary" onClick={() => setEditingDeck(true)}>
+                    {deckLen ? '修改 Deck' : '登錄 Deck'}
+                  </button>
+                </div>
+                <DeckView deck={entry.deck} className="text-sm" />
+              </>
+            )}
+          </div>
           {contact?.note && <div className="whitespace-pre-wrap text-gold">備註：{contact.note}</div>}
           <div className="text-xs text-ink-muted">報名時間：{new Date(entry.createdAt).toLocaleString('zh-TW')}</div>
           <ErrorText>{error}</ErrorText>

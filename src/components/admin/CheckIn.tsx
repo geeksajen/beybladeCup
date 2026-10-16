@@ -4,9 +4,9 @@ import { classifyEntries } from '../../engine/registration';
 import { comboLabel } from '../../lib/parts';
 import { useReadyEvent } from '../../providers/EventProvider';
 import type { EntryDoc } from '../../types';
-import { DeckEditor, DeckView } from '../Deck';
+import { DeckEditor, DeckStatusBadge, DeckView } from '../Deck';
 import { Avatar } from '../avatars';
-import { Icon, type IconName } from '../icons';
+import { Icon } from '../icons';
 import { Button, Card, ErrorText, inputClass, useAction } from '../ui';
 
 /** 還沒到的排前面（報到時要找的人在上面），同狀態維持報名順序。 */
@@ -68,19 +68,12 @@ function List({ title, list, ...rest }: { title: string; list: EntryDoc[] } & Li
   );
 }
 
-const STATUS_BADGE: Record<string, { icon: IconName; text: string; cls: string }> = {
-  none: { icon: 'alert', text: '未登錄', cls: 'bg-raised text-ink-muted' },
-  unconfirmed: { icon: 'clipboard', text: '待確認', cls: 'bg-gold/10 text-gold' },
-  confirmed: { icon: 'check', text: '已確認', cls: 'bg-primary/10 text-primary' },
-};
-
 function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & ListProps) {
   const { store, event: ev } = useReadyEvent();
   const { busy, error, run } = useAction();
   const size = deckSizeOf(ev);
   const editing = editingDeck === entry.id;
   const status = deckStatus(entry);
-  const badge = STATUS_BADGE[status];
   // 已到、Deck 待確認：展開讓主辦對照實物
   const showConfirm = entry.checkedIn && status === 'unconfirmed' && !editing;
 
@@ -101,10 +94,7 @@ function CheckRow({ entry, editingDeck, setEditingDeck }: { entry: EntryDoc } & 
       >
         <Avatar value={entry.emoji} className="text-2xl" />
         <span className="min-w-0 flex-1 truncate font-bold">{entry.nickname}</span>
-        <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${badge.cls}`}>
-          <Icon name={badge.icon} />
-          {badge.text}
-        </span>
+        <DeckStatusBadge entry={entry} />
         <span className={`shrink-0 rounded-lg px-3 py-1 text-sm font-bold ${entry.checkedIn ? 'bg-success text-on' : 'bg-line text-ink'}`}>
           {busy ? '…' : entry.checkedIn ? (
             <>

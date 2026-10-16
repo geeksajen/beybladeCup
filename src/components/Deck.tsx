@@ -1,5 +1,5 @@
 import { useMemo, useState, type KeyboardEvent } from 'react';
-import { checkDeck, deckPublic } from '../engine/deck';
+import { checkDeck, deckPublic, deckStatus } from '../engine/deck';
 import {
   CATALOG,
   comboLabel,
@@ -17,7 +17,7 @@ import {
 } from '../lib/parts';
 import { useReadyEvent } from '../providers/EventProvider';
 import type { Combo, EntryDoc } from '../types';
-import { Icon } from './icons';
+import { Icon, type IconName } from './icons';
 import { Button, ErrorText, inputClass } from './ui';
 
 const EMPTY: Combo = { blade: '', ratchet: '', bit: '' };
@@ -50,6 +50,23 @@ export function DeckView({ deck, highlight, className = '' }: { deck?: Combo[]; 
         </li>
       ))}
     </ol>
+  );
+}
+
+const STATUS_BADGE: Record<ReturnType<typeof deckStatus>, { icon: IconName; text: string; cls: string }> = {
+  none: { icon: 'alert', text: '未登錄', cls: 'bg-raised text-ink-muted' },
+  unconfirmed: { icon: 'clipboard', text: '待確認', cls: 'bg-gold/10 text-gold' },
+  confirmed: { icon: 'check', text: '已確認', cls: 'bg-primary/10 text-primary' },
+};
+
+/** 主辦用的 Deck 狀態：未登錄／待確認（登錄了但報到時還沒對過實物）／已確認。 */
+export function DeckStatusBadge({ entry }: { entry: Pick<EntryDoc, 'deck' | 'deckCheckedKey'> }) {
+  const b = STATUS_BADGE[deckStatus(entry)];
+  return (
+    <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${b.cls}`}>
+      <Icon name={b.icon} />
+      {b.text}
+    </span>
   );
 }
 
